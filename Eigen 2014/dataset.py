@@ -32,13 +32,13 @@ class DataSet:
         image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
         depth = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
         invalid_depth = tf.sign(depth)
-        #images, depths, invalid_depths = tf.train.batch(
-        #    [image, depth, invalid_depth],
-        #    batch_size=self.batch_size,
-        #    num_threads=4,
-        #    capacity= 50 + 3 * self.batch_size,
-        #)
-        return image, depth, invalid_depth
+        images, depths, invalid_depths = tf.train.batch(
+            [image, depth, invalid_depth],
+            batch_size=self.batch_size,
+            num_threads=4,
+            capacity= 50 + 3 * self.batch_size,
+        )
+        return images, depths, invalid_depths
 
     def csv_inputs(self, csv_file_path):
         filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=True)

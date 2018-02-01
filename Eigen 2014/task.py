@@ -9,9 +9,9 @@ from dataset import output_predict
 import model
 import train_operation as op
 
-MAX_STEPS = 10000000
+MAX_STEPS = 20
 LOG_DEVICE_PLACEMENT = False
-BATCH_SIZE = 8
+BATCH_SIZE = 10
 TRAIN_FILE = '../data/train.npz'
 COARSE_DIR = "coarse"
 REFINE_DIR = "refine"
