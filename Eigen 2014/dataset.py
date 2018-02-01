@@ -49,15 +49,15 @@ class DataSet:
         depth = tf.div(depth, [255.0])
         #depth = tf.cast(depth, tf.int64)
         # resize
-        image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
-        depth = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
-        invalid_depth = tf.sign(depth)
+        images = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
+        depths = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
+        invalid_depths = tf.sign(depth)
         # generate batch
-        images, depths, invalid_depths = tf.train.batch(
-            [image, depth, invalid_depth],
-            batch_size=self.batch_size,
-            num_threads=4,
-            capacity= 50 + 3 * self.batch_size,
+        #images, depths, invalid_depths = tf.train.batch(
+    #        [image, depth, invalid_depth],
+    #        batch_size=self.batch_size,
+    #        num_threads=4,
+    #        capacity= 50 + 3 * self.batch_size,
         )
         return images, depths, invalid_depths
 
