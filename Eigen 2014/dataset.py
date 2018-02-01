@@ -33,7 +33,7 @@ class DataSet:
             [image, depth, invalid_depth],
             batch_size=self.batch_size,
             num_threads=4,
-            capacity= 50 + 3 * self.batch_size,
+            capacity= 32,
             enqueue_many=True
         )
         return images, depths, invalid_depths
