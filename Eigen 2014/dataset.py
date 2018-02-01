@@ -21,6 +21,10 @@ class DataSet:
         depth = data['depths']
         depth = tf.cast(depth, tf.float32)
         depth = tf.div(depth, [255.0])
+        # shuffle columns
+        image = np.moveaxis(image, [0,1,2,3], [3,0,1,2])
+        depth = depth[:, :, :, np.newaxis]
+        depth = np.moveaxis(image, [0,1,2,3], [2,0,1,3])
         # resize
         image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
         depth = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
