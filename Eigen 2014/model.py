@@ -38,7 +38,7 @@ def loss(logits, depths, invalid_depths):
 
     predict = tf.multiply(logits_flat, invalid_depths_flat)
     target = tf.multiply(depths_flat, invalid_depths_flat)
-    d = tf.sub(predict, target)
+    d = tf.subtract(predict, target)
     square_d = tf.square(d)
     sum_square_d = tf.reduce_sum(square_d, 1)
     sum_d = tf.reduce_sum(d, 1)
