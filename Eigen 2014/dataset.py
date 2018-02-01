@@ -16,18 +16,18 @@ class DataSet:
         data = np.load(npz_file_path)
         # input
         image = data['images']
+        print(image.shape)
         image = np.moveaxis(image, [0,1,2,3], [3,0,1,2])
+        print(image.shape)
         image = tf.cast(image, tf.float32)
         # target
         depth = data['depths']
+        print(depth.shape)
         depth = np.moveaxis(image, [0,1,2], [2,0,1])
         depth = np.expand_dims(depth,3)
+        print(depth.shape)
         depth = tf.cast(depth, tf.float32)
         depth = tf.div(depth, [255.0])
-        # shuffle columns
-        print(image.shape)
-        print(depth.shape)
-        print(depth.shape)
         # resize
         image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
         depth = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
