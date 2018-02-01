@@ -23,7 +23,7 @@ class DataSet:
         # target
         depth = data['depths']
         print(depth.shape)
-        depth = np.transpose(image, [2,0,1])
+        depth = np.transpose(depth, [2,0,1])
         depth = np.expand_dims(depth,3)
         print(depth.shape)
         depth = tf.cast(depth, tf.float32)
