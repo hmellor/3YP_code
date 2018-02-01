@@ -25,6 +25,8 @@ class DataSet:
         image = np.moveaxis(image, [0,1,2,3], [3,0,1,2])
         depth = depth[:, :, :, np.newaxis]
         depth = np.moveaxis(image, [0,1,2,3], [2,0,1,3])
+        print(image.shape)
+        print(depth.shape)
         # resize
         image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
         depth = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
