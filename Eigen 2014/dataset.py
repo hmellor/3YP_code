@@ -35,7 +35,7 @@ class DataSet:
         # turn into list of tensors
         image = tf.unstack(image)
         depth = tf.unstack(depth)
-        incalid_depth = tf.unstack(invalid_depth)
+        invalid_depth = tf.unstack(invalid_depth)
         # create batches
         images, depths, invalid_depths = tf.train.batch(
             [image, depth, invalid_depth],
