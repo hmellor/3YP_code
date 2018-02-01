@@ -17,13 +17,13 @@ class DataSet:
         # input
         image = data['images']
         print(image.shape)
-        image = np.moveaxis(image, [0,1,2,3], [-1,-4,-3,-2])
+        image = np.transpose(image, [3,0,1,2])
         print(image.shape)
         image = tf.cast(image, tf.float32)
         # target
         depth = data['depths']
         print(depth.shape)
-        depth = np.moveaxis(image, [0,1,2], [2,0,1])
+        depth = np.transpose(image, [2,0,1])
         depth = np.expand_dims(depth,3)
         print(depth.shape)
         depth = tf.cast(depth, tf.float32)
