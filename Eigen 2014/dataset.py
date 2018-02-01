@@ -16,16 +16,12 @@ class DataSet:
         data = np.load(npz_file_path)
         # input
         image = data['images']
-        print(image.shape)
         image = np.transpose(image, [3,0,1,2])
-        print(image.shape)
         image = tf.cast(image, tf.float32)
         # target
         depth = data['depths']
-        print(depth.shape)
         depth = np.transpose(depth, [2,0,1])
         depth = np.expand_dims(depth,3)
-        print(depth.shape)
         depth = tf.cast(depth, tf.float32)
         depth = tf.div(depth, [255.0])
         # resize
@@ -36,6 +32,7 @@ class DataSet:
         image = tf.unstack(image)
         depth = tf.unstack(depth)
         invalid_depth = tf.unstack(invalid_depth)
+        print(image[0].shape)
         # create batches
         images, depths, invalid_depths = tf.train.batch(
             [image, depth, invalid_depth],
