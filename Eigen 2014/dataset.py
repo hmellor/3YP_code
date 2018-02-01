@@ -32,8 +32,18 @@ class DataSet:
         image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
         depth = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
         invalid_depth = tf.sign(depth)
+        # turn into list of tensors
+        print(image.shape)
+        print(depth.shape)
+        image_list=[image[0,:,:,:],]
+        depth_list=[depth[0,:,:,:],]
+        invalid_depth_list=[invalid_depth[0,:,:,:],]
+        for i in :
+            image_list = np.append([image_list],image[0,:,:,:])
+            depth_list = np.append([image_list],depth[0,:,:,:])
+            invalid_depth_list = np.append([image_list],invalid_depth[0,:,:,:])
         images, depths, invalid_depths = tf.train.batch(
-            [image, depth, invalid_depth],
+            [image_list, depth_list, invalid_depth_list],
             batch_size=self.batch_size,
             num_threads=4,
             capacity= 50 + 3 * self.batch_size,
