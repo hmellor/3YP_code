@@ -28,17 +28,13 @@ class DataSet:
         image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
         depth = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
         invalid_depth = tf.sign(depth)
-        # turn into list of tensors
-        image = tf.unstack(image)
-        depth = tf.unstack(depth)
-        invalid_depth = tf.unstack(invalid_depth)
-        print(image[0].shape)
         # create batches
         images, depths, invalid_depths = tf.train.batch(
             [image, depth, invalid_depth],
             batch_size=self.batch_size,
             num_threads=4,
             capacity= 50 + 3 * self.batch_size,
+            enqueue_many=True
         )
         return images, depths, invalid_depths
 
