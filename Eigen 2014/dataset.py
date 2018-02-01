@@ -38,7 +38,7 @@ class DataSet:
         image_list=[image[0,:,:,:],]
         depth_list=[depth[0,:,:,:],]
         invalid_depth_list=[invalid_depth[0,:,:,:],]
-        for i in :
+        for i in range(1,1000):
             image_list = np.append([image_list],image[0,:,:,:])
             depth_list = np.append([image_list],depth[0,:,:,:])
             invalid_depth_list = np.append([image_list],invalid_depth[0,:,:,:])
