@@ -28,16 +28,14 @@ class DataSet:
         image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
         depth = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
         invalid_depth = tf.sign(depth)
-        images = tf.unstack(image,1000,0)
-        depths = tf.unstack(image,1000,0)
-        invalid_depths = tf.unstack(image,1000,0)
         # create batches
-        #images, depths, invalid_depths = tf.train.batch(
-        #    [image, depth, invalid_depth],
-        #    batch_size=self.batch_size,
-        #    num_threads=4,
-        #    capacity= 32
-        #)
+        images, depths, invalid_depths = tf.train.batch(
+            [image, depth, invalid_depth],
+            batch_size=self.batch_size,
+            num_threads=4,
+            capacity= 32,
+            enqueue_many=True
+        )
         return images, depths, invalid_depths
 
     def csv_inputs(self, csv_file_path):
