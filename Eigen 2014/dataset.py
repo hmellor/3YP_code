@@ -15,29 +15,28 @@ class DataSet:
     def npz_inputs(self, npz_file_path):
         data = np.load(npz_file_path)
         # input
-        image = tf.placeholder(tf.float32)
-        depth = tf.placeholder(tf.float32)
-        invalid_depth = tf.placeholder(tf.float32)
         image = data['images']
         image = np.transpose(image, [3,0,1,2])
-        #image = tf.cast(image, tf.float32)
+        image = tf.cast(image, tf.float32)
         # target
         depth = data['depths']
         depth = np.transpose(depth, [2,0,1])
         depth = np.expand_dims(depth,3)
-        #depth = tf.cast(depth, tf.float32)
+        depth = tf.cast(depth, tf.float32)
         depth = tf.div(depth, [255.0])
         # resize
         image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
         depth = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
         invalid_depth = tf.sign(depth)
+        image = tf.unstack(image,1000,1)
+        depth = tf.unstack(image,1000,1)
+        invalid_depth = tf.unstack(image,1000,1)
         # create batches
         images, depths, invalid_depths = tf.train.batch(
             [image, depth, invalid_depth],
             batch_size=self.batch_size,
-            num_threads=1,
-            capacity= 10,
-            enqueue_many=True
+            num_threads=4,
+            capacity= 32
         )
         return images, depths, invalid_depths
 
