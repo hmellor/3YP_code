@@ -15,14 +15,17 @@ class DataSet:
     def npz_inputs(self, npz_file_path):
         data = np.load(npz_file_path)
         # input
+        image = tf.placeholder(tf.float32)
+        depth = tf.placeholder(tf.float32)
+        invalid_depth = tf.placeholder(tf.float32)
         image = data['images']
         image = np.transpose(image, [3,0,1,2])
-        image = tf.cast(image, tf.float32)
+        #image = tf.cast(image, tf.float32)
         # target
         depth = data['depths']
         depth = np.transpose(depth, [2,0,1])
         depth = np.expand_dims(depth,3)
-        depth = tf.cast(depth, tf.float32)
+        #depth = tf.cast(depth, tf.float32)
         depth = tf.div(depth, [255.0])
         # resize
         image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
