@@ -12,7 +12,7 @@ import train_operation as op
 MAX_STEPS = 20
 LOG_DEVICE_PLACEMENT = False
 BATCH_SIZE = 10
-TRAIN_FILE = '../data/train.npz'
+TRAIN_FILE = '../data/train.csv'
 COARSE_DIR = "coarse"
 REFINE_DIR = "refine"
 
@@ -23,7 +23,7 @@ def train():
     with tf.Graph().as_default():
         global_step = tf.Variable(0, trainable=False)
         dataset = DataSet(BATCH_SIZE)
-        images, depths, invalid_depths = dataset.npz_inputs(TRAIN_FILE)
+        images, depths, invalid_depths = dataset.cvs_inputs(TRAIN_FILE)
         keep_conv = tf.placeholder(tf.float32)
         keep_hidden = tf.placeholder(tf.float32)
         if REFINE_TRAIN:
