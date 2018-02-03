@@ -45,6 +45,7 @@ def output_predict(depths, images, output_dir):
     print("output predict into %s" % output_dir)
     if not gfile.Exists(output_dir):
         gfile.MakeDirs(output_dir)
+    print(depths.shape)
     predictions = np.transpose(depths, [2,1,0])
     np.savez('%s/predictions' % (output_dir), depths=predictions)
     for i, (image, depth) in enumerate(zip(images, depths)):
