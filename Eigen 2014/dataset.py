@@ -36,7 +36,7 @@ class DataSet:
         #    capacity= 32,
         #    enqueue_many=True
         #)
-        return images, depths, invalid_depths
+        return image, depth, invalid_depth
 
     def csv_inputs(self, csv_file_path):
         filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=True)
