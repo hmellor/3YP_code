@@ -39,6 +39,6 @@ if __name__ == '__main__':
     	exit()
     current_directory = os.getcwd()
     train_path = os.path.join("../data", "%s.npz" % (sys.argv[1]))
-    if not gfile.Exists('data/%s_datasets' % (sys.argv[1])):
-        gfile.MakeDirs('data/%s_datasets' % (sys.argv[1]))
+    if not gfile.Exists('data/datasets_%s' % (sys.argv[1])):
+        gfile.MakeDirs('data/datasets_%s' % (sys.argv[1]))
     convert_train(train_path)

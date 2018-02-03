@@ -17,9 +17,9 @@ if len(sys.argv) != 2:
 MAX_STEPS = 20
 LOG_DEVICE_PLACEMENT = False
 BATCH_SIZE = 10
-TRAIN_FILE = '/%s.csv' % (sys.argv[1])
-COARSE_DIR = "%s_coarse" % (sys.argv[1])
-REFINE_DIR = "%s_refine" % (sys.argv[1])
+TRAIN_FILE = '%s.csv' % (sys.argv[1])
+COARSE_DIR = "coarse_%s" % (sys.argv[1])
+REFINE_DIR = "refine_%s" % (sys.argv[1])
 
 REFINE_TRAIN = True
 FINE_TUNE = True
