@@ -34,5 +34,5 @@ def convert_train(path):
 
 if __name__ == '__main__':
     current_directory = os.getcwd()
-    train_path = 'data/train.npz'
+    train_path = '../data/train.npz'
     convert_train(train_path)
