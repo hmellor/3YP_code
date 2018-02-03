@@ -19,9 +19,9 @@ def convert_train(path):
         re_depth = (ra_depth/np.max(ra_depth))*255.0
         image_pil = Image.fromarray(np.uint8(ra_image))
         depth_pil = Image.fromarray(np.uint8(re_depth))
-        image_name = os.path.join("data","%s_datasets" % (sys.argv[1]), "%05d.jpg" % (i))
+        image_name = os.path.join("data","datasets_%s" % (sys.argv[1]), "%05d.jpg" % (i))
         image_pil.save(image_name)
-        depth_name = os.path.join("data","%s_datasets" % (sys.argv[1]), "%05d.png" % (i))
+        depth_name = os.path.join("data","datasets_%s" % (sys.argv[1]), "%05d.png" % (i))
         depth_pil.save(depth_name)
 
         trains.append((image_name, depth_name))
