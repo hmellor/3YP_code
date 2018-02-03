@@ -17,7 +17,7 @@ if len(sys.argv) != 2:
 # if there are 1000 training examples and batch size is 10, it will
 # take 100 iterations to complete 1 epoch
 ITERATIONS = 100
-MAX_EPOCHS = 20
+MAX_EPOCHS = 100
 LOG_DEVICE_PLACEMENT = False
 BATCH_SIZE = 10
 TRAIN_FILE = '%s.csv' % (sys.argv[1])
@@ -108,9 +108,9 @@ def train():
                     assert not np.isnan(loss_value), 'Model diverged with loss = NaN'
                 if iteration % (ITERATIONS-1) == 0:
                     if REFINE_TRAIN:
-                        output_predict(logits_val, images_val, "data/%s_predict_refine_%05d" % (sys.argv[1],epoch))
+                        output_predict(logits_val, images_val, "data/%s_predict_refine_%05d" % (sys.argv[1],epoch+1))
                     else:
-                        output_predict(logits_val, images_val, "data/%s_predict_%05d" % (sys.argv[1],epoch))
+                        output_predict(logits_val, images_val, "data/%s_predict_%05d" % (sys.argv[1],epoch+1))
                 iteration += 1
 
             if epoch % 5 == 0 or (epoch * 1) == MAX_EPOCHS:
