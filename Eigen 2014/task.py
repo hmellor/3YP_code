@@ -12,7 +12,7 @@ import train_operation as op
 MAX_STEPS = 20
 LOG_DEVICE_PLACEMENT = False
 BATCH_SIZE = 10
-TRAIN_FILE = '../data/train.csv'
+TRAIN_FILE = 'train.csv'
 COARSE_DIR = "coarse"
 REFINE_DIR = "refine"
 
