@@ -11,8 +11,8 @@ import train_operation as op
 import sys
 
 if len(sys.argv) != 2:
-	print("Please run:\n\tpython task.py <train/val/test>")
-	exit()
+    print("Please run:\n\tpython task.py <train/val/test>")
+    exit()
 
 MAX_STEPS = 20
 LOG_DEVICE_PLACEMENT = False
@@ -105,14 +105,14 @@ def train():
                     assert not np.isnan(loss_value), 'Model diverged with loss = NaN'
                 if index % 500 == 0:
                     if REFINE_TRAIN:
-						print(depths.shape)
-					    predictions = tf.image.resize_images(depths,[480,640])
-					    print(predictions.shape)
-					    predictions = tf.squeeze(predictions,3)
-					    print(predictions.shape)
-					    predictions = tf.transpose(predictions, [1,2,0])
-					    print(predictions.shape)
-					    np.savez("data/%s_predict_refine_%05d_%05d.npz" % (sys.argv[1],step, i), depths=predictions)
+                        print(depths.shape)
+                        predictions = tf.image.resize_images(depths,[480,640])
+                        print(predictions.shape)
+                        predictions = tf.squeeze(predictions,3)
+                        print(predictions.shape)
+                        predictions = tf.transpose(predictions, [1,2,0])
+                        print(predictions.shape)
+                        np.savez("data/%s_predict_refine_%05d_%05d.npz" % (sys.argv[1],step, i), depths=predictions)
                         output_predict(logits_val, images_val, "data/%s_predict_refine_%05d_%05d" % (sys.argv[1],step, i))
                     else:
                         output_predict(logits_val, images_val, "data/%s_predict_%05d_%05d" % (sys.argv[1],step, i))
