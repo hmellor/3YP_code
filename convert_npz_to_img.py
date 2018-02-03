@@ -37,11 +37,6 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
     	print("Please run:\n\tpython convert_npz_to_img.py <train/val/test>")
     	exit()
-
-    if not os.path.isfile(sys.argv[1]):
-    	print(sys.argv[1] + " is not a file")
-    	exit()
-
     current_directory = os.getcwd()
     train_path = os.path.join("data", "%s.npz" % (sys.argv[1]))
     convert_train(train_path)
