@@ -14,7 +14,10 @@ if len(sys.argv) != 2:
 	print("Please run:\n\tpython task.py <train/val/test>")
 	exit()
 
-MAX_STEPS = 20
+# if there are 1000 training examples and batch size is 10, it will
+# take 100 iterations to complete 1 epoch
+ITERATIONS = 100
+MAX_EPOCHS = 20
 LOG_DEVICE_PLACEMENT = False
 BATCH_SIZE = 10
 TRAIN_FILE = '%s.csv' % (sys.argv[1])
@@ -96,27 +99,27 @@ def train():
         # train
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(sess=sess, coord=coord)
-        for step in xrange(MAX_STEPS):
-            index = 0
-            for i in xrange(1000):
+        for epoch in xrange(MAX_EPOCHS):
+            iteration = 0
+            for i in xrange(ITERATIONS):
                 _, loss_value, logits_val, images_val = sess.run([train_op, loss, logits, images], feed_dict={keep_conv: 0.8, keep_hidden: 0.5})
-                if index % 10 == 0:
-                    print("%s: %d[epoch]: %d[iteration]: train loss %f" % (datetime.now(), step, index, loss_value))
+                if iteration % 10 == 0:
+                    print("%s: %d[epoch]: %d[iteration]: train loss %f" % (datetime.now(), epoch, iteration, loss_value))
                     assert not np.isnan(loss_value), 'Model diverged with loss = NaN'
-                if index % 500 == 0:
+                if iteration % (ITERATIONS-1) == 0:
                     if REFINE_TRAIN:
-                        output_predict(logits_val, images_val, "data/%s_predict_refine_%05d_%05d" % (sys.argv[1],step, i))
+                        output_predict(logits_val, images_val, "data/%s_predict_refine_%05d" % (sys.argv[1],epoch))
                     else:
-                        output_predict(logits_val, images_val, "data/%s_predict_%05d_%05d" % (sys.argv[1],step, i))
-                index += 1
+                        output_predict(logits_val, images_val, "data/%s_predict_%05d" % (sys.argv[1],epoch))
+                iteration += 1
 
-            if step % 5 == 0 or (step * 1) == MAX_STEPS:
+            if epoch % 5 == 0 or (epoch * 1) == MAX_EPOCHS:
                 if REFINE_TRAIN:
                     refine_checkpoint_path = REFINE_DIR + '/model.ckpt'
-                    saver_refine.save(sess, refine_checkpoint_path, global_step=step)
+                    saver_refine.save(sess, refine_checkpoint_path, global_step=epoch)
                 else:
                     coarse_checkpoint_path = COARSE_DIR + '/model.ckpt'
-                    saver_coarse.save(sess, coarse_checkpoint_path, global_step=step)
+                    saver_coarse.save(sess, coarse_checkpoint_path, global_step=epoch)
         coord.request_stop()
         coord.join(threads)
         sess.close()
