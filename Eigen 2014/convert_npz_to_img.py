@@ -8,7 +8,7 @@ import random
 
 def convert_train(path):
     print("load dataset: %s" % (path))
-    f = h5py.File(path)
+    f = np.load(path)
 
 
     trains = []
