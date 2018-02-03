@@ -45,11 +45,11 @@ class DataSet:
         filename, depth_filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
         # input
         jpg = tf.read_file(filename)
-        image = tf.image.decode_jpeg(jpg, channels=3)
+        image = tf.image.decode_image(jpg, channels=3)
         image = tf.cast(image, tf.float32)
         # target
         depth_png = tf.read_file(depth_filename)
-        depth = tf.image.decode_png(depth_png, channels=1)
+        depth = tf.image.decode_image(depth_png, channels=1)
         depth = tf.cast(depth, tf.float32)
         depth = tf.div(depth, [255.0])
         #depth = tf.cast(depth, tf.int64)
