@@ -113,7 +113,7 @@ def train():
                         output_predict(logits_val, images_val, "data/%s_predict_%05d" % (sys.argv[1],epoch+1))
                 iteration += 1
 
-            if epoch % 5 == 0 or (epoch * 1) == MAX_EPOCHS:
+            if (epoch+1) % 5 == 0:
                 if REFINE_TRAIN:
                     refine_checkpoint_path = REFINE_DIR + '/model.ckpt'
                     saver_refine.save(sess, refine_checkpoint_path, global_step=epoch)
