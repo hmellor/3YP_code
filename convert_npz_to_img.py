@@ -1,9 +1,7 @@
 #encoding: utf-8
-import os
+import os, random, sys
 import numpy as np
-import h5py
 from PIL import Image
-import random
 
 
 def convert_train(path):
