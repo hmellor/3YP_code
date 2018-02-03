@@ -14,7 +14,7 @@ if len(sys.argv) != 2:
 	print("Please run:\n\tpython task.py <train/val/test>")
 	exit()
 
-MAX_STEPS = 5
+MAX_STEPS = 20
 LOG_DEVICE_PLACEMENT = False
 BATCH_SIZE = 10
 TRAIN_FILE = '%s.csv' % (sys.argv[1])
@@ -119,10 +119,6 @@ def train():
                     saver_coarse.save(sess, coarse_checkpoint_path, global_step=step)
         coord.request_stop()
         coord.join(threads)
-        predictions = tf.image.resize_images(depths,[480,640])
-        predictions = tf.squeeze(predictions,3)
-        predictions = tf.transpose(predictions, [1,2,0])
-        np.savez('%s.npz' % (output_dir), depths=predictions)
         sess.close()
 
 
