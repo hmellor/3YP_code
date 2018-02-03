@@ -39,7 +39,7 @@ class DataSet:
         return image, depth, invalid_depth
 
     def csv_inputs(self, csv_file_path):
-        filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=True)
+        filename_queue = tf.train.string_input_producer([csv_file_path])
         reader = tf.TextLineReader()
         _, serialized_example = reader.read(filename_queue)
         filename, depth_filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
@@ -62,7 +62,7 @@ class DataSet:
             [image, depth, invalid_depth],
             batch_size=self.batch_size,
             num_threads=4,
-            capacity= 32,
+            capacity= 50 + 3 * self.batch_size,
         )
         return images, depths, invalid_depths
 
