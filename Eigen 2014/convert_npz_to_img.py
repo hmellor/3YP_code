@@ -9,10 +9,13 @@ import random
 def convert_train(path):
     print("load dataset: %s" % (path))
     f = np.load(path)
-
+    images = f['images']
+    images = np.transpose(images, [3, 2, 1, 0])
+    depths = f['depths']
+    depths = np.transpose(depths, [2, 1, 0])
 
     trains = []
-    for i, (image, depth) in enumerate(zip(f['images'], f['depths'])):
+    for i, (image, depth) in enumerate(zip(images, depths)):
         ra_image = image.transpose(2, 1, 0)
         ra_depth = depth.transpose(1, 0)
         re_depth = (ra_depth/np.max(ra_depth))*255.0
