@@ -28,7 +28,7 @@ def convert_train(path):
 
     random.shuffle(trains)
 
-    with open('train.csv', 'w') as output:
+    with open('%s.csv' % (sys.argv[1]), 'w') as output:
         for (image_name, depth_name) in trains:
             output.write("%s,%s" % (image_name, depth_name))
             output.write("\n")

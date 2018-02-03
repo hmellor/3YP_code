@@ -12,32 +12,6 @@ class DataSet:
     def __init__(self, batch_size):
         self.batch_size = batch_size
 
-    def npz_inputs(self, npz_file_path):
-        data = np.load(npz_file_path)
-        # input
-        image = data['images']
-        image = np.transpose(image, [3,0,1,2])
-        #image = tf.cast(image, tf.float32)
-        # target
-        depth = data['depths']
-        depth = np.transpose(depth, [2,0,1])
-        depth = np.expand_dims(depth,3)
-        #depth = tf.cast(depth, tf.float32)
-        #depth = tf.div(depth, [255.0])
-        # resize
-        image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
-        depth = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
-        invalid_depth = tf.sign(depth)
-        # create batches
-        #images, depths, invalid_depths = tf.train.batch(
-        #    [image, depth, invalid_depth],
-        #    batch_size=self.batch_size,
-        #    num_threads=4,
-        #    capacity= 32,
-        #    enqueue_many=True
-        #)
-        return image, depth, invalid_depth
-
     def csv_inputs(self, csv_file_path):
         filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=True)
         reader = tf.TextLineReader()
@@ -71,6 +45,8 @@ def output_predict(depths, images, output_dir):
     print("output predict into %s" % output_dir)
     if not gfile.Exists(output_dir):
         gfile.MakeDirs(output_dir)
+    predictions = np.transpose(depths, [2,1,0])
+    np.savez('%s/predictions' % (output_dir), depths=predictions)
     for i, (image, depth) in enumerate(zip(images, depths)):
         pilimg = Image.fromarray(np.uint8(image))
         image_name = "%s/%05d_org.png" % (output_dir, i)

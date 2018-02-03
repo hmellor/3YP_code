@@ -8,13 +8,18 @@ from dataset import DataSet
 from dataset import output_predict
 import model
 import train_operation as op
+import sys
+
+if len(sys.argv) != 2:
+	print("Please run:\n\tpython task.py <train/val/test>")
+	exit()
 
 MAX_STEPS = 20
 LOG_DEVICE_PLACEMENT = False
 BATCH_SIZE = 10
-TRAIN_FILE = 'train.csv'
-COARSE_DIR = "coarse"
-REFINE_DIR = "refine"
+TRAIN_FILE = '%s.csv' % (sys.argv[1])
+COARSE_DIR = "%s_coarse" % (sys.argv[1])
+REFINE_DIR = "%s_refine" % (sys.argv[1])
 
 REFINE_TRAIN = True
 FINE_TUNE = True
@@ -100,9 +105,9 @@ def train():
                     assert not np.isnan(loss_value), 'Model diverged with loss = NaN'
                 if index % 500 == 0:
                     if REFINE_TRAIN:
-                        output_predict(logits_val, images_val, "data/predict_refine_%05d_%05d" % (step, i))
+                        output_predict(logits_val, images_val, "data/%s_predict_refine_%05d_%05d" % (sys.argv[1],step, i))
                     else:
-                        output_predict(logits_val, images_val, "data/predict_%05d_%05d" % (step, i))
+                        output_predict(logits_val, images_val, "data/%s_predict_%05d_%05d" % (sys.argv[1],step, i))
                 index += 1
 
             if step % 5 == 0 or (step * 1) == MAX_STEPS:
