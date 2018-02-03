@@ -49,8 +49,7 @@ def output_predict(depths, images, output_dir):
     predictions = tf.image.resize_images(depths,[480,640])
     predictions = tf.squeeze(predictions,3)
     predictions = tf.transpose(predictions, [1,2,0])
-    predictions = tf.cast(predictions, tf.float32)
-    np.savez('%s.npz' % (output_dir), depths=predictions)
+    np.savez('test', depths=predictions)
 
     for i, (image, depth) in enumerate(zip(images, depths)):
         pilimg = Image.fromarray(np.uint8(image))
