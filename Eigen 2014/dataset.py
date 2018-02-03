@@ -45,12 +45,6 @@ def output_predict(depths, images, output_dir):
     print("output predict into %s" % output_dir)
     if not gfile.Exists(output_dir):
         gfile.MakeDirs(output_dir)
-
-    predictions = tf.image.resize_images(depths,[480,640])
-    predictions = tf.squeeze(predictions,3)
-    predictions = tf.transpose(predictions, [1,2,0])
-    np.savez('%s.npz' % (output_dir), depths=predictions)
-
     for i, (image, depth) in enumerate(zip(images, depths)):
         pilimg = Image.fromarray(np.uint8(image))
         image_name = "%s/%05d_org.png" % (output_dir, i)
