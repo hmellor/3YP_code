@@ -47,7 +47,7 @@ def output_predict(depths, images, output_dir):
         gfile.MakeDirs(output_dir)
 
     print(depths.shape)
-    predictions = tf.resize_images(depths,[480,640])
+    predictions = tf.image.resize_images(depths,[480,640])
     print(predictions.shape)
     predictions = tf.squeeze(predictions,3)
     print(predictions.shape)
