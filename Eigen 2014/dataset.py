@@ -17,25 +17,25 @@ class DataSet:
         # input
         image = data['images']
         image = np.transpose(image, [3,0,1,2])
-        image = tf.cast(image, tf.float32)
+        #image = tf.cast(image, tf.float32)
         # target
         depth = data['depths']
         depth = np.transpose(depth, [2,0,1])
         depth = np.expand_dims(depth,3)
-        depth = tf.cast(depth, tf.float32)
-        depth = tf.div(depth, [255.0])
+        #depth = tf.cast(depth, tf.float32)
+        #depth = tf.div(depth, [255.0])
         # resize
         image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
         depth = tf.image.resize_images(depth, (TARGET_HEIGHT, TARGET_WIDTH))
         invalid_depth = tf.sign(depth)
         # create batches
-        images, depths, invalid_depths = tf.train.batch(
-            [image, depth, invalid_depth],
-            batch_size=self.batch_size,
-            num_threads=4,
-            capacity= 32,
-            enqueue_many=True
-        )
+        #images, depths, invalid_depths = tf.train.batch(
+        #    [image, depth, invalid_depth],
+        #    batch_size=self.batch_size,
+        #    num_threads=4,
+        #    capacity= 32,
+        #    enqueue_many=True
+        #)
         return images, depths, invalid_depths
 
     def csv_inputs(self, csv_file_path):
