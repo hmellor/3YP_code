@@ -10,19 +10,15 @@ import model
 import train_operation as op
 import sys
 
-if len(sys.argv) != 2:
-	print("Please run:\n\tpython task.py <train/val/test>")
-	exit()
-
 # if there are 1000 training examples and batch size is 10, it will
 # take 100 iterations to complete 1 epoch
 ITERATIONS = 100
 MAX_EPOCHS = 100
 LOG_DEVICE_PLACEMENT = False
 BATCH_SIZE = 10
-TRAIN_FILE = '%s.csv' % (sys.argv[1])
-COARSE_DIR = "coarse_%s" % (sys.argv[1])
-REFINE_DIR = "refine_%s" % (sys.argv[1])
+TRAIN_FILE = '%s.csv' % ('train')
+COARSE_DIR = "coarse_%s" % ('train')
+REFINE_DIR = "refine_%s" % ('train')
 
 REFINE_TRAIN = True
 FINE_TUNE = True
@@ -108,9 +104,9 @@ def train():
                     assert not np.isnan(loss_value), 'Model diverged with loss = NaN'
                 if iteration % (ITERATIONS-1) == 0:
                     if REFINE_TRAIN:
-                        output_predict(logits_val, images_val, "data/%s_predict_refine_%05d" % (sys.argv[1],epoch+1))
+                        output_predict(logits_val, images_val, "data/%s_predict_refine_%05d" % ('train',epoch+1))
                     else:
-                        output_predict(logits_val, images_val, "data/%s_predict_%05d" % (sys.argv[1],epoch+1))
+                        output_predict(logits_val, images_val, "data/%s_predict_%05d" % ('train',epoch+1))
                 iteration += 1
 
             if (epoch+1) % 5 == 0:
