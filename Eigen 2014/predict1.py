@@ -32,7 +32,7 @@ def predict(model_path, input_directory, output_directory):
             print(depth.shape)
             depth = tf.squeeze(depth, [0])
             print(depth.shape)
-            depth = tf.transpose(depth,[2, 0, 1])
+            depth = tf.transpose(depth, [2, 0, 1])
             if np.max(depth) != 0:
                 ra_depth = (depth/np.max(depth))*255.0
             else:

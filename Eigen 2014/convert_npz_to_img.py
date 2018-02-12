@@ -9,6 +9,8 @@ def convert_train(path):
     f = np.load(path)
     images = f['images']
     images = np.transpose(images, [3, 2, 1, 0])
+    #images_flip = something
+    #images = append(images,images_flip)
     depths = f['depths']
     depths = np.transpose(depths, [2, 1, 0])
 
