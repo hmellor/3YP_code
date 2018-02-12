@@ -19,7 +19,7 @@ def img_to_npz(input_depth_directory, output_depth_directory):
         im = tf.image.decode_jpeg(filename, channels=1)
         predictions = tf.image.resize_images(im,[55,74])
         predictions = tf.transpose(predictions, [1,2,0])    
-        depths.append(predictions,0)
+        depths = np.append(depths,predictions, axis=0)
         
   
     #print(depths)
