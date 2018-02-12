@@ -17,7 +17,7 @@ def convert_train(path):
     
     
     depths = f['depths']
-    epths_flip = np.fliplr(depths)
+    #depths_flip = np.fliplr(depths)
     #depths = np.append(depths,depths_flip)
     depths = np.transpose(depths, [2, 1, 0])
     
@@ -31,6 +31,7 @@ def convert_train(path):
         image_pil = Image.fromarray(np.uint8(ra_image))
         depth_pil = Image.fromarray(np.uint8(re_depth))
         image_name = os.path.join("data","datasets_%s" % (sys.argv[1]), "%05d.jpg" % (i))
+        print(image_name)
         image_pil.save(image_name)
         depth_name = os.path.join("data","datasets_%s" % (sys.argv[1]), "%05d.png" % (i))
         depth_pil.save(depth_name)
