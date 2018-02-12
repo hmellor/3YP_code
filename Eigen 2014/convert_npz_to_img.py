@@ -37,7 +37,7 @@ def convert_train(path):
         trains.append((image_name, depth_name))
         counter=counter+1
         
-    print("number of jpgs" + counter)
+    print("number of jpgs ")
     random.shuffle(trains)
 
     with open('%s.csv' % (sys.argv[1]), 'w') as output:
@@ -49,7 +49,13 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
     	print("Please run:\n\tpython convert_npz_to_img.py <train/val/test>")
     	exit()
+    
+    #train_path = os.path.join("../data", "%s.npz" % (sys.argv[1]))
+    #if not gfile.Exists('data/datasets_%s' % (sys.argv[1])):
+        #gfile.MakeDirs('data/datasets_%s' % (sys.argv[1]))
+        
     train_path = os.path.join("../data", "%s.npz" % (sys.argv[1]))
-    if not gfile.Exists('data/datasets_%s' % (sys.argv[1])):
-        gfile.MakeDirs('data/datasets_%s' % (sys.argv[1]))
+    if not gfile.Exists('data/MalikaGeorgedatasets_%s' % (sys.argv[1])):
+        gfile.MakeDirs('data/MalikaGeorgedatasets_%s' % (sys.argv[1]))
+
     convert_train(train_path)
