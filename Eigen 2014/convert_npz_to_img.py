@@ -12,14 +12,14 @@ def convert_train(path):
     images = f['images']
     images_flip = np.fliplr(images)
     images = np.append(images,images_flip,)
-    images = np.transpose(images, [3, 2, 1, 0])
+    #images = np.transpose(images, [3, 2, 1, 0])
     
     
     
     depths = f['depths']
     depths_flip = np.fliplr(depths)
     depths = np.append(depths,depths_flip)
-    depths = np.transpose(depths, [2, 1, 0])
+    #depths = np.transpose(depths, [2, 1, 0])
     
     counter = 0
     trains = []
