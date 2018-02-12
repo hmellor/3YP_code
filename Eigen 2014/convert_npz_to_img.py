@@ -7,11 +7,20 @@ from tensorflow.python.platform import gfile
 def convert_train(path):
     print("load dataset: %s" % (path))
     f = np.load(path)
+    
+    # get 
     images = f['images']
+    images_flip = np.fliplr(images)
+    images = np.append(images,images_flip,)
     images = np.transpose(images, [3, 2, 1, 0])
-    #images_flip = something
-    #images = append(images,images_flip)
+    
+    #flip images tensor and append onto the back
+
+
+    
     depths = f['depths']
+    depths_flip = np.fliplr(depths)
+    depths = np.append(depths,depths_flip)
     depths = np.transpose(depths, [2, 1, 0])
 
     trains = []
