@@ -6,7 +6,7 @@ import glob
 import model
 
 def predict(model_path, input_directory, output_directory):
-    
+
     # Default input size
     height = 228
     width = 304
@@ -29,6 +29,7 @@ def predict(model_path, input_directory, output_directory):
             keep_hidden = tf.placeholder(tf.float32)
             coarse = model.inference(image, keep_conv, trainable=False)
             depth = model.inference_refine(image, coarse, keep_conv, keep_hidden)
+            print(depth.shape)
             depth = depth.transpose(2, 0, 1)
             if np.max(depth) != 0:
                 ra_depth = (depth/np.max(depth))*255.0
