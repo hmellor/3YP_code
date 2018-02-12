@@ -26,4 +26,4 @@ if __name__ == '__main__':
     	print("Please run:\n\tpython convert_npz_to_img.py <predictions_path>")
     	exit()
     path = sys.argv[1]
-    convert_train()
+    convert_predictions()
