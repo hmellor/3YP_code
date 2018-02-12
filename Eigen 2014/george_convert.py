@@ -17,7 +17,7 @@ def convert_train(path):
     
     
     depths = f['depths']
-    #depths_flip = np.fliplr(depths)
+    epths_flip = np.fliplr(depths)
     #depths = np.append(depths,depths_flip)
     depths = np.transpose(depths, [2, 1, 0])
     
@@ -38,7 +38,7 @@ def convert_train(path):
         trains.append((image_name, depth_name))
         counter=counter+1
         
-    print("number of jpgs ")
+    print("number of jpgs "+counter)
     random.shuffle(trains)
 
     with open('%s.csv' % (sys.argv[1]), 'w') as output:
