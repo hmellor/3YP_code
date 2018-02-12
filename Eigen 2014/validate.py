@@ -3,7 +3,6 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 import glob
-import models
 
 def predict(model_path, input_directory, output_directory):
 
