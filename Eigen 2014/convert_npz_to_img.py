@@ -10,19 +10,20 @@ def convert_train(path):
     
     # get 
     images = f['images']
-    images_flip = np.fliplr(images)
-    images = np.append(images,images_flip,)
-    #images = np.transpose(images, [3, 2, 1, 0])
+    #images_flip = np.fliplr(images)
+    # images = np.append(images,images_flip,)
+    images = np.transpose(images, [3, 2, 1, 0])
     
     
     
     depths = f['depths']
-    depths_flip = np.fliplr(depths)
-    depths = np.append(depths,depths_flip)
-    #depths = np.transpose(depths, [2, 1, 0])
+    #depths_flip = np.fliplr(depths)
+    #depths = np.append(depths,depths_flip)
+    depths = np.transpose(depths, [2, 1, 0])
     
     counter = 0
     trains = []
+    print("FOOOR LOOOP")
     for i, (image, depth) in enumerate(zip(images, depths)):
         ra_image = image.transpose(2, 1, 0)
         ra_depth = depth.transpose(1, 0)
