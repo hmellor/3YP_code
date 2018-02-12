@@ -30,6 +30,8 @@ def predict(model_path, input_directory, output_directory):
             coarse = model.inference(image, keep_conv, trainable=False)
             depth = model.inference_refine(image, coarse, keep_conv, keep_hidden)
             print(depth.shape)
+            depth = tf.squeeze(depth, [0])
+            print(depth.shape)
             depth = depth.transpose(2, 0, 1)
             if np.max(depth) != 0:
                 ra_depth = (depth/np.max(depth))*255.0
