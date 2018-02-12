@@ -14,15 +14,14 @@ def convert_train(path):
     images = np.append(images,images_flip,)
     images = np.transpose(images, [3, 2, 1, 0])
     
-    #flip images tensor and append onto the back
-
-
+    
     
     depths = f['depths']
     depths_flip = np.fliplr(depths)
     depths = np.append(depths,depths_flip)
     depths = np.transpose(depths, [2, 1, 0])
-
+    
+    counter = 0
     trains = []
     for i, (image, depth) in enumerate(zip(images, depths)):
         ra_image = image.transpose(2, 1, 0)
@@ -36,7 +35,9 @@ def convert_train(path):
         depth_pil.save(depth_name)
 
         trains.append((image_name, depth_name))
-
+        counter=counter+1
+        
+    print("number of jpgs" + counter)
     random.shuffle(trains)
 
     with open('%s.csv' % (sys.argv[1]), 'w') as output:
