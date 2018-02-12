@@ -45,7 +45,6 @@ def predict(model_path, input_directory, output_directory):
             depth_pil = Image.fromarray(np.uint8(ra_depth[0]), mode="L")
             depth_name = "%s/%05d.png" % (output_directory, i)
             depth_pil.save(depth_name)
-        return pred
 
 
 def main():
@@ -57,7 +56,7 @@ def main():
     input_directory = sys.argv[2]
     output_directory = sys.argv[3]
     # Predict the image
-    pred = predict(model_path, input_directory, output_directory)
+    predict(model_path, input_directory, output_directory)
 
 if __name__ == '__main__':
     main()
