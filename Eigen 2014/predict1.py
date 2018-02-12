@@ -6,6 +6,13 @@ import glob
 import model
 
 def predict(model_path, input_directory, output_directory):
+    
+    # Default input size
+    height = 228
+    width = 304
+    channels = 3
+    batch_size = 1
+
     with tf.Session() as sess:
         # Use to load from ckpt file
         saver = tf.train.import_meta_graph('%s.meta' % model_path)
