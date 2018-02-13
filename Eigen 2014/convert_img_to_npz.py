@@ -9,15 +9,15 @@ def convert_predictions():
     for i, image in enumerate(glob.glob('%s/*.png' % path)):
         print(image)
         depth = imageio.imread(image)
-        print(shape.depth)
+        print(depth.shape)
         prediction = tf.image.resize_images(depth,[480,640])
-        print(shape.depth)
+        print(depth.shape)
         prediction = tf.squeeze(prediction,3)
-        print(shape.depth)
+        print(depth.shape)
         prediction = tf.transpose(prediction, [1,2,0])
-        print(shape.depth)
+        print(depth.shape)
         predictions[:,:,i] = prediction
-        print(shape.depth)
+        print(depth.shape)
     np.savez('predictions.npz', depths=predictions)
 
 if __name__ == '__main__':
