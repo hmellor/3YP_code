@@ -13,7 +13,6 @@ def convert_predictions():
         #rint(prediction.shape)
         prediction = tf.image.resize_images(prediction,[480,640])
         #print(prediction.shape)
-        prediction.type
 
         # If this is the 1st image, initialise predictions
         if i == 0:
@@ -25,7 +24,7 @@ def convert_predictions():
             print(predictions.shape)
             print('prediction:')
             print(prediction.shape)
-            predictions = np.concatenate([predictions, prediction], 2)
+            predictions = tf.concat([predictions, prediction], 2)
             print(predictions.shape)
 
     # Save the entire array as a .npz
