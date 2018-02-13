@@ -24,7 +24,7 @@ def convert_predictions():
             print(predictions.shape)
         # Else append the current image to the predictions array
         else:
-            predictions = np.append(predictions, prediction, axis = 2)
+            predictions = np.concatenate((predictions, prediction), axis = 2)
             print(predictions.shape)
 
     # Save the entire array as a .npz
