@@ -23,7 +23,7 @@ def convert_predictions():
             predictions = tf.expand_dims(predictions, 2)
             print(predictions.shape)
         # Else append the current image to the predictions array
-        else
+        else:
             predictions = np.append(predictions, prediction, axis = 2)
             print(predictions.shape)
 
