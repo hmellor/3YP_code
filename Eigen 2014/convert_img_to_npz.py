@@ -18,7 +18,7 @@ def convert_predictions():
 
         # If this is the 1st image, create predictions
         # and add dimension for image number
-        if i == 1:
+        if i == 0:
             predictions = prediction
             predictions = tf.expand_dims(predictions, 2)
             print(predictions.shape)
