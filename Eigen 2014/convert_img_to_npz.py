@@ -5,7 +5,7 @@ import numpy as np
 def convert_predictions():
 
     # For all png images in arg 1 folder
-    for i, image in enumerate(glob.glob('%s/*.png' % sys.argv[1])):
+    for i, image in enumerate(glob.glob('%s/*[0-9].png' % sys.argv[1])):
         print(image)
         # Read and resize image
         prediction = imageio.imread(image)
