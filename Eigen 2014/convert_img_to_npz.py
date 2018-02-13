@@ -4,8 +4,6 @@ import numpy as np
 
 def convert_predictions():
     path = sys.argv[1]
-    predictions = []
-
     for i, image in enumerate(glob.glob('%s/*.png' % path)):
         print(image)
         prediction = imageio.imread(image)
@@ -15,7 +13,11 @@ def convert_predictions():
         print(prediction.shape)
         prediction = tf.squeeze(prediction,2)
         print(prediction.shape)
-        predictions = np.append(predictions, prediction, axis = 2)
+        if i = 1:
+            predictions = prediction
+            predictions = tf.expand_dims(predictions, 2)
+        else
+            predictions = np.append(predictions, prediction, axis = 2)
         print(predictions.shape)
     np.savez('predictions.npz', depths=predictions)
 
