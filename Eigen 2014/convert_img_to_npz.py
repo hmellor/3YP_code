@@ -15,7 +15,7 @@ def convert_predictions():
         print(prediction.shape)
         prediction = tf.squeeze(prediction,2)
         print(prediction.shape)
-        predictions[:,:,i] = prediction
+        predictions = np.append(predictions, prediction, axis = 2)
         print(predictions.shape)
     np.savez('predictions.npz', depths=predictions)
 
