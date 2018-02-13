@@ -6,7 +6,7 @@ def convert_predictions():
     path = sys.argv[1]
     predictions = []
 
-    for i, image in enumerate(glob.glob('%s/*.png' % path):
+    for i, image in enumerate(glob.glob('%s/*.png' % path)):
         print(image)
         depth = imageio.imread(image)
         print(shape.depth)
