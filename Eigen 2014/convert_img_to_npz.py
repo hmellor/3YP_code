@@ -13,7 +13,7 @@ def convert_predictions():
         #rint(prediction.shape)
         prediction = tf.image.resize_images(prediction,[480,640])
         #print(prediction.shape)
-        prediction = prediction.eval()
+        prediction.type
 
         # If this is the 1st image, initialise predictions
         if i == 0:
