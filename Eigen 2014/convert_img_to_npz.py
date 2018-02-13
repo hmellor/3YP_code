@@ -13,14 +13,11 @@ def convert_predictions():
         print(prediction.shape)
         prediction = tf.image.resize_images(prediction,[480,640])
         print(prediction.shape)
-        prediction = tf.squeeze(prediction,2)
-        print(prediction.shape)
 
         # If this is the 1st image, create predictions
         # and add dimension for image number
         if i == 0:
             predictions = prediction
-            predictions = tf.expand_dims(predictions, 2)
             print(predictions.shape)
         # Else append the current image to the predictions array
         else:
