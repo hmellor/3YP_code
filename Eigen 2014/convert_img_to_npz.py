@@ -14,14 +14,13 @@ def convert_predictions():
         prediction = tf.image.resize_images(prediction,[480,640])
         print(prediction.shape)
 
-        # If this is the 1st image, create predictions
-        # and add dimension for image number
+        # If this is the 1st image, initialise predictions
         if i == 0:
             predictions = prediction
             print(predictions.shape)
         # Else append the current image to the predictions array
         else:
-            predictions = np.append(predictions, prediction, axis = 2)
+            predictions = np.concatenate([predictions, prediction], axis = 2)
             print(predictions.shape)
 
     # Save the entire array as a .npz
