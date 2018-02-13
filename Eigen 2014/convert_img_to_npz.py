@@ -20,6 +20,10 @@ def convert_predictions():
             print(predictions.shape)
         # Else append the current image to the predictions array
         else:
+            print('predictions:')
+            print(predictions.shape)
+            print('prediction:')
+            print(prediction.shape)
             predictions = np.concatenate([predictions, prediction], axis = 2)
             print(predictions.shape)
 
