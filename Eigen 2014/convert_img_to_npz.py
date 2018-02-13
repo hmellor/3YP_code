@@ -9,6 +9,7 @@ def convert_predictions():
     for i, image in enumerate(glob.glob('%s/*.png' % path)):
         print(image)
         depth = imageio.imread(image)
+        depth = tf.expand_dims(depth, 2)
         print(depth.shape)
         prediction = tf.image.resize_images(depth,[480,640])
         print(depth.shape)
