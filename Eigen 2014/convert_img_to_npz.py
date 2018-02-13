@@ -7,7 +7,7 @@ def convert_predictions():
     sess = tf.Session()
     with sess.as_default():
         # For all png images in arg 1 folder
-        for i, image in enumerate(glob.glob('%s/*[0-9].png' % sys.argv[1])):
+        for i, image in enumerate(sorted(glob.glob('%s/*[0-9].png' % sys.argv[1]))):
             print(image)
             # Read and resize image (currently in tensor form)
             prediction = imageio.imread(image)
@@ -20,10 +20,6 @@ def convert_predictions():
                 print(predictions.shape)
             # Else append the current image to the predictions array
             else:
-                print('predictions:')
-                print(predictions.shape)
-                print('prediction:')
-                print(prediction.shape)
                 predictions = tf.concat([predictions, prediction], 2)
                 print(predictions.shape)
 
@@ -31,6 +27,7 @@ def convert_predictions():
         predictions = predictions.eval()
         # Save the entire array as a .npz
         np.savez('predictions.npz', depths=predictions)
+        print('images saved to predictions.npz')
 
 if __name__ == '__main__':
     # Check that argument has been provided
