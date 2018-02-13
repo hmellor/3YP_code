@@ -1,15 +1,14 @@
 import tensorflow as tf
-import os, sys
+import sys, glob, imageio
 import numpy as np
 
 def convert_predictions():
     path = sys.argv[1]
-    images = os.listdir(path)
-
     predictions = []
-    for i, (image) in enumerate(zip(images)):
-        depth_png = tf.read_file(image)
-        depth = tf.image.decode_png(depth_png, channels=1)
+
+    for i, image in enumerate(glob.glob('%s/*.png' % path):
+        print(image)
+        depth = imageio.imread(image)
         print(shape.depth)
         prediction = tf.image.resize_images(depth,[480,640])
         print(shape.depth)
