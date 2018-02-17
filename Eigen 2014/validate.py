@@ -25,7 +25,8 @@ def predict(model_path, input_directory, output_directory):
 
     # Create a placeholder for the input image
     input_node = tf.placeholder(tf.float32, shape=(height, width, channels))
-
+    keep_conv = input_node
+    keep_hidden = input_node
     with tf.Session() as sess:
 
         # Load the converted parameters
