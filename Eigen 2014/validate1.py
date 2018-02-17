@@ -47,57 +47,64 @@ def output_predict(depths, output_dir):
         depth_name = "%s/%05d.png" % (output_dir, i)
         depth_pil.save(depth_name)
 
-with tf.Graph().as_default():
-    global_step = tf.Variable(0, trainable=False)
-    images = csv_inputs(VALIDATE_FILE)
-    keep_conv = tf.placeholder(tf.float32)
-    keep_hidden = tf.placeholder(tf.float32)
+def val():
+    with tf.Graph().as_default():
+        global_step = tf.Variable(0, trainable=False)
+        images = csv_inputs(VALIDATE_FILE)
+        keep_conv = tf.placeholder(tf.float32)
+        keep_hidden = tf.placeholder(tf.float32)
 
-    print("refine validate.")
-    coarse = model.inference(images, keep_conv, trainable=False)
-    logits = model.inference_refine(images, coarse, keep_conv, keep_hidden)
+        print("refine validate.")
+        coarse = model.inference(images, keep_conv, trainable=False)
+        logits = model.inference_refine(images, coarse, keep_conv, keep_hidden)
 
-    init_op = tf.initialize_all_variables()
+        init_op = tf.initialize_all_variables()
 
-    # Session
-    sess = tf.Session(config=tf.ConfigProto(log_device_placement=False))
-    sess.run(init_op)
+        # Session
+        sess = tf.Session(config=tf.ConfigProto(log_device_placement=False))
+        sess.run(init_op)
 
-    # parameters
-    coarse_params = {}
-    refine_params = {}
+        # parameters
+        coarse_params = {}
+        refine_params = {}
 
-    for variable in tf.all_variables():
-        variable_name = variable.name
-        print("parameter: %s" % (variable_name))
-        if variable_name.find("/") < 0 or variable_name.count("/") != 1:
-            continue
-        if variable_name.find('coarse') >= 0:
-            coarse_params[variable_name] = variable
-        print("parameter: %s" %(variable_name))
-        if variable_name.find('fine') >= 0:
-            refine_params[variable_name] = variable
+        for variable in tf.all_variables():
+            variable_name = variable.name
+            print("parameter: %s" % (variable_name))
+            if variable_name.find("/") < 0 or variable_name.count("/") != 1:
+                continue
+            if variable_name.find('coarse') >= 0:
+                coarse_params[variable_name] = variable
+            print("parameter: %s" %(variable_name))
+            if variable_name.find('fine') >= 0:
+                refine_params[variable_name] = variable
 
-    # define saver
-    saver_refine = tf.train.Saver(refine_params)
+        # define saver
+        saver_refine = tf.train.Saver(refine_params)
 
-    # import pretrained model
-    if FINE_TUNE:
-        refine_ckpt = tf.train.get_checkpoint_state(MODEL_DIR)
-        if refine_ckpt and refine_ckpt.model_checkpoint_path:
-            print("Pretrained refine Model Loading.")
-            saver_refine.restore(sess, refine_ckpt.model_checkpoint_path)
-            print("Pretrained refine Model Restored.")
-        else:
-            print("No Pretrained refine Model.")
+        # import pretrained model
+        if FINE_TUNE:
+            refine_ckpt = tf.train.get_checkpoint_state(MODEL_DIR)
+            if refine_ckpt and refine_ckpt.model_checkpoint_path:
+                print("Pretrained refine Model Loading.")
+                saver_refine.restore(sess, refine_ckpt.model_checkpoint_path)
+                print("Pretrained refine Model Restored.")
+            else:
+                print("No Pretrained refine Model.")
 
-    # train
-    coord = tf.train.Coordinator()
-    threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+        # train
+        coord = tf.train.Coordinator()
+        threads = tf.train.start_queue_runners(sess=sess, coord=coord)
 
-    logits_val= sess.run([logits], feed_dict={keep_conv: 0.8, keep_hidden: 0.5})
-    output_predict(logits_val, "data/%s_predict" % (sys.argv[1])
+        logits_val= sess.run([logits], feed_dict={keep_conv: 0.8, keep_hidden: 0.5})
+        output_predict(logits_val, "data/%s_predict" % (sys.argv[1])
 
-    coord.request_stop()
-    coord.join(threads)
-    sess.close()
+        coord.request_stop()
+        coord.join(threads)
+        sess.close()
+
+def main(argv=None)
+    val()
+
+if __name__ == '__main__':
+    tf.app.run()
