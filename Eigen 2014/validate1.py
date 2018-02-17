@@ -7,7 +7,7 @@ if len(sys.argv) != 2:
     print("Please run:\n\tpython validate.py <val/test>")
     exit()
 
-VALIDATE_FILE = '%s.csv' % (sys.argv[1])
+VALIDATE_FILE = '../%s.csv' % (sys.argv[1])
 MODEL_DIR = "refine_train"
 
 with tf.Graph().as_default():
@@ -20,12 +20,10 @@ with tf.Graph().as_default():
     coarse = model.inference(images, keep_conv, trainable=False)
     logits = model.inference_refine(images, coarse, keep_conv, keep_hidden)
 
-    loss = model.loss(logits, depths, invalid_depths)
-    train_op = op.train(loss, global_step, BATCH_SIZE)
     init_op = tf.initialize_all_variables()
 
     # Session
-    sess = tf.Session(config=tf.ConfigProto(log_device_placement=LOG_DEVICE_PLACEMENT))
+    sess = tf.Session(config=tf.ConfigProto(log_device_placement=False))
     sess.run(init_op)
 
     # parameters
@@ -46,7 +44,7 @@ with tf.Graph().as_default():
     # define saver
     saver_refine = tf.train.Saver(refine_params)
 
-    # fine tune
+    # import pretrained model
     if FINE_TUNE:
         refine_ckpt = tf.train.get_checkpoint_state(MODEL_DIR)
         if refine_ckpt and refine_ckpt.model_checkpoint_path:
@@ -60,8 +58,8 @@ with tf.Graph().as_default():
     coord = tf.train.Coordinator()
     threads = tf.train.start_queue_runners(sess=sess, coord=coord)
 
-    _, loss_value, logits_val, images_val = sess.run([train_op, loss, logits, images], feed_dict={keep_conv: 0.8, keep_hidden: 0.5})
-    output_predict(logits_val, "data/%s_predict" % (sys.argv[2])
+    logits_val= sess.run([logits], feed_dict={keep_conv: 0.8, keep_hidden: 0.5})
+    output_predict(logits_val, "data/%s_predict" % (sys.argv[1])
 
     coord.request_stop()
     coord.join(threads)
