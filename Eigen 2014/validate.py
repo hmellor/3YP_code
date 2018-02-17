@@ -46,8 +46,8 @@ def predict(model_path, input_directory, output_directory):
         coarse = model.inference(images, keep_conv, trainable=False)
         depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
             
-         # see size of tensor
-         print('\n size of image out ' + str(depth.get_shape()) + ' ** \n')
+        # see size of tensor
+        print('\n size of image out ' + str(depth.get_shape()) + ' ** \n')
 
         depth = np.transpose(depth, [2, 0, 1] )
         if np.max(depth) != 0:
