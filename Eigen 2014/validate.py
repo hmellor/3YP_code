@@ -2,6 +2,7 @@ import sys
 import numpy as np
 import tensorflow as tf
 from PIL import Image
+import inspect_checkpoint as viewcpkt
 import glob
 import model
 
@@ -21,7 +22,7 @@ def predict(model_path, input_directory, output_directory):
         im = tf.image.resize_images(im, (height, width))
         images.append(im)
         
-    print(\n "Loaded " + len(images) " images." \n)
+    print("\n Loaded " + len(images) " images. \n")
 
     # Create a placeholder for the input image
     input_node = tf.placeholder(tf.float32, shape=(height, width, channels))
@@ -34,7 +35,8 @@ def predict(model_path, input_directory, output_directory):
         # Use to load from ckpt file
         saver = tf.train.import_meta_graph('%s.meta' % model_path)
         saver.restore(sess, model_path)
-
+        
+        
         # Evalute the network for the given image
 
         print("output predict into %s" % output_directory)
