@@ -14,13 +14,14 @@ def predict(model_path, input_directory, output_directory):
     batch_size = 1
 
     # Read image
-    images = tf.placeholder(tf.float32,shape=(228, 304,3))
-    print('\n ** initial size of images ' + str(images.get_shape()) + ' ** \n')  # Output image input size
+       imageslist = []
     for filename in glob.glob('%s/*.jpg' % input_directory): #assuming gif, jpgs are RGB pictures
         im = tf.image.decode_jpeg(filename, channels=3) # convert jpg into uint8 tensor
         im = tf.cast(im, tf.float32)
         im = tf.image.resize_images(im, (height, width))
-        images = tf.concat([images, im], 4) 
+        imageslist.append(im)
+
+    images = tf.stack(imageslist, axis=4)
 
     print('\n** Loaded ' + str(len(images)) + ' images. ** \n')
 
