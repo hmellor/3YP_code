@@ -19,6 +19,7 @@ def predict(model_path, input_directory, output_directory):
         im = tf.image.decode_jpeg(filename, channels=3)
         im = tf.cast(im, tf.float32)
         im = tf.image.resize_images(im, (height, width))
+        print('\n ** size of image in ' + str(tf.size(im)) + ' ** \n') 
         images.append(im)
 
     print('\n** Loaded ' + str(len(images)) + ' images. ** \n')
