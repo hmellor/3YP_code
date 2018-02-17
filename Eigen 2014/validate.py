@@ -45,11 +45,13 @@ def predict(model_path, input_directory, output_directory):
                 ra_depth = depth*255.0
             depth_pil = Image.fromarray(np.uint8(ra_depth[0]), mode="L")
             depth_name = "%s/%05d.png" % (output_directory, i)
+            print(depth_name)
             depth_pil.save(depth_name)
 
 
 def main():
     # Check for correct number of input arguments
+    # Model_path is a .cpkt file
     if len(sys.argv) != 4:
     	print("Please run:\n\tpython validate.py <model_path> <input_directory> <output_directory>")
     	exit()
