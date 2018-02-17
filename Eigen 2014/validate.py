@@ -22,7 +22,7 @@ def predict(model_path, input_directory, output_directory):
         im = tf.image.resize_images(im, (height, width))
         images.append(im)
         
-    print("\n Loaded " + len(images) " images. \n")
+    print('\n Loaded',len(images),'images. \n')
 
     # Create a placeholder for the input image
     input_node = tf.placeholder(tf.float32, shape=(height, width, channels))
@@ -41,7 +41,7 @@ def predict(model_path, input_directory, output_directory):
 
         print("output predict into %s" % output_directory)
         for i, (image) in enumerate(zip(images)):
-            depth = sess.run(model.inference_refine(images, coarse, keep_conv, keep_hidden), feed_dict={input_node: image})
+            depth = sess.run(model.inference_refine(images, refine, keep_conv, keep_hidden), feed_dict={input_node: image})
             depth = depth.transpose(2, 0, 1)
             if np.max(depth) != 0:
                 ra_depth = (depth/np.max(depth))*255.0
