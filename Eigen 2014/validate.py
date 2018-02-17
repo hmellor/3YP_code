@@ -19,10 +19,10 @@ def predict(model_path, input_directory, output_directory):
         im = tf.image.decode_jpeg(filename, channels=3) # convert jpg into uint8 tensor
         im = tf.cast(im, tf.float32)
         im = tf.image.resize_images(im, (height, width))
-        #print('\n ** size of image in ' + str(im.get_shape()) + ' ** \n')  # Output image input size
         images.append(im)
 
     print('\n** Loaded ' + str(len(images)) + ' images. ** \n')
+    print('\n ** size of image in ' + str(images[1].get_shape()) + ' ** \n')  # Output image input size
 
     # Create a placeholder for the input image
     input_node = tf.placeholder(tf.float32)
@@ -42,7 +42,7 @@ def predict(model_path, input_directory, output_directory):
 
         print("\n ** output predict into %s **\n" % output_directory)
         for i, (image) in enumerate(zip(images)):
-            
+            print('\n ** size of image in ' + str(images[i].get_shape()) + ' ** \n')
             print('\n ** size of image in ' + str(image.get_shape()) + ' ** \n')
             
             # run image through coarse and refine models
