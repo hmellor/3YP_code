@@ -41,7 +41,7 @@ def predict(model_path, input_directory, output_directory):
         # Evalute the network for the given image
 
         print("\n ** output predict into %s **\n" % output_directory)
-        for i, (image) in enumerate(zip(images)):
+        for i, (image) in enumerate(images):
             print('\n ** size of image in ' + str(images[i].get_shape()) + ' ** \n')
             print('\n ** size of image in ' + str(image.get_shape()) + ' ** \n')
             
