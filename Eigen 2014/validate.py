@@ -19,7 +19,9 @@ def predict(model_path, input_directory, output_directory):
         im = tf.image.decode_jpeg(filename, channels=3) # convert jpg into uint8 tensor
         im = tf.cast(im, tf.float32)
         im = tf.image.resize_images(im, (height, width))
-        images.append(im)
+        print('\n ** size of image tensor in ' + str(im.get_shape()) + ' ** \n')  # Output image size
+        images = tf.concat([images, im], 4)
+        #images.append(im)
 
 
     print('\n ** size of whole image tensor in ' + str(images.get_shape()) + ' ** \n')  # Output image input size
