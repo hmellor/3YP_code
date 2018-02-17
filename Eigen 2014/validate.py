@@ -39,15 +39,17 @@ def predict(model_path, input_directory, output_directory):
 
         # Evalute the network for the given image
 
-        print("\n** output predict into %s **\n" % output_directory)
+        print("\n ** output predict into %s **\n" % output_directory)
         for i, (image) in enumerate(zip(images)):
+            
+            print('\n ** size of image in ' + str(tf.size(image)) + ' ** \n')
             
             # run image through coarse and refine models
             coarse = model.inference(image, keep_conv, trainable=False)
             depth = model.inference_refine(image, coarse, keep_conv,keep_hidden)
             
             # see size of tensor
-            print('\n size of image out ' + str(tf.size(depth)) + ' ** \n')
+            print('\n ** size of image out ' + str(tf.size(depth)) + ' ** \n')
 
             depth = np.transpose(depth, [2, 0, 1] )
             if np.max(depth) != 0:
