@@ -48,13 +48,16 @@ def predict(model_path, input_directory, output_directory):
         depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
             
         # see size of tensor
-        print('\n size of image out ' + str(depth.get_shape()) + ' ** \n')
+        print('\n ** size of image out ' + str(depth.get_shape()) + ' ** \n')
 
         #depth = np.transpose(depth, [2, 0, 1] )
         if np.max(depth) != 0:
             ra_depth = (depth/np.max(depth))*255.0
         else:
             ra_depth = depth*255.0
+        
+        print('\n ** 1 image out ' + str(depth[0].get_shape()) + ' ** \n')
+        
         depth_pil = Image.fromarray(np.uint8(ra_depth[0]), mode="L")
         depth_name = "%s/%05d.png" % (output_directory, i)
         print(depth_name)
