@@ -50,7 +50,7 @@ def predict(model_path, input_directory, output_directory):
         # see size of tensor
         print('\n size of image out ' + str(depth.get_shape()) + ' ** \n')
 
-        depth = np.transpose(depth, [2, 0, 1] )
+        #depth = np.transpose(depth, [2, 0, 1] )
         if np.max(depth) != 0:
             ra_depth = (depth/np.max(depth))*255.0
         else:
