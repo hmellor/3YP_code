@@ -21,7 +21,7 @@ def predict(model_path, input_directory, output_directory):
         im = tf.image.resize_images(im, (height, width))
         images.append(im)
         
-    print(len(images))
+    print(\n "Loaded " + len(images) " images." \n)
 
     # Create a placeholder for the input image
     input_node = tf.placeholder(tf.float32, shape=(height, width, channels))
