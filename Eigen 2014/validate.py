@@ -30,7 +30,7 @@ def predict(model_path, input_directory, output_directory):
     with tf.Session() as sess:
 
         # Load the converted parameters
-        print('Loading the model')
+        print('\nLoading the model\n')
 
         # Use to load from ckpt file
         saver = tf.train.import_meta_graph('%s.meta' % model_path)
@@ -41,8 +41,14 @@ def predict(model_path, input_directory, output_directory):
 
         print("output predict into %s" % output_directory)
         for i, (image) in enumerate(zip(images)):
+            
+            # run image through coarse and refine models
             coarse = model.inference(image, keep_conv, trainable=False)
             depth = model.inference_refine(image, coarse, keep_conv)
+            
+            # see size of tensor
+            print('\n Loaded ' + str(tf.size(depth)) + ' images. \n')
+
             depth = np.transpose(depth, [2, 0, 1] )
             if np.max(depth) != 0:
                 ra_depth = (depth/np.max(depth))*255.0
