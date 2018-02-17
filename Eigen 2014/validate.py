@@ -14,7 +14,7 @@ def predict(model_path, input_directory, output_directory):
     batch_size = 1
 
     # Read image
-    images = tf.placeholder(tf.float32)
+    images = tf.placeholder(tf.float32,shape=(228, 304,3))
     print('\n ** initial size of images ' + str(images.get_shape()) + ' ** \n')  # Output image input size
     for filename in glob.glob('%s/*.jpg' % input_directory): #assuming gif, jpgs are RGB pictures
         im = tf.image.decode_jpeg(filename, channels=3) # convert jpg into uint8 tensor
