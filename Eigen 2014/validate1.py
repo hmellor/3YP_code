@@ -10,6 +10,43 @@ if len(sys.argv) != 2:
 VALIDATE_FILE = '../%s.csv' % (sys.argv[1])
 MODEL_DIR = "refine_train"
 
+def csv_inputs(csv_file_path):
+    IMAGE_HEIGHT = 228
+    IMAGE_WIDTH = 304
+    filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=False)
+    reader = tf.TextLineReader()
+    _, serialized_example = reader.read(filename_queue)
+    filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
+    # input
+    jpg = tf.read_file(filename)
+    image = tf.image.decode_jpeg(jpg, channels=3)
+    image = tf.cast(image, tf.float32)
+    # resize
+    image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
+    # generate batch
+    images = tf.train.batch(
+        [image],
+        batch_size=10000,
+        num_threads=4,
+        capacity= 10000,
+        allow_smaller_final_batch=True
+    )
+    return images
+
+def output_predict(depths, output_dir):
+    print("output predict into %s" % output_dir)
+    if not gfile.Exists(output_dir):
+        gfile.MakeDirs(output_dir)
+    for i, (depth) in enumerate(depths):
+        depth = depth.transpose(2, 0, 1)
+        if np.max(depth) != 0:
+            ra_depth = (depth/np.max(depth))*255.0
+        else:
+            ra_depth = depth*255.0
+        depth_pil = Image.fromarray(np.uint8(ra_depth[0]), mode="L")
+        depth_name = "%s/%05d.png" % (output_dir, i)
+        depth_pil.save(depth_name)
+
 with tf.Graph().as_default():
     global_step = tf.Variable(0, trainable=False)
     images = csv_inputs(VALIDATE_FILE)
@@ -64,40 +101,3 @@ with tf.Graph().as_default():
     coord.request_stop()
     coord.join(threads)
     sess.close()
-
-def csv_inputs(csv_file_path):
-    IMAGE_HEIGHT = 228
-    IMAGE_WIDTH = 304
-    filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=False)
-    reader = tf.TextLineReader()
-    _, serialized_example = reader.read(filename_queue)
-    filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
-    # input
-    jpg = tf.read_file(filename)
-    image = tf.image.decode_jpeg(jpg, channels=3)
-    image = tf.cast(image, tf.float32)
-    # resize
-    image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
-    # generate batch
-    images = tf.train.batch(
-        [image],
-        batch_size=10000,
-        num_threads=4,
-        capacity= 10000,
-        allow_smaller_final_batch=True
-    )
-    return images
-
-def output_predict(depths, output_dir):
-    print("output predict into %s" % output_dir)
-    if not gfile.Exists(output_dir):
-        gfile.MakeDirs(output_dir)
-    for i, (depth) in enumerate(depths):
-        depth = depth.transpose(2, 0, 1)
-        if np.max(depth) != 0:
-            ra_depth = (depth/np.max(depth))*255.0
-        else:
-            ra_depth = depth*255.0
-        depth_pil = Image.fromarray(np.uint8(ra_depth[0]), mode="L")
-        depth_name = "%s/%05d.png" % (output_dir, i)
-        depth_pil.save(depth_name)
