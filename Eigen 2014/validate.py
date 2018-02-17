@@ -22,8 +22,10 @@ def predict(model_path, input_directory, output_directory):
         imageslist.append(im)
 
     images = tf.stack(imageslist)
-
-    print('\n** Loaded ' + str(len(images)) + ' images. ** \n')
+    
+    #depth = np.transpose(depth, [2, 0, 1] )
+    
+    print('\n** Loaded ' + str(images.get_shape()) + ' images. ** \n')
 
     # Create a placeholder for the input image
     input_node = tf.placeholder(tf.float32)
