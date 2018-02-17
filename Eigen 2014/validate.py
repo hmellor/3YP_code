@@ -44,7 +44,7 @@ def predict(model_path, input_directory, output_directory):
         # Evalute the network for the given image
 
         print("\n** output predict into %s **\n" % output_directory)
-        for i, (image) in enumerate(images)):
+        for i, (image) in enumerate(images):
             
             # run image through coarse and refine models
             coarse = model.inference(image, keep_conv, trainable=False)
