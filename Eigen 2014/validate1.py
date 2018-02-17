@@ -2,6 +2,7 @@ import gfile, sys, model
 import tensorflow as tf
 import numpy as np
 from PIL import Image
+import train_operation as op
 
 if len(sys.argv) != 2:
     print("Please run:\n\tpython validate.py <val/test>")
@@ -93,13 +94,14 @@ def val():
                 print("No Pretrained refine Model.")
 
         # train
-        coord = tf.train.Coordinator()
-        threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+        #coord = tf.train.Coordinator()
+        #threads = tf.train.start_queue_runners(sess=sess, coord=coord)
 
         logits_val= sess.run([logits], feed_dict={keep_conv: 0.8, keep_hidden: 0.5})
         output_predict(logits_val, "data/%s_predict" % (sys.argv[1])
 
-        coord.join(threads)
+        #coord.request_stop()
+        #coord.join(threads)
         sess.close()
 
 def main(argv=None)
