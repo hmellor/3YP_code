@@ -19,7 +19,7 @@ def predict(model_path, input_directory, output_directory):
         im = tf.image.decode_jpeg(filename, channels=3) # convert jpg into uint8 tensor
         im = tf.cast(im, tf.float32)
         im = tf.image.resize_images(im, (height, width))
-        print('\n ** size of image in ' + str(im.get_shape()) + ' ** \n') 
+        #print('\n ** size of image in ' + str(im.get_shape()) + ' ** \n')  # Output image input size
         images.append(im)
 
     print('\n** Loaded ' + str(len(images)) + ' images. ** \n')
@@ -43,14 +43,14 @@ def predict(model_path, input_directory, output_directory):
         print("\n ** output predict into %s **\n" % output_directory)
         for i, (image) in enumerate(zip(images)):
             
-            print('\n ** size of image in ' + str(tf.size(image)) + ' ** \n')
+            print('\n ** size of image in ' + str(image.get_shape()) + ' ** \n')
             
             # run image through coarse and refine models
             coarse = model.inference(image, keep_conv, trainable=False)
             depth = model.inference_refine(image, coarse, keep_conv,keep_hidden)
             
             # see size of tensor
-            print('\n ** size of image out ' + str(tf.size(depth)) + ' ** \n')
+            print('\n ** size of image out ' + str(image.get_shape()) + ' ** \n')
 
             depth = np.transpose(depth, [2, 0, 1] )
             if np.max(depth) != 0:
