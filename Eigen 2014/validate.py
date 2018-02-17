@@ -22,8 +22,7 @@ def predict(model_path, input_directory, output_directory):
         imageslist.append(im)
 
     images = tf.stack(imageslist)
-    
-    #depth = np.transpose(depth, [2, 0, 1] )
+    depth = np.transpose(images, [2, 0, 1] )
     
     print('\n** Loaded ' + str(images.get_shape()) + ' images. ** \n')
 
@@ -43,25 +42,22 @@ def predict(model_path, input_directory, output_directory):
 
         # Evalute the network for the given image
 
-        print("\n** output predict into %s **\n" % output_directory)
-        for i, (image) in enumerate(images):
+        # run image through coarse and refine models
+        coarse = model.inference(images, keep_conv, trainable=False)
+        depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
             
-            # run image through coarse and refine models
-            coarse = model.inference(image, keep_conv, trainable=False)
-            depth = model.inference_refine(image, coarse, keep_conv,keep_hidden)
-            
-            # see size of tensor
-            print('\n size of image out ' + str(depth.get_shape()) + ' ** \n')
+         # see size of tensor
+         print('\n size of image out ' + str(depth.get_shape()) + ' ** \n')
 
-            depth = np.transpose(depth, [2, 0, 1] )
-            if np.max(depth) != 0:
-                ra_depth = (depth/np.max(depth))*255.0
-            else:
-                ra_depth = depth*255.0
-            depth_pil = Image.fromarray(np.uint8(ra_depth[0]), mode="L")
-            depth_name = "%s/%05d.png" % (output_directory, i)
-            print(depth_name)
-            depth_pil.save(depth_name)
+        depth = np.transpose(depth, [2, 0, 1] )
+        if np.max(depth) != 0:
+            ra_depth = (depth/np.max(depth))*255.0
+        else:
+            ra_depth = depth*255.0
+        depth_pil = Image.fromarray(np.uint8(ra_depth[0]), mode="L")
+        depth_name = "%s/%05d.png" % (output_directory, i)
+        print(depth_name)
+        depth_pil.save(depth_name)
 
 
 def main():
