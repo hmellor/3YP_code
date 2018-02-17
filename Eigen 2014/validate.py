@@ -21,7 +21,7 @@ def predict(model_path, input_directory, output_directory):
         im = tf.image.resize_images(im, (height, width))
         images.append(im)
 
-    print('\n Loaded ' + str(len(images)) + ' images. \n')
+    print('\n** Loaded ' + str(len(images)) + ' images. ** \n')
 
     # Create a placeholder for the input image
     input_node = tf.placeholder(tf.float32)
@@ -30,7 +30,7 @@ def predict(model_path, input_directory, output_directory):
     with tf.Session() as sess:
 
         # Load the converted parameters
-        print('\nLoading the model\n')
+        print('\n** Loading the model **\n')
 
         # Use to load from ckpt file
         saver = tf.train.import_meta_graph('%s.meta' % model_path)
@@ -39,15 +39,15 @@ def predict(model_path, input_directory, output_directory):
 
         # Evalute the network for the given image
 
-        print("output predict into %s" % output_directory)
+        print("\n** output predict into %s **\n" % output_directory)
         for i, (image) in enumerate(zip(images)):
             
             # run image through coarse and refine models
             coarse = model.inference(image, keep_conv, trainable=False)
-            depth = model.inference_refine(image, coarse, keep_conv)
+            depth = model.inference_refine(image, coarse, keep_conv,keep_hidden
             
             # see size of tensor
-            print('\n Loaded ' + str(tf.size(depth)) + ' images. \n')
+            print('\n size of image out ' + str(tf.size(depth)) + ' ** \n')
 
             depth = np.transpose(depth, [2, 0, 1] )
             if np.max(depth) != 0:
