@@ -14,14 +14,18 @@ def predict(model_path, input_directory, output_directory):
     batch_size = 1
 
     # Read image
-    images = []
-    for filename in glob.glob('%s/*.jpg' % input_directory): #assuming gif
-        im = tf.image.decode_jpeg(filename, channels=3)
+    images = np.empty([height,width,channels], dtype=int, order='C')
+    print('\n ** initial size of images ' + str(images.get_shape()) + ' ** \n')  # Output image input size
+    for filename in glob.glob('%s/*.jpg' % input_directory): #assuming gif, jpgs are RGB pictures
+        im = tf.image.decode_jpeg(filename, channels=3) # convert jpg into uint8 tensor
         im = tf.cast(im, tf.float32)
         im = tf.image.resize_images(im, (height, width))
-        images.append(im)
+        print('\n ** size of image tensor in ' + str(im.get_shape()) + ' ** \n')  # Output image size
+        images = tf.concat([images, im], 3)
+        #images.append(im)
 
-    print('\n** Loaded ' + str(len(images)) + ' images. ** \n')
+
+    print('\n ** size of whole image tensor in ' + str(images.get_shape()) + ' ** \n')  # Output image input size
 
     # Create a placeholder for the input image
     input_node = tf.placeholder(tf.float32)
@@ -39,33 +43,32 @@ def predict(model_path, input_directory, output_directory):
 
         # Evalute the network for the given image
 
-        print("\n** output predict into %s **\n" % output_directory)
-        for i, (image) in enumerate(zip(images)):
+        print("\n ** output predict into %s **\n" % output_directory)
+        # run image through coarse and refine models
+        coarse = model.inference(images, keep_conv, trainable=False)
+        depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
             
-            # run image through coarse and refine models
-            coarse = model.inference(image, keep_conv, trainable=False)
-            depth = model.inference_refine(image, coarse, keep_conv,keep_hidden
-            
-            # see size of tensor
-            print('\n size of image out ' + str(tf.size(depth)) + ' ** \n')
+        # see size of tensor
+        print('\n ** size of image out ' + str(depth.get_shape()) + ' ** \n')
 
-            depth = np.transpose(depth, [2, 0, 1] )
-            if np.max(depth) != 0:
-                ra_depth = (depth/np.max(depth))*255.0
-            else:
-                ra_depth = depth*255.0
-            depth_pil = Image.fromarray(np.uint8(ra_depth[0]), mode="L")
-            depth_name = "%s/%05d.png" % (output_directory, i)
-            print(depth_name)
-            depth_pil.save(depth_name)
-
+        depth = np.transpose(depth, [2, 0, 1] )
+        if np.max(depth) != 0:
+            ra_depth = (depth/np.max(depth))*255.0
+        else:
+            ra_depth = depth*255.0
+        depth_pil = Image.fromarray(np.uint8(ra_depth[0]), mode="L")
+        
+        #depth_name = "%s/%05d.png" % (output_directory, i)
+        #print(depth_name)
+        #depth_pil.save(depth_name)
+        print('\n ** Got Through  ** \n')
 
 def main():
     # Check for correct number of input arguments
     # Model_path is a .cpkt file
     if len(sys.argv) != 4:
-    	print("Please run:\n\tpython validate.py <model_path> <input_directory> <output_directory>")
-    	exit()
+        print("Please run:\n\tpython validate.py <model_path> <input_directory> <output_directory>")
+        exit()
     model_path = sys.argv[1]
     input_directory = sys.argv[2]
     output_directory = sys.argv[3]
