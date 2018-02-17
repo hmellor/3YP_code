@@ -14,7 +14,7 @@ def predict(model_path, input_directory, output_directory):
     batch_size = 1
 
     # Read image
-    #images = []
+    images = np.empty([height,width,channels], dtype=int, order='C')
     for filename in glob.glob('%s/*.jpg' % input_directory): #assuming gif, jpgs are RGB pictures
         im = tf.image.decode_jpeg(filename, channels=3) # convert jpg into uint8 tensor
         im = tf.cast(im, tf.float32)
