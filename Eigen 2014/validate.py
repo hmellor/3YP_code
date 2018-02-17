@@ -43,7 +43,7 @@ def predict(model_path, input_directory, output_directory):
         for i, (image) in enumerate(zip(images)):
             coarse = model.inference(image, keep_conv, trainable=False)
             depth = model.inference_refine(image, coarse, keep_conv)
-            depth = depth.transpose(2, 0, 1)
+            depth = np.transpose(depth, [2, 0, 1] )
             if np.max(depth) != 0:
                 ra_depth = (depth/np.max(depth))*255.0
             else:
