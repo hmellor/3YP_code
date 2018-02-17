@@ -94,14 +94,14 @@ def val():
                 print("No Pretrained refine Model.")
 
         # train
-        #coord = tf.train.Coordinator()
-        #threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+        coord = tf.train.Coordinator()
+        threads = tf.train.start_queue_runners(sess=sess, coord=coord)
 
         logits_val= sess.run([logits], feed_dict={keep_conv: 0.8, keep_hidden: 0.5})
         output_predict(logits_val, "data/%s_predict" % (sys.argv[1])
 
-        #coord.request_stop()
-        #coord.join(threads)
+        coord.request_stop()
+        coord.join(threads)
         sess.close()
 
 def main(argv=None)
