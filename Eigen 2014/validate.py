@@ -6,7 +6,7 @@ import glob
 import model
 
 def output_depth_images(image):
-    
+    print(image)
     output_directory = '..data/val_datasets/val_output' # TEMPORARY - until i find way to pass through
     
     depth_pil = Image.fromarray(np.uint8(image), mode="L")
