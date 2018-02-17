@@ -67,7 +67,7 @@ def predict(model_path, input_directory, output_directory):
             ra_depth = depth*255.0
         
         print('\n ** ra depth out ' + str(ra_depth[0].get_shape()) + ' ** \n')
-        tf.map_fn(output_depth_images,ra_depth)
+        tf.map_fn(output_depth_images,ra_depth[0].eval())
         
         
 
