@@ -24,8 +24,8 @@ def predict(model_path, input_directory, output_directory):
     images = tf.stack(imageslist)
     
     print('\n** Loaded ' + str(images.get_shape()) + ' images. ** \n')
-    images = np.transpose(images, [1,2,3,0] )
-    
+    images = tf.transpose(images, [1,2,3,0] )
+    print('\n** Loaded ' + str(images.get_shape()) + ' images. ** \n')
 
 
     # Create a placeholder for the input image
