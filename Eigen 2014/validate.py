@@ -58,10 +58,11 @@ def predict(model_path, input_directory, output_directory):
         
         print('\n ** 1 image out ' + str(depth[0].get_shape()) + ' ** \n')
         
-        depth_pil = Image.fromarray(np.uint8(ra_depth[0]), mode="L")
-        depth_name = "%s/%05d.png" % (output_directory, i)
-        print(depth_name)
-        depth_pil.save(depth_name)
+        for image in ra_depth[0]:
+            depth_pil = Image.fromarray(np.uint8(image), mode="L")
+            depth_name = "%s/%05d.png" % (output_directory)
+            print(depth_name)
+            depth_pil.save(depth_name)
 
 
 def main():
