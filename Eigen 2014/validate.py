@@ -20,7 +20,7 @@ def predict(model_path, input_directory, output_directory):
         im = tf.cast(im, tf.float32)
         im = tf.image.resize_images(im, (height, width))
         images.append(im)
-        
+
     print('\n Loaded',len(images),'images. \n')
 
     # Create a placeholder for the input image
@@ -34,13 +34,14 @@ def predict(model_path, input_directory, output_directory):
         # Use to load from ckpt file
         saver = tf.train.import_meta_graph('%s.meta' % model_path)
         saver.restore(sess, model_path)
-        
-        
+
+
         # Evalute the network for the given image
 
         print("output predict into %s" % output_directory)
         for i, (image) in enumerate(zip(images)):
-            depth = sess.run(model.inference_refine(images, refine, keep_conv, keep_hidden), feed_dict={input_node: image})
+            coarse = model.inference(image, keep_conv, trainable=False)
+            depth = model.inference_refine(image, coarse, keep_conv, keep_hidden)
             depth = depth.transpose(2, 0, 1)
             if np.max(depth) != 0:
                 ra_depth = (depth/np.max(depth))*255.0
