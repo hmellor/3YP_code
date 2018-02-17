@@ -48,7 +48,7 @@ def predict(model_path, input_directory, output_directory):
             depth = model.inference_refine(image, coarse, keep_conv,keep_hidden
             
             # see size of tensor
-            print('\n size of image out ' + str(tf.size(depth)) + ' ** \n')
+            print('\n size of image out ' + str(depth.get_shape()) + ' ** \n')
 
             depth = np.transpose(depth, [2, 0, 1] )
             if np.max(depth) != 0:
