@@ -5,6 +5,16 @@ from PIL import Image
 import glob
 import model
 
+def output_depth_images(image):
+    
+    output_directory = '..data/val_datasets/val_output' # TEMPORARY - until i find way to pass through
+    
+    depth_pil = Image.fromarray(np.uint8(image), mode="L")
+    depth_name = "%s/%05d.png" % (output_directory)
+    print(depth_name)
+    depth_pil.save(depth_name)
+    
+        
 def predict(model_path, input_directory, output_directory):
 
     # Default input size
@@ -57,12 +67,9 @@ def predict(model_path, input_directory, output_directory):
             ra_depth = depth*255.0
         
         print('\n ** 1 image out ' + str(depth[0].get_shape()) + ' ** \n')
+        tf.map_fn(output_depth_images,ra_depth[0])
         
-        for image in ra_depth[0]:
-            depth_pil = Image.fromarray(np.uint8(image), mode="L")
-            depth_name = "%s/%05d.png" % (output_directory)
-            print(depth_name)
-            depth_pil.save(depth_name)
+        
 
 
 def main():
