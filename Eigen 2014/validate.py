@@ -21,7 +21,7 @@ def predict(model_path, input_directory, output_directory):
         im = tf.image.resize_images(im, (height, width))
         imageslist.append(im)
 
-    images = tf.pack(imageslist, axis=4)
+    images = tf.stack(imageslist)
 
     print('\n** Loaded ' + str(len(images)) + ' images. ** \n')
 
