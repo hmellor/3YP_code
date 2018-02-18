@@ -20,7 +20,9 @@ def predict(model_path, input_directory, output_directory):
         
         #images = tf.transpose(images, [1,2,3,0] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
         print('\n** Loaded ' + str(images_np.shape) + ' images. ** \n')
-        images = tf.convert_to_tensor(images_np, np.float32)
+        print(images_np.dtype)
+        images = tf.convert_to_tensor(images_np)
+        
         print('\n** Loaded ' + str(images.shape()) + ' images. ** \n')
         
         # Create a placeholder for the input image
