@@ -13,9 +13,8 @@ def predict(model_path, input_directory, output_directory):
         width = 304
         channels = 3
         batch_size = 1
-        
         print(input_directory+"*.jpg")
-        filename_queue = tf.train.string_input_producer(tf.train.match_filenames_once(input_directory+"*.jpg"))
+        filename_queue = tf.train.string_input_producer(['val.csv'], shuffle=True)
         image_reader = tf.WholeFileReader()
         _, image_file = image_reader.read(filename_queue)
         images = tf.image.decode_jpeg(image_file)
@@ -38,7 +37,7 @@ def predict(model_path, input_directory, output_directory):
         #images = tf.stack(imageslist)
         
         #images = tf.transpose(images, [1,2,3,0] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
-        print('\n** Loaded ' + str(images.get_shape()) + ' images. ** \n')
+        print('\n** Loaded ' + str(images.shape()) + ' images. ** \n')
     
     
         # Create a placeholder for the input image
