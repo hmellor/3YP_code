@@ -24,7 +24,7 @@ def predict(model_path, input_directory, output_directory):
         print(images_np.dtype)
         images = tf.convert_to_tensor(images_np,tf.float32)
         
-        print('\n** Loaded ' + str(images.shape()) + ' images. ** \n')
+        print('\n** Loaded ' + str(tf.shape(images)) + ' images. ** \n')
         
         # Create a placeholder for the input image
         input_node = tf.placeholder(tf.float32)
@@ -39,12 +39,12 @@ def predict(model_path, input_directory, output_directory):
         saver.restore(sess, model_path)
     
         # Evalute the network for the given image
-        print('\n ** shape of iages inputted ' + str(images.shape()) + ' ** \n')
+        print('\n ** shape of iages inputted ' + str(tf.shape(images)) + ' ** \n')
             
     
     # run image through coarse and refine models
         coarse = model.inference(images, keep_conv, trainable =False )
-        print('\n ** size of depth tensor out ' + str(coarse.shape()) + ' ** \n')
+        print('\n ** size of depth tensor out ' + str(tf.shape(coarse)) + ' ** \n')
         depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
             
             
