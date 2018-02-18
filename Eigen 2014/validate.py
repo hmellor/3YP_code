@@ -13,28 +13,9 @@ def predict(model_path, input_directory, output_directory):
         width = 304
         channels = 3
         batch_size = 1
-        print(input_directory+"*.jpg")
-        filename_queue = tf.train.string_input_producer(['val.csv'], shuffle=True)
-        image_reader = tf.WholeFileReader()
-        _, image_file = image_reader.read(filename_queue)
-        images = tf.image.decode_jpeg(image_file)
-         
-    
-    
-    
-        # Read image
-        #imageslist = []
-        #for filename in glob.glob('%s/*.jpg' % input_directory): #assuming gif, jpgs are RGB pictures
-        #    print(filename)
-        #    
-        #    jpg = tf.read_file(filename)        
-        #    im = tf.image.decode_jpeg(jpg, channels=3) # convert jpg into uint8 
-        #    im = tf.cast(im, tf.float32)
-        #    print('\n** Loaded ' + str(im.shape()) + ' image. ** \n')  
-        #    im = tf.image.resize_images(im, (height, width))
-        #    imageslist.append(im)
-    
-        #images = tf.stack(imageslist)
+        
+        print("load dataset: %s" % (input_directory)
+        images = np.load(path)
         
         #images = tf.transpose(images, [1,2,3,0] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
         print('\n** Loaded ' + str(images.shape()) + ' images. ** \n')
