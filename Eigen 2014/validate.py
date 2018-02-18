@@ -45,6 +45,7 @@ def predict(model_path, input_directory, output_directory):
 
         # run image through coarse and refine models
         coarse = model.inference(images, keep_conv, trainable=False)
+        print('\n ** size of depth tensor out ' + str(coarse.shape()) + ' ** \n')
         depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
         
         
