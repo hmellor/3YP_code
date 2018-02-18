@@ -18,9 +18,9 @@ def predict(model_path, input_directory, output_directory):
         images_np = np.load(input_directory)
         
         #images = tf.transpose(images, [1,2,3,0] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
-        print('\n** Loaded ' + str(images.shape()) + ' images. ** \n')
+        print('\n** Loaded ' + str(images_np.shape()) + ' images. ** \n')
         
-         tf.convert_to_tensor(images_np, np.float32)
+        tf.convert_to_tensor(images_np, np.float32)
         
         # Create a placeholder for the input image
         input_node = tf.placeholder(tf.float32)
