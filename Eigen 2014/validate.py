@@ -6,9 +6,8 @@ import glob
 import model
 
 def output_depth_images(image):
-    print('\n** Loaded ' + str(image.get_shape()) + ' images. ** \n')
-    output_directory = '..data/val_datasets/val_output' # TEMPORARY - until i find way to pass through
-    
+    output_directory = '..data/val_datasets/val_output/' # TEMPORARY - until i find way to pass through
+     print('\n** saving ' + str(image.get_shape()) + ' size image. ** \n')
     depth_pil = Image.fromarray(np.uint8(image), mode="L")
     depth_name = "%s/%05d.png" % (output_directory)
     print(depth_name)
@@ -58,16 +57,15 @@ def predict(model_path, input_directory, output_directory):
         depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
             
         # see size of tensor
-        print('\n ** size of image out ' + str(depth.get_shape()) + ' ** \n')
+        print('\n ** size of depth tensor out ' + str(depth.get_shape()) + ' ** \n')
 
         #depth = np.transpose(depth, [2, 0, 1] )
         if np.max(depth) != 0:
             ra_depth = (depth/np.max(depth))*255.0
         else:
             ra_depth = depth*255.0
-        
-        print('\n ** ra depth out ' + str(ra_depth[0].get_shape()) + ' ** \n')
-        tf.map_fn(output_depth_images,ra_depth[0].eval())
+        tf.map_fn(output_depth_images,ra_depth[0].eval()) # Loop through tensor of depth images
+        # using output_depth_images method
         
         
 
