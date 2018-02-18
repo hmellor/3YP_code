@@ -24,7 +24,7 @@ def predict(model_path, input_directory, output_directory):
     images = tf.stack(imageslist)
     
     #images = tf.transpose(images, [1,2,3,0] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
-    print('\n** Loaded ' + str(images.get_shape()) + ' images. ** \n')
+    print('\n** Loaded ' + str(images.shape()) + ' images. ** \n')
 
 
     # Create a placeholder for the input image
@@ -42,9 +42,12 @@ def predict(model_path, input_directory, output_directory):
 
 
         # Evalute the network for the given image
+        
+        print('\n ** shape of iages inputted ' + str(images.shape()) + ' ** \n')
+        
 
         # run image through coarse and refine models
-        coarse = model.inference(images, keep_conv, keep_hidden)
+        coarse = model.inference(images, keep_conv, trainable =False )
         print('\n ** size of depth tensor out ' + str(coarse.shape()) + ' ** \n')
         depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
         
