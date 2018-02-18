@@ -18,6 +18,7 @@ def predict(model_path, input_directory, output_directory):
     for filename in glob.glob('%s/*.jpg' % input_directory): #assuming gif, jpgs are RGB pictures
         im = tf.image.decode_jpeg(filename, channels=3) # convert jpg into uint8 tensor
         im = tf.cast(im, tf.float32)
+        print('\n** Loaded ' + str(im.shape()) + ' image. ** \n')
         im = tf.image.resize_images(im, (height, width))
         imageslist.append(im)
 
