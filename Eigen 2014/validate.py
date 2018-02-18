@@ -48,7 +48,7 @@ def predict(model_path, input_directory, output_directory):
         depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
         
         
-        print('\n ** size of depth tensor out ' + str(ra_depth.shape()) + ' ** \n')
+        print('\n ** size of depth tensor out ' + str(depth.shape()) + ' ** \n')
         
 
 
