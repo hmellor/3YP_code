@@ -1,18 +1,9 @@
-import sys
+import sys,  os
 import numpy as np
 import tensorflow as tf
 from PIL import Image
 import glob
-import model
-
-def output_depth_images(depth_image):
-    output_directory = '..data/val_datasets/val_output/' # TEMPORARY - until i find way to pass through
-    print('\n** saving ' + str(depth_image.get_shape()) + ' size image. ** \n')
-    depth_pil = Image.fromarray(np.uint8(depth_image), mode="L")
-    depth_name = "%s/%05d.png" % (output_directory)
-    print(depth_name)
-    depth_pil.save(depth_name)
-    
+import model 
         
 def predict(model_path, input_directory, output_directory):
 
@@ -56,18 +47,22 @@ def predict(model_path, input_directory, output_directory):
         coarse = model.inference(images, keep_conv, trainable=False)
         depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
             
-        # see size of tensor
-        print('\n ** size of depth tensor out ' + str(depth.get_shape()) + ' ** \n')
+        
 
 
         #depth = np.transpose(depth, [2, 0, 1] )
-        if np.max(depth) != 0:
+        if np.max(depth) != 0:  
             ra_depth = (depth/np.max(depth))*255.0
         else:
             ra_depth = depth*255.0
+            
+        # see size of tensor
+        print('\n ** size of depth tensor out ' + str(ra_depth.get_shape()) + ' ** \n')
+        print('\n ** size of depth tensor out ' + str(ra_depth.shape()) + ' ** \n')
+        
         depth_numpy = ra_depth.eval() # convert tensor to numpy array to loop through
         print('\n ** size of depth tensor out ' + str(depth_numpy.shape()) + ' ** \n')
-        for i,depth_image in enumerate(ra_depth[0]):
+        for i,depth_image in enumerate(depth_numpy[0]):
             # using output_depth_images method
             output_directory = '..data/val_datasets/val_output/' # TEMPORARY - until i find way to pass through
             print('\n** saving ' + str(depth_image.get_shape()) + ' size image. ** \n')
@@ -88,7 +83,10 @@ def main():
     input_directory = sys.argv[2]
     output_directory = sys.argv[3]
     # Predict the image
-    predict(model_path, input_directory, output_directory)
+    sess = tf.Session()
+    with sess.as_default():
+        predict(model_path, input_directory, output_directory)
+    exit()
 
 if __name__ == '__main__':
     main()
