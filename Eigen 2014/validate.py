@@ -65,10 +65,9 @@ def predict(model_path, input_directory, output_directory):
             ra_depth = (depth/np.max(depth))*255.0
         else:
             ra_depth = depth*255.0
-        print('\n ** size of depth tensor out ' + str(ra_depth.get_shape()) + ' ** \n')
-        depth_numpy = ra_depth[0].eval() # convert tensor to numpy array to loop through
-        
-        for i,depth_image in enumerate(depth_numpy[0]):
+        #depth_numpy = ra_depth[0].eval() # convert tensor to numpy array to loop through
+        #print('\n ** size of depth tensor out ' + str(depth_numpy.get_shape()) + ' ** \n')
+        for i,depth_image in enumerate(ra_depth[0]):
             # using output_depth_images method
             output_directory = '..data/val_datasets/val_output/' # TEMPORARY - until i find way to pass through
             print('\n** saving ' + str(depth_image.get_shape()) + ' size image. ** \n')
