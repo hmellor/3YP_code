@@ -7,7 +7,7 @@ import model
         
 def predict(model_path, input_directory, output_directory):
 
-    with tf.Session() as sess:
+    with tf.InteractiveSession() as sess:
     # Default input size
         height = 228
         width = 304
@@ -21,9 +21,9 @@ def predict(model_path, input_directory, output_directory):
         #images = tf.transpose(images, [1,2,3,0] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
         print('\n** Loaded ' + str(images_np.shape) + ' images. ** \n')
         print(images_np.dtype)
-        images = tf.convert_to_tensor(images_np,dtype=np.float32)
+        images = tf.convert_to_tensor(images_np)
         
-        print('\n** Loaded ' + str(tf.shape(images)) + ' tensor. ** \n')
+        print(tf.shape(images)))
         
         # Create a placeholder for the input image
         input_node = tf.placeholder(tf.float32)
@@ -38,7 +38,7 @@ def predict(model_path, input_directory, output_directory):
         saver.restore(sess, model_path)
     
         # Evalute the network for the given image
-        print('\n ** shape of iages inputted ' + str(tf.shape(images)) + ' ** \n')
+        print(tf.shape(images))
             
     
     # run image through coarse and refine models
