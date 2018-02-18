@@ -14,8 +14,8 @@ def predict(model_path, input_directory, output_directory):
         channels = 3
         batch_size = 1
         
-        print("load dataset: %s" % (input_directory)
-        images = np.load(path)
+        print("load dataset: %s" % (input_directory))
+        images = np.load(input_directory)
         
         #images = tf.transpose(images, [1,2,3,0] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
         print('\n** Loaded ' + str(images.shape()) + ' images. ** \n')
