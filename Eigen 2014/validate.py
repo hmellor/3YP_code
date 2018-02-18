@@ -5,10 +5,10 @@ from PIL import Image
 import glob
 import model
 
-def output_depth_images(image):
+def output_depth_images(depth_image):
     output_directory = '..data/val_datasets/val_output/' # TEMPORARY - until i find way to pass through
-     print('\n** saving ' + str(image.get_shape()) + ' size image. ** \n')
-    depth_pil = Image.fromarray(np.uint8(image), mode="L")
+    print('\n** saving ' + str(depth_image.get_shape()) + ' size image. ** \n')
+    depth_pil = Image.fromarray(np.uint8(depth)_image), mode="L")
     depth_name = "%s/%05d.png" % (output_directory)
     print(depth_name)
     depth_pil.save(depth_name)
@@ -64,9 +64,16 @@ def predict(model_path, input_directory, output_directory):
             ra_depth = (depth/np.max(depth))*255.0
         else:
             ra_depth = depth*255.0
-        tf.map_fn(output_depth_images,ra_depth[0].eval()) # Loop through tensor of depth images
-        # using output_depth_images method
+        depth_numpy = output_depth_images,ra_depth[0].eval() # convert tensor to numpy array to loop through
         
+        for i,depth_image in enumerate(depth_numpy[0]):
+            # using output_depth_images method
+            output_directory = '..data/val_datasets/val_output/' # TEMPORARY - until i find way to pass through
+            print('\n** saving ' + str(depth_image.get_shape()) + ' size image. ** \n')
+            
+            depth_name = os.path.join("data","datasets_%s" % (sys.argv[1]), "%05d.png" % (i))
+            print(depth_name)
+            #depth_pil.save(depth_name)
         
 
 
