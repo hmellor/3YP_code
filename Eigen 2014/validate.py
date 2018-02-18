@@ -16,12 +16,12 @@ def predict(model_path, input_directory, output_directory):
         
         print("load dataset: %s" % (input_directory))
         f = np.load(input_directory)
-        images_np = f['images']
+        images_np = np.float32(f['images'])
         
         #images = tf.transpose(images, [1,2,3,0] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
         print('\n** Loaded ' + str(images_np.shape) + ' images. ** \n')
         print(images_np.dtype)
-        images = tf.convert_to_tensor(images_np,tf.float32)
+        images = tf.convert_to_tensor(images_np,dtype=tf.float32)
         
         print('\n** Loaded ' + str(tf.shape(images)) + ' tensor. ** \n')
         
