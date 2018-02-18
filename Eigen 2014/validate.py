@@ -15,7 +15,6 @@ def predict(model_path, input_directory, output_directory):
         batch_size = 1
     
         filename_queue = tf.train.string_input_producer(tf.train.match_filenames_once(input_directory+"/00179.jpg"))
-        print('\n** Loaded ' + filename_queue + ' images. ** \n')   
         image_reader = tf.WholeFileReader()
         _, image_file = image_reader.read(filename_queue)
         images = tf.image.decode_jpeg(image_file)
