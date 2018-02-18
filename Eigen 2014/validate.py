@@ -8,7 +8,7 @@ import model
 def output_depth_images(depth_image):
     output_directory = '..data/val_datasets/val_output/' # TEMPORARY - until i find way to pass through
     print('\n** saving ' + str(depth_image.get_shape()) + ' size image. ** \n')
-    depth_pil = Image.fromarray(np.uint8(depth)_image), mode="L")
+    depth_pil = Image.fromarray(np.uint8(depth_image), mode="L")
     depth_name = "%s/%05d.png" % (output_directory)
     print(depth_name)
     depth_pil.save(depth_name)
