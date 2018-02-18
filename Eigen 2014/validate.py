@@ -16,6 +16,7 @@ def predict(model_path, input_directory, output_directory):
     # Read image
     imageslist = []
     for filename in glob.glob('%s/*.jpg' % input_directory): #assuming gif, jpgs are RGB pictures
+        print(filename)
         im = tf.image.decode_jpeg(filename, channels=3) # convert jpg into uint8 tensor
         im = tf.cast(im, tf.float32)
         print('\n** Loaded ' + str(im.shape()) + ' image. ** \n')
@@ -25,7 +26,7 @@ def predict(model_path, input_directory, output_directory):
     images = tf.stack(imageslist)
     
     #images = tf.transpose(images, [1,2,3,0] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
-    print('\n** Loaded ' + str(images.shape()) + ' images. ** \n')
+    print('\n** Loaded ' + str(imageslist.shape()) + ' images. ** \n')
 
 
     # Create a placeholder for the input image
