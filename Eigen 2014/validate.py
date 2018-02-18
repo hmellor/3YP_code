@@ -46,7 +46,9 @@ def predict(model_path, input_directory, output_directory):
         # run image through coarse and refine models
         coarse = model.inference(images, keep_conv, trainable=False)
         depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
-            
+        
+        
+        print('\n ** size of depth tensor out ' + str(ra_depth.shape()) + ' ** \n')
         
 
 
@@ -57,11 +59,9 @@ def predict(model_path, input_directory, output_directory):
             ra_depth = depth*255.0
             
         # see size of tensor
-        print('\n ** size of depth tensor out ' + str(ra_depth.get_shape()) + ' ** \n')
-        print('\n ** size of depth tensor out ' + str(ra_depth.shape()) + ' ** \n')
+        print('\n ** size of ra_depth tensor out ' + str(ra_depth.shape()) + ' ** \n')
         
         depth_numpy = ra_depth.eval() # convert tensor to numpy array to loop through
-        print('\n ** size of depth tensor out ' + str(depth_numpy.shape()) + ' ** \n')
         for i,depth_image in enumerate(depth_numpy[0]):
             # using output_depth_images method
             output_directory = '..data/val_datasets/val_output/' # TEMPORARY - until i find way to pass through
