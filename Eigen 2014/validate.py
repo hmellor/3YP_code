@@ -50,7 +50,7 @@ def predict(model_path, input_directory, output_directory):
         depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
 
 
-        print('\n ** size of depth tensor out ' + str(depth.shape()) + ' ** \n')
+        print('\n ** size of depth tensor out ' + str(tf.shape(depth)) + ' ** \n')
 
         #depth = np.transpose(depth, [2, 0, 1] )
         if np.max(depth) != 0:
@@ -59,7 +59,7 @@ def predict(model_path, input_directory, output_directory):
             ra_depth = depth*255.0
 
         # see size of tensor
-        print('\n ** size of ra_depth tensor out ' + str(ra_depth.shape()) + ' ** \n')
+        print('\n ** size of ra_depth tensor out ' + str(tf.shape(ra_depth)) + ' ** \n')
 
         depth_numpy = ra_depth.eval() # convert tensor to numpy array to loop through
         for i,depth_image in enumerate(depth_numpy[0]):
