@@ -16,35 +16,29 @@ def csv_inputs(csv_file_path):
    
     IMAGE_HEIGHT = 228
     IMAGE_WIDTH = 304
+    
+    print('\n** Loading files **\n')
+    
     filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=False)
-    
-    print(csv_file_path)
-    
     reader = tf.TextLineReader()
     _, serialized_example = reader.read(filename_queue)
-    
-    print('\n**')
-    print(serialized_example)
-    print('** \n')
-    
     filename, depth_filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
     
-    print('\n**')
-    print(tf.shape(filename))
-    print('** \n')
-
     # input
     jpg = tf.read_file(filename)
     image = tf.image.decode_jpeg(jpg, channels=3)
     image = tf.cast(image, tf.float32)
     # resize
     image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
+    
+    print('\n** ' + str(tf.shape(image))+' ** \n')
+    
     # generate batch
     images = tf.train.batch(
         [image],
-        batch_size=10000,
+        batch_size=10,
         num_threads=4,
-        capacity= 10000,
+        capacity= 10,
         allow_smaller_final_batch=True
     )
     return images
