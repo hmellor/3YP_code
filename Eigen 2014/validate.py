@@ -23,7 +23,7 @@ def predict(model_path, input_directory, output_directory):
         print(images_np.dtype)
         images = tf.convert_to_tensor(images_np)
         
-        print(tf.shape(images)))
+        print(tf.shape(images))
         
         # Create a placeholder for the input image
         input_node = tf.placeholder(tf.float32)
