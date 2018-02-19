@@ -6,9 +6,11 @@ import glob
 import model 
         
 def predict(model_path, input_directory, output_directory):
-
-    with tf.Session() as sess:
-    # Default input size
+    
+    sess = tf.Session()
+    with sess.as_default():
+        
+        # Default input size
         height = 228
         width = 304
         channels = 3
@@ -20,8 +22,8 @@ def predict(model_path, input_directory, output_directory):
         print(images_np.dtype)
         f32_images_np = images_np.astype('float32')
         print(f32_images_np.dtype)
-        
-        
+         
+         
         #images = tf.transpose(images, [1,2,3,0] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
         print('\n** Loaded ' + str(f32_images_np.shape) + ' images. ** \n')
         images = tf.convert_to_tensor(f32_images_np, dtype=tf.float32)
@@ -32,35 +34,32 @@ def predict(model_path, input_directory, output_directory):
         input_node = tf.placeholder(tf.float32)
         keep_conv = input_node
         keep_hidden = input_node
-           
+        
         # Load the converted parameters
         print('\n** Loading the model **\n')
     
-            # Use to load from ckpt file
+        # Use to load from ckpt file
         saver = tf.train.import_meta_graph('%s.meta' % model_path)
         saver.restore(sess, model_path)
-    
-        # Evalute the network for the given image
-        print(tf.shape(images))
-            
-    
-    # run image through coarse and refine models
+                
+        
+        # run image through coarse and refine models
         coarse = model.inference(images, keep_conv, trainable =False )
         print('\n ** size of depth tensor out ' + str(tf.shape(coarse)) + ' ** \n')
         depth = model.inference_refine(images, coarse, keep_conv,keep_hidden)
-            
-            
+                
+                
         print('\n ** size of depth tensor out ' + str(depth.shape()) + ' ** \n')
-            
+        
         #depth = np.transpose(depth, [2, 0, 1] )
         if np.max(depth) != 0:  
             ra_depth = (depth/np.max(depth))*255.0
         else:
             ra_depth = depth*255.0
-                
+            
         # see size of tensor
         print('\n ** size of ra_depth tensor out ' + str(ra_depth.shape()) + ' ** \n')
-            
+        
         depth_numpy = ra_depth.eval() # convert tensor to numpy array to loop through
         for i,depth_image in enumerate(depth_numpy[0]):
             # using output_depth_images method
@@ -70,7 +69,6 @@ def predict(model_path, input_directory, output_directory):
             depth_name = os.path.join("data","datasets_%s" % (sys.argv[1]), "%05d.png" % (i))
             print(depth_name)
             #depth_pil.save(depth_name)
-    
 
 
 def main():
