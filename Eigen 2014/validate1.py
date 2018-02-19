@@ -9,7 +9,7 @@ if len(sys.argv) != 2:
     print("Please run:\n\tpython validate.py <val/test>")
     exit()
 
-VALIDATE_FILE = '../%s.csv' % (sys.argv[1])
+VALIDATE_FILE = '%s.csv' % (sys.argv[1])
 MODEL_DIR = "refine_train"
 
 def csv_inputs(csv_file_path):
