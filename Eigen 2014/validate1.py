@@ -18,7 +18,7 @@ def csv_inputs(csv_file_path):
     IMAGE_WIDTH = 304
     filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=False)
     
-    
+    print(csv_file_path)
     
     reader = tf.TextLineReader()
     _, serialized_example = reader.read(filename_queue)
