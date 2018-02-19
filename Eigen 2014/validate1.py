@@ -24,25 +24,29 @@ def csv_inputs(csv_file_path):
     _, serialized_example = reader.read(filename_queue)
     filename, depth_filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
     
-    print(filename.get_shape())
-    
     # input
     jpg = tf.read_file(filename)
     image = tf.image.decode_jpeg(jpg, channels=3)
     image = tf.cast(image, tf.float32)
+    
+    
+    
     # resize
     image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
+    
+    image = tf.expand_dims(image,3)
+    
     
     # generate batch
     images = tf.train.batch(
         [image],
-        batch_size=10000,
+        batch_size=10,
         num_threads=4,
-        capacity= 10000,
+        capacity= 10,
         enqueue_many=True,
         allow_smaller_final_batch=True
     )
-    return image
+    return images
 
 def output_predict(depths, output_dir):
     print("\n ** output predict into %s **\n" % output_dir)
