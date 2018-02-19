@@ -7,7 +7,7 @@ import model
         
 def predict(model_path, input_directory, output_directory):
 
-    with tf.InteractiveSession() as sess:
+    with tf.Session() as sess:
     # Default input size
         height = 228
         width = 304
@@ -16,7 +16,7 @@ def predict(model_path, input_directory, output_directory):
         
         print("load dataset: %s" % (input_directory))
         f = np.load(input_directory)
-        images_np = np.float32(f['images'])
+        images_np = f['images']
         
         #images = tf.transpose(images, [1,2,3,0] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
         print('\n** Loaded ' + str(images_np.shape) + ' images. ** \n')
