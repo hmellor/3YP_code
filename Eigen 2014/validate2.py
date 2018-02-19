@@ -16,10 +16,10 @@ def convert_train(path):
 
     for i, (image, depth) in enumerate(zip(images, depths)):
         ra_image = image.transpose(2, 1, 0)
-        
+
         images = tf.convert_to_tensor(ra_image, dtype=tf.float32)
-        
-        
+
+
         print('\n**')
         print(images.get_shape())
         print('**\n')

@@ -13,30 +13,30 @@ VALIDATE_FILE = '%s.csv' % (sys.argv[1])
 MODEL_DIR = "refine_train"
 
 def csv_inputs(csv_file_path):
-   
+
     IMAGE_HEIGHT = 228
     IMAGE_WIDTH = 304
-    
+
     print('\n** Loading files **\n')
-    
+
     filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=False)
     reader = tf.TextLineReader()
     _, serialized_example = reader.read(filename_queue)
     filename, depth_filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
-    
+
     print(filename.get_shape())
-    
+
     # input
     jpg = tf.read_file(filename)
     image = tf.image.decode_jpeg(jpg, channels=3)
     image = tf.cast(image, tf.float32)
     # resize
     image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
-    
+
     # generate batch
     images = tf.train.batch(
         [image],
-        batch_size=10000,
+        batch_size=1,
         num_threads=4,
         capacity= 10000,
         enqueue_many=True,
@@ -62,11 +62,11 @@ def val():
     with tf.Graph().as_default():
         global_step = tf.Variable(0, trainable=False)
         images = csv_inputs(VALIDATE_FILE)
-        
+
         print('\n**')
         print(tf.shape(images))
         print('** \n')
-        
+
         keep_conv = tf.placeholder(tf.float32)
         keep_hidden = tf.placeholder(tf.float32)
 
