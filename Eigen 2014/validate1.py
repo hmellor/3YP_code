@@ -60,6 +60,11 @@ def val():
     with tf.Graph().as_default():
         global_step = tf.Variable(0, trainable=False)
         images = csv_inputs(VALIDATE_FILE)
+        
+        print('\n**')
+        print(tf.shape(images))
+        print('** \n')
+        
         keep_conv = tf.placeholder(tf.float32)
         keep_hidden = tf.placeholder(tf.float32)
 
