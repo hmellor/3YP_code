@@ -39,8 +39,8 @@ def predict(model_path, input_directory, output_directory):
         print('\n** Loading the model **\n')
     
         # Use to load from ckpt file
-        #saver = tf.train.import_meta_graph('%s.meta' % model_path)
-        saver = tf.train.Saver()
+        saver = tf.train.import_meta_graph('%s.meta' % model_path)
+        
         saver.restore(sess, model_path)
                 
         
