@@ -23,13 +23,13 @@ def csv_inputs(csv_file_path):
     reader = tf.TextLineReader()
     _, serialized_example = reader.read(filename_queue)
     
-    print('\n **')
+    print('\n**')
     print(serialized_example)
     print('** \n')
     
     filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
 
-    print('\n **')
+    print('\n**')
     print(tf.shape(filename))
     print('** \n')
 
