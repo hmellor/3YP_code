@@ -36,9 +36,10 @@ def csv_inputs(csv_file_path):
     # generate batch
     images = tf.train.batch(
         [image],
-        batch_size=10,
+        batch_size=10000,
         num_threads=4,
-        capacity= 200,
+        capacity= 10000,
+        enqueue_many=True
         allow_smaller_final_batch=True
     )
     return images
@@ -65,9 +66,6 @@ def val():
         keep_hidden = tf.placeholder(tf.float32)
 
         print("refine validate.")
-        
-        for 
-        
         coarse = model.inference(images, keep_conv, trainable=False)
         logits = model.inference_refine(images, coarse, keep_conv, keep_hidden)
 
