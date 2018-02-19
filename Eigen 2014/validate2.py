@@ -3,6 +3,7 @@ import os, random, sys
 import numpy as np
 from PIL import Image
 from tensorflow.python.platform import gfile
+import tensorflow as tf
 
 def convert_train(path):
     print("load dataset: %s" % (path))
@@ -12,7 +13,7 @@ def convert_train(path):
     depths = f['depths']
     depths = np.transpose(depths, [2, 1, 0])
 
-    trains = []
+
     for i, (image, depth) in enumerate(zip(images, depths)):
         ra_image = image.transpose(2, 1, 0)
         
