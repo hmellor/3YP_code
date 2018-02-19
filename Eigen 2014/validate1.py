@@ -29,7 +29,9 @@ def csv_inputs(csv_file_path):
     
     filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
 
-    tf.Print(filename)
+    print('\n **')
+    print(tf.shape(filename))
+    print('** \n')
 
     # input
     jpg = tf.read_file(filename)
