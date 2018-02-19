@@ -40,7 +40,7 @@ def csv_inputs(csv_file_path):
         enqueue_many=True,
         allow_smaller_final_batch=True
     )
-    return images
+    return image
 
 def output_predict(depths, output_dir):
     print("\n ** output predict into %s **\n" % output_dir)
