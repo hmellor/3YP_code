@@ -24,8 +24,8 @@ def predict(model_path, input_directory, output_directory):
         print(f32_images_np.dtype)
 
 
-        images = tf.transpose(images, [3,0,1,2] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
-        image = tf.image.resize_images(images, (height, width))
+        f32_images_np = tf.transpose(f32_images_np, [3,0,1,2] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
+        f32_images_np = tf.image.resize_images(f32_images_np, (height, width))
         print('\n** Loaded ' + str(f32_images_np.shape) + ' images. ** \n')
         images = tf.convert_to_tensor(f32_images_np, dtype=tf.float32)
 
