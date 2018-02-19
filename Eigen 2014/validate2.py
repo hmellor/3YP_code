@@ -15,13 +15,13 @@ def convert_train(path):
     trains = []
     for i, (image, depth) in enumerate(zip(images, depths)):
         ra_image = image.transpose(2, 1, 0)
-        ra_depth = depth.transpose(1, 0)
-        re_depth = (ra_depth/np.max(ra_depth))*255.0
+        
+        images = tf.convert_to_tensor(ra_image, dtype=tf.float32)
+        
         
         print('\n**')
-        print(np.size(ra_image))
+        print(images.get_shape())
         print('**\n')
-        
         #image_pil = Image.fromarray(np.uint8(ra_image))
         #depth_pil = Image.fromarray(np.uint8(re_depth))
         #image_name = os.path.join("data","datasets_%s" % (sys.argv[1]), "%05d.jpg" % (i))
