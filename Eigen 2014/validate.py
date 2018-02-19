@@ -56,6 +56,8 @@ def predict(model_path, input_directory, output_directory):
         else:
             ra_depth = depth*255.0
 
+
+        tf.to_int32(ra_depth)
         # see size of tensor
         print('\n ** size of ra_depth tensor out ' + str(type(ra_depth)) + ' **')
         print('\n ** size of ra_depth tensor out ' + str(ra_depth.get_shape()) + ' ** \n')
