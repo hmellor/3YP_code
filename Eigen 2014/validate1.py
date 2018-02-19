@@ -1,4 +1,5 @@
-import gfile, sys, model
+import sys, model
+from tensorflow.python.platform import gfile
 import tensorflow as tf
 import numpy as np
 from PIL import Image
@@ -83,9 +84,9 @@ def val():
         # define saver
         saver_refine = tf.train.Saver(refine_params)
 
-        
+
         # import pretrained model
-        
+
         refine_ckpt = tf.train.get_checkpoint_state(MODEL_DIR)
         if refine_ckpt and refine_ckpt.model_checkpoint_path:
             print("Pretrained refine Model Loading.")
