@@ -19,6 +19,10 @@ def csv_inputs(csv_file_path):
     reader = tf.TextLineReader()
     _, serialized_example = reader.read(filename_queue)
     filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
+    
+    print('\n **')
+    print(filename)
+    print('** \n')
     # input
     jpg = tf.read_file(filename)
     image = tf.image.decode_jpeg(jpg, channels=3)
