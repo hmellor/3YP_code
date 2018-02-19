@@ -31,6 +31,7 @@ def predict(model_path, input_directory, output_directory):
         f32_images_np = tf.image.resize_images(f32_images_np, (height, width))
         print('\n** Loaded ' + str(f32_images_np.shape) + ' images. ** \n')
         images = tf.convert_to_tensor(f32_images_np, dtype=tf.float32)
+        images = tf.expand_dims(images,0)
 
         print('\n ** ' + str(tf.shape(images))+' ** \n')
 
