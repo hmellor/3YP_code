@@ -27,8 +27,8 @@ def csv_inputs(csv_file_path):
     print(serialized_example)
     print('** \n')
     
-    filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
-
+    filename, depth_filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
+    
     print('\n**')
     print(tf.shape(filename))
     print('** \n')
