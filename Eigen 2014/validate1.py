@@ -83,28 +83,29 @@ def val():
         # define saver
         saver_refine = tf.train.Saver(refine_params)
 
+        
         # import pretrained model
-        if FINE_TUNE:
-            refine_ckpt = tf.train.get_checkpoint_state(MODEL_DIR)
-            if refine_ckpt and refine_ckpt.model_checkpoint_path:
-                print("Pretrained refine Model Loading.")
-                saver_refine.restore(sess, refine_ckpt.model_checkpoint_path)
-                print("Pretrained refine Model Restored.")
-            else:
-                print("No Pretrained refine Model.")
+        
+        refine_ckpt = tf.train.get_checkpoint_state(MODEL_DIR)
+        if refine_ckpt and refine_ckpt.model_checkpoint_path:
+            print("Pretrained refine Model Loading.")
+            saver_refine.restore(sess, refine_ckpt.model_checkpoint_path)
+            print("Pretrained refine Model Restored.")
+        else:
+            print("No Pretrained refine Model.")
 
         # train
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(sess=sess, coord=coord)
 
         logits_val= sess.run([logits], feed_dict={keep_conv: 0.8, keep_hidden: 0.5})
-        output_predict(logits_val, "data/%s_predict" % (sys.argv[1])
+        output_predict(logits_val, "data/%s_predict" % (sys.argv[1] ) )
 
         coord.request_stop()
         coord.join(threads)
         sess.close()
 
-def main(argv=None)
+def main(argv=None):
     val()
 
 if __name__ == '__main__':
