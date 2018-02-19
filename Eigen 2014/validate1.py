@@ -13,17 +13,22 @@ VALIDATE_FILE = '../%s.csv' % (sys.argv[1])
 MODEL_DIR = "refine_train"
 
 def csv_inputs(csv_file_path):
-    
-        
-    print('\n **')
-    print(csv_file_path)
-    print('** \n')
-    
+   
     IMAGE_HEIGHT = 228
     IMAGE_WIDTH = 304
     filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=False)
+    
+    print('\n **')
+    print(filename_queue)
+    print('** \n')
+    
     reader = tf.TextLineReader()
     _, serialized_example = reader.read(filename_queue)
+    
+    print('\n **')
+    print(serialized_example)
+    print('** \n')
+    
     filename = tf.decode_csv(serialized_example, [["path"], ["annotation"]])
 
     # input
