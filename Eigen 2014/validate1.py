@@ -17,8 +17,7 @@ def csv_inputs(csv_file_path):
     IMAGE_HEIGHT = 228
     IMAGE_WIDTH = 304
     
-    print('\n** Loading files **\n')
-    
+    print('\n** Loading files' + csv_file_path +' **\n')
     
     init_images = tf.get_variable("init_images", tf.placeholder(tf.float32,shape=(200,304,3,200) ) )
     
@@ -36,6 +35,9 @@ def csv_inputs(csv_file_path):
     
     # resize
     image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
+    
+    
+    print(tf.shape(image))
     
     tf.assign(init_images,image)
     
