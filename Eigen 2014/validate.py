@@ -26,7 +26,7 @@ def predict(model_path, input_directory, output_directory):
         print('\n** Loaded ' + str(f32_images_np.shape) + ' images. ** \n')
         images = tf.convert_to_tensor(f32_images_np, dtype=tf.float32)
         
-        print('\n ** ' + tf.shape(images)+' ** \n')
+        print('\n ** ' + str(tf.shape(images))+' ** \n')
         
         # Create a placeholder for the input image
         input_node = tf.placeholder(tf.float32)
