@@ -68,8 +68,8 @@ def predict(model_path, input_directory, output_directory):
         
         
         
-        print(tf.Session().run(ra_depth))
-        print(type(tf.Session().run(ra_depth)))
+        print(sess.run(ra_depth))
+        print(type(sess.run(ra_depth)))
         
         
         #depth_numpy = tf.Session().run(ra_depth) # convert tensor to numpy array to loop through
