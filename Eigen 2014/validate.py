@@ -61,6 +61,8 @@ def predict(model_path, input_directory, output_directory):
         print('\n ** size of ra_depth tensor out ' + str(ra_depth.get_shape()) + ' ** \n')
         
         
+        print(type(tf.Session().run(tf.constant([1,2,3]))))
+        print(tf.Session().run(tf.constant([1,2,3])))
 
         #depth_numpy = tf.Session().run(ra_depth) # convert tensor to numpy array to loop through
         for i,depth_image in enumerate(ra_depth[0]):
