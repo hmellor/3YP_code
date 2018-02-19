@@ -32,7 +32,7 @@ def predict(model_path, input_directory, output_directory):
         print('\n ** ' + str(tf.shape(images))+' ** \n')
 
         # Create a placeholder for the input image
-        input_node = tf.placeholder(tf.float32)
+        input_node = tf.placeholder(dtype=tf.float32)
         keep_conv = input_node
         keep_hidden = input_node
 

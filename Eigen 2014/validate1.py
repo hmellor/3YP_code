@@ -18,9 +18,7 @@ def csv_inputs(csv_file_path):
     IMAGE_WIDTH = 304
     
     print('\n** Loading files' + csv_file_path +' **\n')
-    
-    init_images = tf.zeros(shape=(200,304,3,200),dtype=tf.float32)
-    
+        
     filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=False)
     reader = tf.TextLineReader()
     _, serialized_example = reader.read(filename_queue)
@@ -31,15 +29,12 @@ def csv_inputs(csv_file_path):
     image = tf.image.decode_jpeg(jpg, channels=3)
     image = tf.cast(image, tf.float32)
     
-    
-    
     # resize
     image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
     
-    
     print(tf.shape(image))
     
-    tf.assign(init_images,image)
+    tf.assign(ref=init_images,value=image)
     
     # generate batch
     init_images = tf.train.batch(
