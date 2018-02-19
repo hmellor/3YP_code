@@ -19,7 +19,7 @@ def csv_inputs(csv_file_path):
     
     print('\n** Loading files' + csv_file_path +' **\n')
     
-    init_images = tf.get_variable("init_images", tf.placeholder(tf.float32,shape=(200,304,3,200) ) )
+    init_images = tf.zeros("init_images", tf.placeholder(tf.float32,shape=(200,304,3,200) ) )
     
     filename_queue = tf.train.string_input_producer([csv_file_path], shuffle=False)
     reader = tf.TextLineReader()
