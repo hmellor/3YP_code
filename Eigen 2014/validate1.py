@@ -31,21 +31,19 @@ def csv_inputs(csv_file_path):
     # resize
     image = tf.image.resize_images(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
     
-    print('\n** ' + str(tf.shape(image))+' ** \n')
-    
     # generate batch
     images = tf.train.batch(
         [image],
         batch_size=10000,
         num_threads=4,
         capacity= 10000,
-        enqueue_many=True
+        enqueue_many=True,
         allow_smaller_final_batch=True
     )
     return images
 
 def output_predict(depths, output_dir):
-    print("output predict into %s" % output_dir)
+    print("\n ** output predict into %s **\n" % output_dir)
     if not gfile.Exists(output_dir):
         gfile.MakeDirs(output_dir)
     for i, (depth) in enumerate(depths):
