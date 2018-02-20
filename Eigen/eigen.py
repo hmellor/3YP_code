@@ -62,7 +62,7 @@ def eigen(data_path):
 
         keep_conv = tf.placeholder(tf.float32)
         keep_hidden = tf.placeholder(tf.float32)
-        with tf.device("/gpu:0")
+        with tf.device("/gpu:0"):
             if REFINE_TRAIN:
                 print("refine train.")
                 coarse = model.inference(images, keep_conv, trainable=False)
