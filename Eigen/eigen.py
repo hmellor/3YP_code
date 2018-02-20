@@ -77,11 +77,13 @@ def eigen(data_path):
 
         # Session
         sess = tf.Session(config=tf.ConfigProto(log_device_placement=LOG_DEVICE_PLACEMENT))
-        sess.run(init_op)
+
         # start the threads for our FIFOQueue and batch
         enqueue_thread = threading.Thread(target=enqueue, args=[sess])
         enqueue_thread.isDaemon()
         enqueue_thread.start()
+
+        sess.run(init_op)
 
         # parameters
         coarse_params = {}
