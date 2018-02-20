@@ -22,14 +22,19 @@ def eigen(data_path):
         global_step = tf.Variable(0, trainable=False)
 
         print("load dataset: %s" % (data_path))
+        
         data = np.load(data_path)
         images = data['images']
         images = np.transpose(images, [3, 0, 1, 2])
+        images = tf.cast(images, tf.float32)
+
         depths = data['depths']
         depths = np.transpose(depths, [2, 0, 1])
         depths = tf.expand_dims(depths, 3)
+        depths = tf.cast(depths, tf.float32)
         invalid_depths = tf.sign(depths)
-        NUMBER_OF_IMAGES = images.shape[1]
+
+        NUMBER_OF_IMAGES = images.shape[0]
         if sys.argv[1] == 'train':
             BATCH_SIZE = 10
         else:
