@@ -161,7 +161,7 @@ def eigen(data_path):
             sess.close()
 
 def load_data(data_path):
-    print("load dataset: %s" % (data_path))
+    print("\nLoad dataset: %s" % (data_path))
     # Load image and depth data
     data = np.load(data_path)
     # Extract and manipulate images
@@ -177,11 +177,12 @@ def load_data(data_path):
     depths = tf.cast(depths, tf.float32)
     invalid_depths = tf.sign(depths)
     NUMBER_OF_IMAGES = images.shape[0]
-    if sys.argv[1] == 'train':
-        NETWORK_MODE = 'True'
-    else:
-        NETWORK_MODE = 'False'
-
+    print("\nDataset of %d image/depth pairs successfully extracted" % NUMBER_OF_IMAGES)
+    # if sys.argv[1] == 'train':
+    #     NETWORK_MODE = 'True'
+    # else:
+    #     NETWORK_MODE = 'False'
+    print("\nCreating batches of images to add to queue")
     queue_input_data   = tf.placeholder(tf.float32, shape=[20, IMAGE_HEIGHT, IMAGE_WIDTH, 3])
     queue_input_target = tf.placeholder(tf.float32, shape=[20, TARGET_HEIGHT, TARGET_WIDTH, 1])
     queue_negtv_target = tf.placeholder(tf.float32, shape=[20, TARGET_HEIGHT, TARGET_WIDTH, 1])
@@ -189,7 +190,7 @@ def load_data(data_path):
     queue = tf.FIFOQueue(
         capacity=50,
         dtypes=[tf.float32, tf.float32, tf.float32],
-        shapes=[[MAGE_HEIGHT, IMAGE_WIDTH, 3], [TARGET_HEIGHT, TARGET_WIDTH, 1], [TARGET_HEIGHT, TARGET_WIDTH, 1]]
+        shapes=[[IMAGE_HEIGHT, IMAGE_WIDTH, 3], [TARGET_HEIGHT, TARGET_WIDTH, 1], [TARGET_HEIGHT, TARGET_WIDTH, 1]]
         )
 
     enqueue_op = queue.enqueue_many([queue_input_data, queue_input_target, queue_negtv_target])
