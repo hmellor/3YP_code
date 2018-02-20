@@ -17,6 +17,11 @@ LOG_DEVICE_PLACEMENT = False
 REFINE_TRAIN = False
 FINE_TUNE = True
 
+IMAGE_HEIGHT = 228
+IMAGE_WIDTH = 304
+TARGET_HEIGHT = 55
+TARGET_WIDTH = 74
+
 def eigen(data_path):
     with tf.Graph().as_default():
         global_step = tf.Variable(0, trainable=False)
@@ -27,13 +32,13 @@ def eigen(data_path):
         # Extract and manipulate images
         images = data['images']
         images = np.transpose(images, [3, 0, 1, 2])
-        images =tf.image.resize_images(images, [228, 304])
+        images =tf.image.resize_images(images, [IMAGE_HEIGHT, IMAGE_WIDTH])
         images = tf.cast(images, tf.float32)
         # Extract and manipulate depths
         depths = data['depths']
         depths = np.transpose(depths, [2, 0, 1])
         depths = tf.expand_dims(depths, 3)
-        images =tf.image.resize_images(images, [55, 74])
+        depths =tf.image.resize_images(depths, [TARGET_HEIGHT, TARGET_WIDTH])
         depths = tf.cast(depths, tf.float32)
         invalid_depths = tf.sign(depths)
 
