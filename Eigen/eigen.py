@@ -28,7 +28,7 @@ def eigen(data_path):
         depths = data['depths']
         depths = np.transpose(depths, [2, 0, 1])
         depths = tf.expand_dims(depths, 3)
-        invalid_depths = sign(depths)
+        invalid_depths = tf.sign(depths)
         NUMBER_OF_IMAGES = images.shape[1]
         if sys.argv[1] == 'train':
             BATCH_SIZE = 10
