@@ -32,7 +32,7 @@ def eigen(data_path):
         NUMBER_OF_IMAGES = images.shape[1]
         if sys.argv[1] == 'train':
             BATCH_SIZE = 10
-        else
+        else:
             BATCH_SIZE = 1
         print('\nImage array shape: %d' % images.shape)
         print('\nDepth array shape: %d' % depths.shape)
@@ -139,7 +139,7 @@ def eigen(data_path):
             coord.join(threads)
             sess.close()
         # Test or validate the network
-        else
+        else:
             coord = tf.train.Coordinator()
             threads = tf.train.start_queue_runners(sess=sess, coord=coord)
             for i in xrange(NUMBER_OF_IMAGES):
