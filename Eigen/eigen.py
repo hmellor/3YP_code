@@ -73,9 +73,10 @@ def eigen(data_path):
 
         loss = model.loss(logits, depths, invalid_depths)
         train_op = op.train(loss, global_step, BATCH_SIZE)
-        init_op = tf.initialize_all_variables()
+        init_op = tf.global_variables_initializer()
 
         # Session
+        CUDA_VISIBLE_DEVICES=1
         sess = tf.Session(config=tf.ConfigProto(log_device_placement=LOG_DEVICE_PLACEMENT))
         sess.run(init_op)
 
