@@ -44,25 +44,25 @@ def eigen(data_path):
         print('\nBatch size: %d' % BATCH_SIZE)
         print('\n')
 
-        print("\nCreating batches of %d images to add to queue" % BATCH_SIZE)
-        queue_input_data   = tf.placeholder(tf.float32, shape=[20, IMAGE_HEIGHT, IMAGE_WIDTH, 3])
-        queue_input_target = tf.placeholder(tf.float32, shape=[20, TARGET_HEIGHT, TARGET_WIDTH, 1])
-        queue_negtv_target = tf.placeholder(tf.float32, shape=[20, TARGET_HEIGHT, TARGET_WIDTH, 1])
-
-        queue = tf.FIFOQueue(
-            capacity=50,
-            dtypes=[tf.float32, tf.float32, tf.float32],
-            shapes=[[IMAGE_HEIGHT, IMAGE_WIDTH, 3], [TARGET_HEIGHT, TARGET_WIDTH, 1], [TARGET_HEIGHT, TARGET_WIDTH, 1]]
-            )
-
-        enqueue_op = queue.enqueue_many([queue_input_data, queue_input_target, queue_negtv_target])
-        dequeue_op = queue.dequeue()
-
-        image_batch, depth_batch , invalid_depth_batch = tf.train.batch(
-            dequeue_op,
-            batch_size=BATCH_SIZE,
-            capacity=50 + 3 * BATCH_SIZE
-            )
+        # print("\nCreating batches of %d images to add to queue" % BATCH_SIZE)
+        # queue_input_data   = tf.placeholder(tf.float32, shape=[20, IMAGE_HEIGHT, IMAGE_WIDTH, 3])
+        # queue_input_target = tf.placeholder(tf.float32, shape=[20, TARGET_HEIGHT, TARGET_WIDTH, 1])
+        # queue_negtv_target = tf.placeholder(tf.float32, shape=[20, TARGET_HEIGHT, TARGET_WIDTH, 1])
+        #
+        # queue = tf.FIFOQueue(
+        #     capacity=50,
+        #     dtypes=[tf.float32, tf.float32, tf.float32],
+        #     shapes=[[IMAGE_HEIGHT, IMAGE_WIDTH, 3], [TARGET_HEIGHT, TARGET_WIDTH, 1], [TARGET_HEIGHT, TARGET_WIDTH, 1]]
+        #     )
+        #
+        # enqueue_op = queue.enqueue_many([queue_input_data, queue_input_target, queue_negtv_target])
+        # dequeue_op = queue.dequeue()
+        #
+        # image_batch, depth_batch , invalid_depth_batch = tf.train.batch(
+        #     dequeue_op,
+        #     batch_size=BATCH_SIZE,
+        #     capacity=50 + 3 * BATCH_SIZE
+        #     )
 
         keep_conv = tf.placeholder(tf.float32)
         keep_hidden = tf.placeholder(tf.float32)
@@ -83,9 +83,9 @@ def eigen(data_path):
         sess = tf.Session(config=tf.ConfigProto(log_device_placement=LOG_DEVICE_PLACEMENT))
 
         # start the threads for our FIFOQueue and batch
-        enqueue_thread = threading.Thread(target=enqueue, args=[sess])
-        enqueue_thread.isDaemon()
-        enqueue_thread.start()
+        # enqueue_thread = threading.Thread(target=enqueue, args=[sess])
+        # enqueue_thread.isDaemon()
+        # enqueue_thread.start()
 
         sess.run(init_op)
 
@@ -208,32 +208,33 @@ def load_data(data_path):
     invalid_depths = tf.sign(depths)
     NUMBER_OF_IMAGES = images.shape[0]
     print("\nDataset of %d image/depth pairs successfully extracted" % NUMBER_OF_IMAGES)
+    data.close()
     return images, depths, invalid_depths, NUMBER_OF_IMAGES
 
-def enqueue(sess):
-  """ Iterates over our data puts small chunks into our queue."""
-  under = 0
-  max = NUMBER_OF_IMAGES
-  while True:
-    print("starting to write into queue")
-    upper = under + 20
-    print("try to enqueue ", under, " to ", upper)
-    if upper <= max:
-      curr_image = images[under:upper,:,:,:]
-      curr_depth = depths[under:upper,:,:,:]
-      curr_ndepth = invalid_depths[under:upper,:,:,:]
-      under = upper
-    else:
-      rest = upper - max
-      curr_image = np.concatenate((images[under:max,:,:,:], images[0:rest,:,:,:]))
-      curr_depth = np.concatenate((depths[under:max,:,:,:], depths[0:rest,:,:,:]))
-      curr_depth = np.concatenate((invalid_depths[under:max,:,:,:], invalid_depths[0:rest,:,:,:]))
-      under = rest
-
-    sess.run(enqueue_op, feed_dict={queue_input_data: curr_image,
-                                    queue_input_target: curr_depth, queue_negtv_target: curr_ndepth})
-    print("added to the queue")
-  print("finished enqueueing")
+# def enqueue(sess):
+#   """ Iterates over our data puts small chunks into our queue."""
+#   under = 0
+#   max = NUMBER_OF_IMAGES
+#   while True:
+#     print("starting to write into queue")
+#     upper = under + 20
+#     print("try to enqueue ", under, " to ", upper)
+#     if upper <= max:
+#       curr_image = images[under:upper,:,:,:]
+#       curr_depth = depths[under:upper,:,:,:]
+#       curr_ndepth = invalid_depths[under:upper,:,:,:]
+#       under = upper
+#     else:
+#       rest = upper - max
+#       curr_image = np.concatenate((images[under:max,:,:,:], images[0:rest,:,:,:]))
+#       curr_depth = np.concatenate((depths[under:max,:,:,:], depths[0:rest,:,:,:]))
+#       curr_depth = np.concatenate((invalid_depths[under:max,:,:,:], invalid_depths[0:rest,:,:,:]))
+#       under = rest
+#
+#     sess.run(enqueue_op, feed_dict={queue_input_data: curr_image,
+#                                     queue_input_target: curr_depth, queue_negtv_target: curr_ndepth})
+#     print("added to the queue")
+#   print("finished enqueueing")
 
 def main(argv=None):
     if len(sys.argv) != 2:
