@@ -177,6 +177,11 @@ def load_data(data_path):
     depths = tf.cast(depths, tf.float32)
     invalid_depths = tf.sign(depths)
     NUMBER_OF_IMAGES = images.shape[0]
+    if sys.argv[1] == train:
+        NETWORK_MODE = 'True'
+    else:
+        NETWORK_MODE = 'False'
+    queue = tf.train.string_input_producer(str(xrange(NUMBER_OF_IMAGES)), shuffle=NETWORK_MODE)
     images, depths, invalid_depths = tf.train.batch(
         [images, depths, invalid_depths],
         batch_size=BATCH_SIZE,
