@@ -177,18 +177,37 @@ def load_data(data_path):
     depths = tf.cast(depths, tf.float32)
     invalid_depths = tf.sign(depths)
     NUMBER_OF_IMAGES = images.shape[0]
-    if sys.argv[1] == train:
+    if sys.argv[1] == 'train':
         NETWORK_MODE = 'True'
     else:
         NETWORK_MODE = 'False'
-    queue = tf.train.string_input_producer(str(xrange(NUMBER_OF_IMAGES)), shuffle=NETWORK_MODE)
-    images, depths, invalid_depths = tf.train.batch(
-        [images, depths, invalid_depths],
-        batch_size=BATCH_SIZE,
-        num_threads=4,
-        capacity= 50 + 3 * BATCH_SIZE,
-        enqueue_many = True,
+
+    queue_input_data   = tf.placeholder(tf.float32, shape=[20, IMAGE_HEIGHT, IMAGE_WIDTH, 3])
+    queue_input_target = tf.placeholder(tf.float32, shape=[20, TARGET_HEIGHT, TARGET_WIDTH, 1])
+    queue_negtv_target = tf.placeholder(tf.float32, shape=[20, TARGET_HEIGHT, TARGET_WIDTH, 1])
+
+    queue = tf.FIFOQueue(
+        capacity=50,
+        dtypes=[tf.float32, tf.float32, tf.float32],
+        shapes=[[MAGE_HEIGHT, IMAGE_WIDTH, 3], [TARGET_HEIGHT, TARGET_WIDTH, 1], [TARGET_HEIGHT, TARGET_WIDTH, 1]]
         )
+
+    enqueue_op = queue.enqueue_many([queue_input_data, queue_input_target, queue_negtv_target])
+    dequeue_op = queue.dequeue()
+
+    images, depths , invalid_depths = tf.train.batch(
+        dequeue_op,
+        batch_size=BATCH_SIZE,
+        capacity=50 + 3 * BATCH_SIZE
+        )
+
+    # images, depths, invalid_depths = tf.train.batch(
+    #     [images, depths, invalid_depths],
+    #     batch_size=BATCH_SIZE,
+    #     num_threads=4,
+    #     capacity= 50 + 3 * BATCH_SIZE,
+    #     enqueue_many = True,
+    #     )
     return images, depths, invalid_depths, NUMBER_OF_IMAGES
 
 def main(argv=None):
