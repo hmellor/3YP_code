@@ -23,25 +23,29 @@ IMAGE_WIDTH = 304
 TARGET_HEIGHT = 55
 TARGET_WIDTH = 74
 
+def load_data(data_path):
+    print("load dataset: %s" % (data_path))
+    # Load image and depth data
+    data = np.load(data_path)
+    # Extract and manipulate images
+    images = data['images']
+    images = np.transpose(images, [3, 0, 1, 2])
+    images =tf.image.resize_images(images, [IMAGE_HEIGHT, IMAGE_WIDTH])
+    images = tf.cast(images, tf.float32)
+    # Extract and manipulate depths
+    depths = data['depths']
+    depths = np.transpose(depths, [2, 0, 1])
+    depths = tf.expand_dims(depths, 3)
+    depths =tf.image.resize_images(depths, [TARGET_HEIGHT, TARGET_WIDTH])
+    depths = tf.cast(depths, tf.float32)
+    invalid_depths = tf.sign(depths)
+    return images, depths, invalid_depths
+
 def eigen(data_path):
     with tf.Graph().as_default():
         global_step = tf.Variable(0, trainable=False)
-
-        print("load dataset: %s" % (data_path))
-        # Load image and depth data
-        data = np.load(data_path)
-        # Extract and manipulate images
-        images = data['images']
-        images = np.transpose(images, [3, 0, 1, 2])
-        images =tf.image.resize_images(images, [IMAGE_HEIGHT, IMAGE_WIDTH])
-        images = tf.cast(images, tf.float32)
-        # Extract and manipulate depths
-        depths = data['depths']
-        depths = np.transpose(depths, [2, 0, 1])
-        depths = tf.expand_dims(depths, 3)
-        depths =tf.image.resize_images(depths, [TARGET_HEIGHT, TARGET_WIDTH])
-        depths = tf.cast(depths, tf.float32)
-        invalid_depths = tf.sign(depths)
+        # Load the data from the .npz file
+        images, depths, invalid_depths = load_data(data_path)
 
         NUMBER_OF_IMAGES = images.shape[0]
         if sys.argv[1] == 'train':
