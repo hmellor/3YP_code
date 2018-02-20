@@ -25,9 +25,13 @@ def predict(model_path, input_directory, output_directory):
 
 
         f32_images_np = tf.transpose(f32_images_np, [3,0,1,2] ) # sort image stack (tensor) into proper dimensions, height, wdith, channels, image_id
+        
+        f32_images_np = f32_images_np[0]
+        
         f32_images_np = tf.image.resize_images(f32_images_np, (height, width))
         print('\n** Loaded ' + str(f32_images_np.shape) + ' images. ** \n')
         images = tf.convert_to_tensor(f32_images_np, dtype=tf.float32)
+        images = tf.expand_dims(images,0)
 
         print('\n ** ' + str(tf.shape(images))+' ** \n')
 
@@ -40,7 +44,7 @@ def predict(model_path, input_directory, output_directory):
         print('\n** Loading the model **\n')
 
         # Use to load from ckpt file
-        saver = tf.train.import_meta_graph(model_path)
+        saver = tf.train.import_meta_graph('%s.meta' % model_path)
         saver.restore(sess, model_path)
 
 
@@ -64,8 +68,8 @@ def predict(model_path, input_directory, output_directory):
         
         
         
-        print(tf.Session().run(ra_depth))
-        print(type(tf.Session().run(ra_depth)))
+        print(ra_depth.eval())
+        print(type(tf.sess.run(ra_depth)))
         
         
         #depth_numpy = tf.Session().run(ra_depth) # convert tensor to numpy array to loop through
