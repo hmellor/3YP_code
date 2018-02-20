@@ -172,7 +172,7 @@ def main(argv=None):
         print("Please run:\n\tpython eigen.py <train/val/test>")
         exit()
 
-    if not os.path.isfile(sys.argv[1]):
+    if not os.path.isfile(sys.argv[1] + '.npz'):
     	print('%s file does not exist' % sys.argv[1])
     	exit()
     data_path = '%s.npz' % (sys.argv[1])
