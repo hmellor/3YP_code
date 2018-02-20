@@ -23,8 +23,6 @@ IMAGE_WIDTH = 304
 TARGET_HEIGHT = 55
 TARGET_WIDTH = 74
 
-
-
 def eigen(data_path):
     with tf.Graph().as_default():
         global_step = tf.Variable(0, trainable=False)
@@ -40,8 +38,6 @@ def eigen(data_path):
         print('\nNumber of images: %d' % NUMBER_OF_IMAGES)
         print('\nBatch size: %d' % BATCH_SIZE)
         print('\n')
-
-        )
 
         keep_conv = tf.placeholder(tf.float32)
         keep_hidden = tf.placeholder(tf.float32)
@@ -186,6 +182,7 @@ def load_data(data_path):
         num_threads=4,
         capacity= 50 + 3 * BATCH_SIZE,
         enqueue_many = True,
+        )
     return images, depths, invalid_depths, NUMBER_OF_IMAGES
 
 def main(argv=None):
