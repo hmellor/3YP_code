@@ -34,8 +34,8 @@ def eigen(data_path):
             BATCH_SIZE = 10
         else:
             BATCH_SIZE = 1
-        print('\nImage array shape: %d' % images.shape)
-        print('\nDepth array shape: %d' % depths.shape)
+        print('\nImage array shape: %s' % str(images.shape))
+        print('\nDepth array shape: %s' % str(depths.shape))
         print('\nNumber of images: %d' % NUMBER_OF_IMAGES)
         print('\nBatch size: %d' % BATCH_SIZE)
         print('\n')
@@ -171,11 +171,10 @@ def main(argv=None):
     if len(sys.argv) != 2:
         print("Please run:\n\tpython eigen.py <train/val/test>")
         exit()
-
-    if not os.path.isfile(sys.argv[1] + '.npz'):
-    	print('%s file does not exist' % sys.argv[1])
-    	exit()
     data_path = '%s.npz' % (sys.argv[1])
+    if not os.path.isfile(data_path):
+    	print('%s file does not exist' % data_path)
+    	exit()
     eigen(data_path)
 
 
