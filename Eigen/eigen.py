@@ -22,15 +22,18 @@ def eigen(data_path):
         global_step = tf.Variable(0, trainable=False)
 
         print("load dataset: %s" % (data_path))
-        
+        # Load image and depth data
         data = np.load(data_path)
+        # Extract and manipulate images
         images = data['images']
         images = np.transpose(images, [3, 0, 1, 2])
+        images =tf.image.resize_images(images, [228, 304])
         images = tf.cast(images, tf.float32)
-
+        # Extract and manipulate depths
         depths = data['depths']
         depths = np.transpose(depths, [2, 0, 1])
         depths = tf.expand_dims(depths, 3)
+        images =tf.image.resize_images(images, [55, 74])
         depths = tf.cast(depths, tf.float32)
         invalid_depths = tf.sign(depths)
 
