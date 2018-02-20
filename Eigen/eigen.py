@@ -13,6 +13,9 @@ import sys, os, threading
 ITERATIONS = 100
 MAX_EPOCHS = 100
 BATCH_SIZE = 0
+images = 0
+depths = 0
+invalid_depths = 0
 NUMBER_OF_IMAGES = 0
 LOG_DEVICE_PLACEMENT = False
 CUDA_VISIBLE_DEVICES=0
