@@ -22,10 +22,10 @@ def eigen(data_path):
         global_step = tf.Variable(0, trainable=False)
 
         print("load dataset: %s" % (data_path))
-        f = np.load(path)
-        images = f['images']
+        data = np.load(data_path)
+        images = data['images']
         images = np.transpose(images, [3, 0, 1, 2])
-        depths = f['depths']
+        depths = data['depths']
         depths = np.transpose(depths, [2, 0, 1])
         depths = tf.expand_dims(depths, 3)
         invalid_depths = sign(depths)
