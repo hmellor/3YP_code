@@ -20,7 +20,7 @@ def predict(model_path, input_directory, output_directory):
         f = np.load(input_directory)
         images_np = f['images']
         print(images_np.dtype)
-        f32_images_np = images_np.astype('float32')
+        f32_images_np = images_np.astype('float16')
         print(f32_images_np.dtype)
 
 
@@ -36,7 +36,7 @@ def predict(model_path, input_directory, output_directory):
         print('\n ** ' + str(tf.shape(images))+' ** \n')
 
         # Create a placeholder for the input image
-        input_node = tf.placeholder(dtype=tf.float32)
+        input_node = tf.placeholder(dtype=tf.float16)
         keep_conv = input_node
         keep_hidden = input_node
 
