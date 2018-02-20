@@ -12,6 +12,7 @@ import sys, os
 # take 100 iterations to complete 1 epoch
 ITERATIONS = 100
 MAX_EPOCHS = 100
+BATCH_SIZE = 0
 LOG_DEVICE_PLACEMENT = False
 CUDA_VISIBLE_DEVICES=0
 
