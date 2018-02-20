@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 import model
 import train_operation as op
-import sys
+import sys, os
 
 # if there are 1000 training examples and batch size is 10, it will
 # take 100 iterations to complete 1 epoch
