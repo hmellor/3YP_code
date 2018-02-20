@@ -23,46 +23,24 @@ IMAGE_WIDTH = 304
 TARGET_HEIGHT = 55
 TARGET_WIDTH = 74
 
-def load_data(data_path):
-    print("load dataset: %s" % (data_path))
-    # Load image and depth data
-    data = np.load(data_path)
-    # Extract and manipulate images
-    images = data['images']
-    images = np.transpose(images, [3, 0, 1, 2])
-    images =tf.image.resize_images(images, [IMAGE_HEIGHT, IMAGE_WIDTH])
-    images = tf.cast(images, tf.float32)
-    # Extract and manipulate depths
-    depths = data['depths']
-    depths = np.transpose(depths, [2, 0, 1])
-    depths = tf.expand_dims(depths, 3)
-    depths =tf.image.resize_images(depths, [TARGET_HEIGHT, TARGET_WIDTH])
-    depths = tf.cast(depths, tf.float32)
-    invalid_depths = tf.sign(depths)
-    return images, depths, invalid_depths
+
 
 def eigen(data_path):
     with tf.Graph().as_default():
         global_step = tf.Variable(0, trainable=False)
-        # Load the data from the .npz file
-        images, depths, invalid_depths = load_data(data_path)
-
-        NUMBER_OF_IMAGES = images.shape[0]
         if sys.argv[1] == 'train':
             BATCH_SIZE = 10
         else:
             BATCH_SIZE = 1
+        # Load the data from the .npz file
+        images, depths, invalid_depths, NUMBER_OF_IMAGES = load_data(data_path)
+
         print('\nImage array shape: %s' % str(images.shape))
         print('\nDepth array shape: %s' % str(depths.shape))
         print('\nNumber of images: %d' % NUMBER_OF_IMAGES)
         print('\nBatch size: %d' % BATCH_SIZE)
         print('\n')
-        images, depths, invalid_depths = tf.train.batch(
-            [images, depths, invalid_depths],
-            batch_size=BATCH_SIZE,
-            num_threads=4,
-            capacity= 50 + 3 * BATCH_SIZE,
-            enqueue_many = True,
+
         )
 
         keep_conv = tf.placeholder(tf.float32)
@@ -184,6 +162,31 @@ def eigen(data_path):
             coord.request_stop()
             coord.join(threads)
             sess.close()
+
+def load_data(data_path):
+    print("load dataset: %s" % (data_path))
+    # Load image and depth data
+    data = np.load(data_path)
+    # Extract and manipulate images
+    images = data['images']
+    images = np.transpose(images, [3, 0, 1, 2])
+    images =tf.image.resize_images(images, [IMAGE_HEIGHT, IMAGE_WIDTH])
+    images = tf.cast(images, tf.float32)
+    # Extract and manipulate depths
+    depths = data['depths']
+    depths = np.transpose(depths, [2, 0, 1])
+    depths = tf.expand_dims(depths, 3)
+    depths =tf.image.resize_images(depths, [TARGET_HEIGHT, TARGET_WIDTH])
+    depths = tf.cast(depths, tf.float32)
+    invalid_depths = tf.sign(depths)
+    NUMBER_OF_IMAGES = images.shape[0]
+    images, depths, invalid_depths = tf.train.batch(
+        [images, depths, invalid_depths],
+        batch_size=BATCH_SIZE,
+        num_threads=4,
+        capacity= 50 + 3 * BATCH_SIZE,
+        enqueue_many = True,
+    return images, depths, invalid_depths, NUMBER_OF_IMAGES
 
 def main(argv=None):
     if len(sys.argv) != 2:
