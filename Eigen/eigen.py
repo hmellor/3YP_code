@@ -13,6 +13,7 @@ import sys, os
 ITERATIONS = 100
 MAX_EPOCHS = 100
 LOG_DEVICE_PLACEMENT = False
+CUDA_VISIBLE_DEVICES=0
 
 REFINE_TRAIN = False
 FINE_TUNE = True
@@ -62,18 +63,18 @@ def eigen(data_path):
 
         keep_conv = tf.placeholder(tf.float32)
         keep_hidden = tf.placeholder(tf.float32)
-        with tf.device("/gpu:0"):
-            if REFINE_TRAIN:
-                print("refine train.")
-                coarse = model.inference(images, keep_conv, trainable=False)
-                logits = model.inference_refine(images, coarse, keep_conv, keep_hidden)
-            else:
-                print("coarse train.")
-                logits = model.inference(images, keep_conv, keep_hidden)
 
-            loss = model.loss(logits, depths, invalid_depths)
-            train_op = op.train(loss, global_step, BATCH_SIZE)
-            init_op = tf.global_variables_initializer()
+        if REFINE_TRAIN:
+            print("refine train.")
+            coarse = model.inference(images, keep_conv, trainable=False)
+            logits = model.inference_refine(images, coarse, keep_conv, keep_hidden)
+        else:
+            print("coarse train.")
+            logits = model.inference(images, keep_conv, keep_hidden)
+
+        loss = model.loss(logits, depths, invalid_depths)
+        train_op = op.train(loss, global_step, BATCH_SIZE)
+        init_op = tf.global_variables_initializer()
 
         # Session
         sess = tf.Session(config=tf.ConfigProto(log_device_placement=LOG_DEVICE_PLACEMENT))
