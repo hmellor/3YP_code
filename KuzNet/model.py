@@ -53,6 +53,7 @@ def model_network():
     net = res1(net,1) #type 1, stride 1       resblock 15
     net = res1(net,1) #type 1, stride 1       resblock 16
     #conv layer is a 2d convolution of size 1, stride 1 and 2048 channels
+    # conv2d syntax tflearn.layers.conv.conv_2d (incoming, nb_filter, filter_size, strides=1)
     net = tflearn.conv_2d(net, 1, 2048, strides=1)
 
     #Main model section 6
