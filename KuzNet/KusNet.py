@@ -69,6 +69,9 @@ def main():
     #rearrange into proper columns
     images_np = np.transpose(images_np, [3,0,1,2])
     depths_np = np.transpose(depths_np, [2, 1, 0])
+    #depths_np = np.expand_dims(depths_np, 3)
+
+
 
     print(images_np.shape)
     print('\n ** %s images loaded successfully ** \n' % (images_np.shape[0]))
