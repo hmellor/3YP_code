@@ -2,7 +2,7 @@ import sys
 import tensorflow as tf
 import tflearn
 import numpy as np
-import model_network
+from model import model_network
 
 def develop_model(net):
     model = tflearn.DNN(net,
@@ -61,7 +61,7 @@ def main():
     images_np = np.transpose(images_np, [3,0,1,2])
     depths_np = np.transpose(depths_np, [2, 1, 0])
 
-    print(tf.shape)
+    print(images_np.shape)
     print('\n **Images loaded successfully ** \n')
 
     # Build model
