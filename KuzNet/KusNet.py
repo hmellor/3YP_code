@@ -71,7 +71,7 @@ def main():
     images_np = np.transpose(images_np, [3,0,1,2])
     depths_np = np.transpose(depths_np, [2, 0, 1])
     #use opencv to resize all images in depths_np
-    for i in xrange(depths_np.shape[0]):
+    for i in xrange(int(depths_np.shape[0])):
         depths_np[i,:,:] = depths_np[i,:,:].resize(
             depths_np[i,:,:],(320,240), Image.LANCZOS
             )
