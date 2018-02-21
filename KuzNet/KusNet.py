@@ -4,7 +4,7 @@ import tflearn
 import numpy as np
 import model_network
 
-def train(net,images,depths):
+def develop_model(net):
     model = tflearn.DNN(net,
                         clip_gradients=5.0,
                         tensorboard_verbose=2,
@@ -14,6 +14,10 @@ def train(net,images,depths):
                         max_checkpoints=None,
                         session=None,
                         best_val_accuracy=0.0)
+    return model
+
+def train(net,images,depths):
+    model = develop_model(net)
     model.fit(images,
           depths,
           n_epoch=20,
@@ -26,6 +30,9 @@ def train(net,images,depths):
 
     return model
 
+def validate(net,images):
+    model = develop_model(net)
+    model.predit(images)
 
 def main():
 
@@ -45,12 +52,15 @@ def main():
 
     #load images from input npz file
     f = np.load(input_directory)
-    images = f['images']
-    depths = f['depths']
+    images_np = f['images']
+    depths_np = f['depths']
 
     #rearrange into proper columns
-    images = np.transpose(images, [3,0,1,2])
-    images = tf.convert_to_tensor(images, dtype=tf.float32)
+    images_np = np.transpose(images_np, [3,0,1,2])
+    depths_np = np.transpose(depths_np, [2, 1, 0])
+
+    images_tf = tf.convert_to_tensor(images_np, dtype=tf.float32)
+    images_tf = tf.convert_to_tensor(depths_np, dtype=tf.float32)
     print('\n **Images loaded successfully ** \n')
 
     # Build model
@@ -59,7 +69,8 @@ def main():
     # If train mode, generate weights
     if mode == 'train':
         model = train(net,images,depths)        # load model values
-
+    if mode == 'val':
+        model = validate(net,images)
 
         # Run Images through models
 
