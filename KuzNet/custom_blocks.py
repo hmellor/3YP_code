@@ -1,4 +1,4 @@
-import tf
+import tensorflow as tf
 import tflearn
 
 # Define type 1 residual block
