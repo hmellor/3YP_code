@@ -45,12 +45,17 @@ def validate(net,images):
 def main():
 
     # Check for correct number of input arguments
-    if sys.argv[1] == 'train' and len(sys.argv) != 3:
-        print("\n ** If training please run:\n\tpython kuznet.py train <npz_input_directory> ** \n")
-    	#exit()
+    if len(sys.argv) == 1:
+        print("\n ** No mode selected, please run:\n\tpython KuzNet.py <train/val> ** \n")
+    	exit()
+    elif sys.argv[1] == 'train' and len(sys.argv) != 3:
+        print("\n ** No dataset selected, please run:\n\tpython KuzNet.py train <npz_input_directory> ** \n")
+    	exit()
     elif sys.argv[1] == 'val' and len(sys.argv) != 4:
-    	print("\n ** If validating please run: \n\tpython kuznet.py val <npz_input_directory> <model_input_directory>** \n")
-        #exit()
+    	print("\n ** No dataset or model checkpoint selected, please run:\n\tpython KuzNet.py val <npz_input_directory> <model_input_directory>** \n")
+        exit()
+    else:
+        print("\n ** Invalid input arguments, please run:\n\tpython KusNet.py")
 
     mode = sys.argv[1]
     input_directory= sys.argv[2]
