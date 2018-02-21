@@ -1,6 +1,6 @@
 import sys
-import tflearn
 import tensorflow as tf
+import tflearn
 import numpy as np
 import model_network
 
@@ -47,7 +47,7 @@ def main():
     f = np.load(input_directory)
     images = f['images']
     depths = f['depths']
-    
+
     #rearrange into proper columns
     images = np.transpose(images, [3,0,1,2])
     images = tf.convert_to_tensor(images, dtype=tf.float32)
@@ -60,7 +60,7 @@ def main():
     if mode == 'train':
         model = train(net,images,depths)        # load model values
 
-    
+
         # Run Images through models
 
 

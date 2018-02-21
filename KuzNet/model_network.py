@@ -1,7 +1,7 @@
 import custom_blocks
-import tflearn
 import numpy as np
 import tensorflow as tf
+import tflearn
 
 def model_network():
     # Real-time data augmentation
