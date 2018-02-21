@@ -68,4 +68,7 @@ def model_network():
     #final conv layer is a 2d convolution of size 3, stride 1 and 64 channels
     net = tflearn.conv_2d(net, 64, 2048, strides=1)
 
+    #Regression
+    net = tflearn.layers.estimator.regression (net)
+
     return net
