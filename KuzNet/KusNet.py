@@ -63,8 +63,8 @@ def main():
     #images_tf = tf.convert_to_tensor(depths_np, dtype=tf.float32)
 
     images_placeholder = tf.placeholder(tf.float32, shape=images_np.shape)
-    v = tf.Variable(iamges_placeholder)
-    sess.run(v.initializer, feed_dict={init_placeholder: images_np})
+    v = tf.Variable(images_placeholder)
+    sess.run(v.initializer, feed_dict={images_placeholder: images_np})
 
     print('\n **Images loaded successfully ** \n')
 
