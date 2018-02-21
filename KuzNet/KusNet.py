@@ -59,8 +59,13 @@ def main():
     images_np = np.transpose(images_np, [3,0,1,2])
     depths_np = np.transpose(depths_np, [2, 1, 0])
 
-    images_tf = tf.convert_to_tensor(images_np, dtype=tf.float32)
-    images_tf = tf.convert_to_tensor(depths_np, dtype=tf.float32)
+    #images_tf = tf.convert_to_tensor(images_np, dtype=tf.float32)
+    #images_tf = tf.convert_to_tensor(depths_np, dtype=tf.float32)
+
+    images_placeholder = tf.placeholder(tf.float32, shape=images_np.shape)
+    v = tf.Variable(iamges_placeholder)
+    sess.run(v.initializer, feed_dict={init_placeholder: images_np})
+
     print('\n **Images loaded successfully ** \n')
 
     # Build model
