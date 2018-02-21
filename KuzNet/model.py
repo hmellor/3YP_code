@@ -1,4 +1,4 @@
-import custom_blocks
+from custom_blocks import res1,res2,resup
 import numpy as np
 import tensorflow as tf
 import tflearn
