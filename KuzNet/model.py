@@ -57,12 +57,12 @@ def model_network():
     net = tflearn.conv_2d(net, 1, 2048, strides=1)
 
     #Main model section 6
-    net = resup(net,1) #type 1, stride 1       upproject1
+    net = resup(net) #                    upproject1
 
     #Main model - remaining up projections
-    net = resup(net + resblock13) #type 1, stride 1       upproject2
-    net = resup(net + resblock7) #type 1, stride 1        upproject3
-    net = resup(net + resblock3) #type 1, stride 1        upproject4
+    net = resup(net + resblock13)#        upproject2
+    net = resup(net + resblock7) #        upproject3
+    net = resup(net + resblock3) #        upproject4
 
 
     #final conv layer is a 2d convolution of size 3, stride 1 and 64 channels
