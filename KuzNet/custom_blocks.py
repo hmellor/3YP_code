@@ -2,10 +2,10 @@ import tensorflow as tf
 import tflearn
 
 # Define type 1 residual block
-def res1(incoming, stride_size):
+def res1(incoming):
     # First convolution that uses res1 inputs
     net = tflearn.layers.conv.conv_2d (
-        incoming=incoming, nb_filter=1, filter_size=1, strides=stride_size, padding='same',
+        incoming, nb_filter=1, filter_size=1, strides=1,padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type1_Conv2D_1')
@@ -32,7 +32,7 @@ def res1(incoming, stride_size):
 def res2(incoming, stride_size):
     # First convolution that uses res2 inputs
     net = tflearn.layers.conv.conv_2d (
-        incoming=incoming, nb_filter=1, filter_size=1, strides=stride_size, padding='same',
+        incoming, nb_filter=1, filter_size=1, strides=stride_size, padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type2_Conv2D_1')
@@ -62,13 +62,13 @@ def res2(incoming, stride_size):
     return net
 
 # Define up project residual block
-def resup(incoming, stride_size):
+def resup(incoming):
     # Upsample by a factor of 2
     net = tflearn.layers.conv.upsample_2d (
-        incoming=incoming, kernel_size=2, name='resup UpSample2D')
+        incoming, kernel_size=2, name='resup UpSample2D')
     # Resudual convolution using upsample as input
     res = tflearn.layers.conv.conv_2d (
-        net, nb_filter=1, filter_size=5, strides=stride_size, padding='same',
+        net, nb_filter=1, filter_size=5, strides=1, padding='same',
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='resup_Conv2D_res')

@@ -26,32 +26,32 @@ def model_network():
 
     #Main model section 2
     net = res2(net,1) #type 1, stride 2     resblock1
-    net = res1(net,1) #type 1, stride 1
-    net = res1(net,1) #type 1, stride 1
+    net = res1(net) #type 1, stride 1
+    net = res1(net) #type 1, stride 1
     resblock3 = net
     net = res2(net,2) #type 2, stride 2     resblock 4
 
     #Main model section 3
-    net = res1(net,1) #type 1, stride 1
-    net = res1(net,1) #type 1, stride 1
-    net = res1(net,1) #type 1, stride 1
+    net = res1(net) #type 1, stride 1
+    net = res1(net) #type 1, stride 1
+    net = res1(net) #type 1, stride 1
     resblock7 = net
     net = res2(net,2) #type 2, stride 2       resblock 8
 
 
     #Main model section 4
-    net = res1(net,1) #type 1, stride 1       resblock 9
-    net = res1(net,1) #type 1, stride 1
-    net = res1(net,1) #type 1, stride 1
-    net = res1(net,1) #type 1, stride 1
-    net = res1(net,1) #type 1, stride 1       resblock 13
+    net = res1(net) #type 1, stride 1       resblock 9
+    net = res1(net) #type 1, stride 1
+    net = res1(net) #type 1, stride 1
+    net = res1(net) #type 1, stride 1
+    net = res1(net) #type 1, stride 1       resblock 13
     resblock13 = net
     net = res2(net,2) #type 2, stride 2       resblock 14
 
 
     #Main model section 5
-    net = res1(net,1) #type 1, stride 1       resblock 15
-    net = res1(net,1) #type 1, stride 1       resblock 16
+    net = res1(net) #type 1, stride 1       resblock 15
+    net = res1(net) #type 1, stride 1       resblock 16
     #conv layer is a 2d convolution of size 1, stride 1 and 2048 channels
     # conv2d syntax tflearn.layers.conv.conv_2d (incoming, nb_filter, filter_size, strides=1)
     net = tflearn.conv_2d(net, 1, 2048, strides=1)
