@@ -26,7 +26,7 @@ def main():
     print('\n images loaded successfully \n')
     
     if mode == 'train':
-    train = true
+        train = true
       
     
     
