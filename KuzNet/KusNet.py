@@ -3,7 +3,7 @@ import tensorflow as tf
 import tflearn
 import numpy as np
 from model import model_network
-import cv2 as cv
+from PIL import Image
 
 def develop_model(net):
     model = tflearn.DNN(net,
@@ -72,8 +72,8 @@ def main():
     depths_np = np.transpose(depths_np, [2, 0, 1])
     #use opencv to resize all images in depths_np
     for i in xrange(np.size(depths_np,0)):
-        depths_np[i,:,:] = cv.resize(
-            depths_np[i,:,:],(320,240), interpolation = cv.INTER_AREA
+        depths_np[i,:,:] = Image.resize(
+            depths_np[i,:,:],(320,240), interpolation = LANCZOS
             )
     #expand depths_np to have a single colour channel
     depths_np = np.expand_dims(depths_np, 3)
