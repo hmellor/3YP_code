@@ -51,9 +51,9 @@ def main():
     print('\n ** Loading Images from %s ** \n'% (input_directory))
 
     #load images from input npz file
-    f = np.load(input_directory)
-    images_np = f['images']
-    depths_np = f['depths']
+    data = np.load(input_directory)
+    images_np = data['images']
+    depths_np = data['depths']
 
     #rearrange into proper columns
     images_np = np.transpose(images_np, [3,0,1,2])
