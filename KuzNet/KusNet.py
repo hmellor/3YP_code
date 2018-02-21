@@ -76,7 +76,7 @@ def main():
     # Build model
     net = model_network()
 
-    print('\n ** Net Built** \n')
+    print('\n ** Net Built ** \n')
 
     # train or validate
     if mode == 'train':
