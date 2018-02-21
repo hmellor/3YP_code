@@ -3,7 +3,7 @@ import tensorflow as tf
 import tflearn
 import numpy as np
 from model import model_network
-from PIL import image
+from PIL import Image
 
 def develop_model(net):
     model = tflearn.DNN(net,
