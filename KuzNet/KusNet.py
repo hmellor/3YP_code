@@ -72,11 +72,8 @@ def main():
     depths_np = np.transpose(depths_np, [2, 0, 1])
     #expand depths_np to have a single colour channel
     depths_np = np.expand_dims(depths_np, 3)
-
-    depths_tf = tf.image.resize_images(depths_np,(240, 320),method=ResizeMethod.AREA)
-    with sess.as_default():
-        depths_np = depths_tf.eval()
-    
+    #resize depths to 240x320
+    so the resizing here, everything I have tried doesn't work
 
     print(images_np.shape)
     print(depths_np.shape)
