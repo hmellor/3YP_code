@@ -8,20 +8,24 @@ def develop_model(net):
     model = tflearn.DNN(net,
                         clip_gradients=5.0,
                         tensorboard_verbose=2,
-                        tensorboard_dir='/tmp/tflearn_logs/',
+                        tensorboard_dir='/tflearn_logs/',
                         checkpoint_path='Checkpoints/',
                         best_checkpoint_path=None,
                         max_checkpoints=None,
                         session=None,
                         best_val_accuracy=0.0)
+    print('\n ** Model Developed ** \n')
     return model
 
 def train(net,images,depths):
+    # Build model
     model = develop_model(net)
+    print('\n ** Training ** \n')
+    # Train Weights
     model.fit(images,
           depths,
           n_epoch=20,
-          snapshot_epoch=False,
+          snapshot_epoch=True,
           snapshot_step=500,
           show_metric=True,
           batch_size=10,
@@ -32,9 +36,11 @@ def train(net,images,depths):
 
 def validate(net,images):
     model = develop_model(net)
-    outlist = model.predit(images)
+    print('\n ** Predicting ** \n')
+    outlist = model.predict(images)
     outarray = np.asarray(outlist)
     np.savez('predictions.npz', depths=outarray)
+    print('\n ** Done, saved in this directory ** \n' % (filename))
 
 def main():
 
@@ -62,28 +68,20 @@ def main():
     depths_np = np.transpose(depths_np, [2, 1, 0])
 
     print(images_np.shape)
-    print('\n **Images loaded successfully ** \n')
+    print('\n **%s images loaded successfully ** \n' % (images_np.shape[1]))
 
     # Build model
     net = model_network()
 
-    # If train mode, generate weights
+    print('\n ** Net Built** \n')
+
+    # train or validate
     if mode == 'train':
         model = train(net,images_np,depths_np)        # load model values
     if mode == 'val':
         model = validate(net,images_np)
 
-        # Run Images through models
-
-
-
-
-
-
-    # Predict the image
-    #predict(model, input_directory)
     exit()
-
 
 if __name__ == "__main__":
     main()
