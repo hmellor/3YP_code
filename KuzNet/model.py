@@ -1,10 +1,10 @@
-import customblocks
+import custom_blocks
 import tflearn
 import numpy as np
 import tensorflow as tf
 
 def model_network():
-    # Real-time data augmentation 
+    # Real-time data augmentation
     img_aug = tflearn.ImageAugmentation()
     #add random left and right flips
     img_aug.add_random_flip_leftright()
@@ -40,7 +40,7 @@ def model_network():
 
 
     #Main model section 4
-    net = res1(net,1) #type 1, stride 1       resblock 9 
+    net = res1(net,1) #type 1, stride 1       resblock 9
     net = res1(net,1) #type 1, stride 1
     net = res1(net,1) #type 1, stride 1
     net = res1(net,1) #type 1, stride 1
@@ -50,24 +50,21 @@ def model_network():
 
 
     #Main model section 5
-    net = res1(net,1) #type 1, stride 1       resblock 15 
-    net = res1(net,1) #type 1, stride 1       resblock 16 
+    net = res1(net,1) #type 1, stride 1       resblock 15
+    net = res1(net,1) #type 1, stride 1       resblock 16
     #conv layer is a 2d convolution of size 1, stride 1 and 2048 channels
     net = tflearn.conv_2d(net, 1, 2048, strides=1)
 
     #Main model section 6
-    net = resup(net,1) #type 1, stride 1       upproject1 
+    net = resup(net,1) #type 1, stride 1       upproject1
 
     #Main model - remaining up projections
-    net = resup(net + resblock13) #type 1, stride 1       upproject2 
-    net = resup(net + resblock7) #type 1, stride 1        upproject3 
-    net = resup(net + resblock3) #type 1, stride 1        upproject4 
+    net = resup(net + resblock13) #type 1, stride 1       upproject2
+    net = resup(net + resblock7) #type 1, stride 1        upproject3
+    net = resup(net + resblock3) #type 1, stride 1        upproject4
 
 
     #final conv layer is a 2d convolution of size 3, stride 1 and 64 channels
     net = tflearn.conv_2d(net, 64, 2048, strides=1)
-    
+
     return net
-
-
-
