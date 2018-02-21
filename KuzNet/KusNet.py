@@ -73,7 +73,7 @@ def main():
     #expand depths_np to have a single colour channel
     depths_np = np.expand_dims(depths_np, 3)
     #use opencv to resize all images in depths_np
-    for i in enumerate(depths_np[0,:,:,:])
+    for i in enumerate(depths_np[0,:,:,:]):
         depths_np[i,:,:,:] = cv.resize(
             depths_np[i,:,:,:],(240,320), interpolation = cv.INTER_AREA
             )
