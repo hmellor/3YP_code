@@ -11,13 +11,13 @@ def res1(incoming, stride_size):
         restore=True, reuse=False, scope=None, name='Type1_Conv2D_1')
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
-        net1, nb_filter=1, filter_size=3, strides=1, padding='same',
+        net, nb_filter=1, filter_size=3, strides=1, padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type1_Conv2D_2')
     # Third connvolution
     net = tflearn.layers.conv.conv_2d (
-        net1, nb_filter=1, filter_size=1, strides=1, padding='same',
+        net, nb_filter=1, filter_size=1, strides=1, padding='same',
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type1_Conv2D_3')
@@ -38,13 +38,13 @@ def res2(incoming, stride_size):
         restore=True, reuse=False, scope=None, name='Type2_Conv2D_1')
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
-        net1, nb_filter=1, filter_size=3, strides=1, padding='same',
+        net, nb_filter=1, filter_size=3, strides=1, padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type2_Conv2D_2')
     # Third convolution
     net = tflearn.layers.conv.conv_2d (
-        net1, nb_filter=1, filter_size=1, strides=1, padding='same',
+        net, nb_filter=1, filter_size=1, strides=1, padding='same',
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type2_Conv2D_3')
