@@ -8,8 +8,8 @@ def develop_model(net):
     model = tflearn.DNN(net,
                         clip_gradients=5.0,
                         tensorboard_verbose=2,
-                        tensorboard_dir='/tflearn_logs/',
-                        checkpoint_path='Checkpoints/',
+                        tensorboard_dir='tflearn_logs',
+                        checkpoint_path='Checkpoints',
                         best_checkpoint_path=None,
                         max_checkpoints=None,
                         session=None,
@@ -71,7 +71,7 @@ def main():
     depths_np = np.transpose(depths_np, [2, 1, 0])
 
     print(images_np.shape)
-    print('\n **%s images loaded successfully ** \n' % (images_np.shape[0]))
+    print('\n ** %s images loaded successfully ** \n' % (images_np.shape[0]))
 
     # Build model
     net = model_network()
