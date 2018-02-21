@@ -50,7 +50,7 @@ def res2(incoming, stride_size):
         restore=True, reuse=False, scope=None, name='Type2_Conv2D_3')
     # Residual convolution that uses res2 unputs
     res = tflearn.layers.conv.conv_2d (
-        incoming=incoming, nb_filter=1, filter_size=1, stride=stride_size, padding='same',
+        incoming=incoming, nb_filter=1, filter_size=1, strides=stride_size, padding='same',
         activation='linar', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type2_Conv2D_res')
