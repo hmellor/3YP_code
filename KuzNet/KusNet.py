@@ -73,7 +73,7 @@ def main():
     #use opencv to resize all images in depths_np
     for i in xrange(np.size(depths_np,0)):
         depths_np[i,:,:] = depths_np[i,:,:].resize(
-            depths_np[i,:,:],(320,240), PIL.Image.LANCZOS
+            depths_np[i,:,:],(320,240), Image.LANCZOS
             )
     #expand depths_np to have a single colour channel
     depths_np = np.expand_dims(depths_np, 3)
