@@ -18,7 +18,7 @@ def model_network():
 
     #Main model section 1
     #first layer is a 2d convolution of size 7 and stride 2 and 3 channels
-    net = tflearn.conv_2d(net, 7, 3, strides=2)
+    net = tflearn.layers.conv_2d(net, 1, 7, strides=2)
 
     # second layer is a maxpool layer of size 3 and stride 2
     #unsure if we need padding and what exactly is batch normalisation
