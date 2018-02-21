@@ -8,19 +8,19 @@ def res1(incoming, stride_size):
         incoming=incoming, nb_filter=1, filter_size=1, strides=stride_size, padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
-        restore=True, reuse=False, scope=None, name='Type1 Conv2D 1')
+        restore=True, reuse=False, scope=None, name='Type1_Conv2D_1')
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
         net1, nb_filter=1, filter_size=3, strides=1, padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
-        restore=True, reuse=False, scope=None, name='Type1 Conv2D 2')
+        restore=True, reuse=False, scope=None, name='Type1_Conv2D_2')
     # Third connvolution
     net = tflearn.layers.conv.conv_2d (
         net1, nb_filter=1, filter_size=1, strides=1, padding='same',
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
-        restore=True, reuse=False, scope=None, name='Type1 Conv2D 3')
+        restore=True, reuse=False, scope=None, name='Type1_Conv2D_3')
     # Add the raw input and the third convolution output
     net += incoming
     # Pass net through a ReLU activation function
@@ -35,25 +35,25 @@ def res2(incoming, stride_size):
         incoming=incoming, nb_filter=1, filter_size=1, strides=stride_size, padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
-        restore=True, reuse=False, scope=None, name='Type2 Conv2D 1')
+        restore=True, reuse=False, scope=None, name='Type2_Conv2D_1')
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
         net1, nb_filter=1, filter_size=3, strides=1, padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
-        restore=True, reuse=False, scope=None, name='Type2 Conv2D 2')
+        restore=True, reuse=False, scope=None, name='Type2_Conv2D_2')
     # Third convolution
     net = tflearn.layers.conv.conv_2d (
         net1, nb_filter=1, filter_size=1, strides=1, padding='same',
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
-        restore=True, reuse=False, scope=None, name='Type2 Conv2D 3')
+        restore=True, reuse=False, scope=None, name='Type2_Conv2D_3')
     # Residual convolution that uses res2 unputs
     res = tflearn.layers.conv.conv_2d (
         incoming=incoming, nb_filter=1, filter_size=1, stride=stride_size, padding='same',
         activation='linar', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
-        restore=True, reuse=False, scope=None, name='Type2 Conv2D res')
+        restore=True, reuse=False, scope=None, name='Type2_Conv2D_res')
     # Add the residual convolution and the third convolution outputs
     net += res
     # Pass net through a ReLU activation function
@@ -71,19 +71,19 @@ def resup(incoming, stride_size):
         net, nb_filter=1, filter_size=5, strides=stride_size, padding='same',
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
-        restore=True, reuse=False, scope=None, name='resup Conv2D res')
+        restore=True, reuse=False, scope=None, name='resup_Conv2D_res')
     # First convolution using upsample as input
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=5, strides=1, padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
-        restore=True, reuse=False, scope=None, name='resup Conv2D 1')
+        restore=True, reuse=False, scope=None, name='resup_Conv2D_11')
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=3, strides=1, padding='same',
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
-        restore=True, reuse=False, scope=None, name='resup Conv2D 2')
+        restore=True, reuse=False, scope=None, name='resup_Conv2D_2')
     # Add the residual convolution and the second convolution outputs
     net += res
     # Pass net through a ReLU activation function
