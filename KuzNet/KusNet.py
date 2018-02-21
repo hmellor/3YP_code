@@ -3,6 +3,7 @@ import tensorflow as tf
 import tflearn
 import numpy as np
 from model import model_network
+from PIL import image
 
 def develop_model(net):
     model = tflearn.DNN(net,
@@ -70,7 +71,7 @@ def main():
     images_np = np.transpose(images_np, [3,0,1,2])
     depths_np = np.transpose(depths_np, [2, 1, 0])
     depths_np = np.expand_dims(depths_np, 3)
-    depths_np = tf.image.resize_images(depths_np,(240, 320))
+    depths_np = depths_np.resize((240,320, Image.LANCZOS))
 
 
 
