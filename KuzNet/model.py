@@ -25,7 +25,7 @@ def model_network():
     net = tflearn.layers.conv.max_pool_2d (net, 3, strides=2)
 
     #Main model section 2
-    net = res2(net,1) #type 1, stride 2     resblock1
+    net = res2(net,1) #type 2, stride 1     resblock1
     net = res1(net) #type 1, stride 1
     net = res1(net) #type 1, stride 1
     resblock3 = net
