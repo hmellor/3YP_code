@@ -65,7 +65,7 @@ def res2(incoming, stride_size):
 def resup(incoming):
     # Upsample by a factor of 2
     net = tflearn.layers.conv.upsample_2d (
-        incoming, kernel_size=2, name='resup UpSample2D')
+        incoming, kernel_size=2, name='resup_UpSample2D')
     # Resudual convolution using upsample as input
     res = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=5, strides=1, padding='same',
