@@ -70,13 +70,13 @@ def main():
     #rearrange into proper columns
     images_np = np.transpose(images_np, [3,0,1,2])
     depths_np = np.transpose(depths_np, [2, 0, 1])
-    #expand depths_np to have a single colour channel
-    depths_np = np.expand_dims(depths_np, 3)
     #use opencv to resize all images in depths_np
     for i in xrange(np.size(depths_np,0)):
         depths_np[i,:,:,:] = cv.resize(
-            depths_np[i,:,:,:],(240,320,1), interpolation = cv.INTER_AREA
+            depths_np[i,:,:,:],(240,320), interpolation = cv.INTER_AREA
             )
+    #expand depths_np to have a single colour channel
+    depths_np = np.expand_dims(depths_np, 3)
 
     print(images_np.shape)
     print(depths_np.shape)
