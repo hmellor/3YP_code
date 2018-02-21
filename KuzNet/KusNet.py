@@ -54,8 +54,6 @@ def main():
     elif sys.argv[1] == 'val' and len(sys.argv) != 4:
     	print("\n ** No dataset or model checkpoint selected, please run:\n\tpython KuzNet.py val <npz_input_directory> <model_input_directory>** \n")
         exit()
-    else:
-        print("\n ** Invalid input arguments, please run:\n\tpython KusNet.py")
 
     mode = sys.argv[1]
     input_directory= sys.argv[2]
@@ -73,7 +71,7 @@ def main():
     depths_np = np.transpose(depths_np, [2, 1, 0])
 
     print(images_np.shape)
-    print('\n **%s images loaded successfully ** \n' % (images_np.shape[1]))
+    print('\n **%s images loaded successfully ** \n' % (images_np.shape[0]))
 
     # Build model
     net = model_network()
