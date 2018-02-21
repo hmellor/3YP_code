@@ -32,7 +32,9 @@ def train(net,images,depths):
 
 def validate(net,images):
     model = develop_model(net)
-    model.predit(images)
+    outlist = model.predit(images)
+    outarray = np.asarray(outlist)
+    np.savez('predictions.npz', depths=outarray)
 
 def main():
 
@@ -59,13 +61,7 @@ def main():
     images_np = np.transpose(images_np, [3,0,1,2])
     depths_np = np.transpose(depths_np, [2, 1, 0])
 
-    #images_tf = tf.convert_to_tensor(images_np, dtype=tf.float32)
-    #images_tf = tf.convert_to_tensor(depths_np, dtype=tf.float32)
-
-    images_placeholder = tf.placeholder(tf.float32, shape=images_np.shape)
-    v = tf.Variable(images_placeholder)
-    sess.run(v.initializer, feed_dict={images_placeholder: images_np})
-
+    print(tf.shape)
     print('\n **Images loaded successfully ** \n')
 
     # Build model
@@ -73,9 +69,9 @@ def main():
 
     # If train mode, generate weights
     if mode == 'train':
-        model = train(net,images,depths)        # load model values
+        model = train(net,images_np,depths_np)        # load model values
     if mode == 'val':
-        model = validate(net,images)
+        model = validate(net,images_np)
 
         # Run Images through models
 
