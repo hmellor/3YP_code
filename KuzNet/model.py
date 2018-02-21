@@ -4,14 +4,7 @@ import numpy as np
 import tensorflow as tf
 
 
-#Load data
-
-from tflearn.datasets import cifar10
-(X, Y), (testX, testY) = cifar10.load_data()
-Y = tflearn.data_utils.to_categorical(Y)
-testY = tflearn.data_utils.to_categorical(testY)
-
-# Real-time data augmentation
+# Real-time data augmentation 
 img_aug = tflearn.ImageAugmentation()
 #add random left and right flips
 img_aug.add_random_flip_leftright()
