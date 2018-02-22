@@ -77,7 +77,7 @@ def main():
     depths_np = np.asarray(depths_tf)
 
     print(images_np.shape)
-    print('\n ** %s images size %s loaded successfully ** \n' % (images_np.shape[0]),images_np.shape[1,2,3])
+    print('\n ** %s images size %s loaded successfully ** \n' % (images_np.shape[0],images_np.shape[1,2,3]))
 
     # Build model
     net = model_network()
