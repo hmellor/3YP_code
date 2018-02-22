@@ -109,7 +109,7 @@ def normalisation(incoming):
                                                             stddev=0.002,
                                                             trainable=True,
                                                             restore=True,
-                                                            reuse=True,
+                                                            reuse=False,
                                                             scope=None,
                                                             name='BatchNormalization')
     return net
