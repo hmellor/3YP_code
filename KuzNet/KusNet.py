@@ -23,15 +23,15 @@ def train(net,images,depths):
     model = develop_model(net)
     print('\n ** Training ** \n')
     # Train Weights
-    model.fit(images,
-          depths,
-          n_epoch=20,
-          snapshot_epoch=True,
-          snapshot_step=500,
-          show_metric=True,
-          batch_size=10,
-          shuffle=True,
-          run_id='KusNet')
+    model.fit(
+        feed_dicts={input1: images, target1: depths}
+        n_epoch=20,
+        snapshot_epoch=True,
+        snapshot_step=500,
+        show_metric=True,
+        batch_size=10,
+        shuffle=True,
+        run_id='KusNet')
 
     return model
 
@@ -74,7 +74,6 @@ def main():
     depths_np = np.expand_dims(depths_np, 3)
     #resize depths to 240x320 by halfing resolution using max pool
     depths_tf = tflearn.layers.conv.max_pool_2d (depths_np, 2, strides=2)
-    depths_np = np.asarray(depths_tf)
 
     print(images_np.shape)
     print('\n ** %s images loaded successfully** \n' % (images_np.shape[0]))
@@ -86,9 +85,9 @@ def main():
 
     # train or validate
     if mode == 'train':
-        model = train(net,images_np,depths_np)        # load model values
+        model = train(net,images_np,depths_tf)        # load model values
     if mode == 'val':
-        model = validate(net,images_np)
+        model = validate(net,images_tf)
 
     exit()
 
