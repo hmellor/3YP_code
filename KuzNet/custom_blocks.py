@@ -9,18 +9,21 @@ def res1(incoming):
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type1_Conv2D_1')
+    net = normalisation(net)
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=3, strides=1, padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type1_Conv2D_2')
+    net = normalisation(net)
     # Third connvolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=1, strides=1, padding='same',
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type1_Conv2D_3')
+    net = normalisation(net)
     # Add the raw input and the third convolution output
     net += incoming
     # Pass net through a ReLU activation function
@@ -36,24 +39,28 @@ def res2(incoming, stride_size):
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type2_Conv2D_1')
+    net = normalisation(net)
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=3, strides=1, padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type2_Conv2D_2')
+    net = normalisation(net)
     # Third convolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=1, strides=1, padding='same',
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type2_Conv2D_3')
+    net = normalisation(net)
     # Residual convolution that uses res2 unputs
     res = tflearn.layers.conv.conv_2d (
         incoming=incoming, nb_filter=1, filter_size=1, strides=stride_size, padding='same',
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='Type2_Conv2D_res')
+    res = normalisation(res)
     # Add the residual convolution and the third convolution outputs
     net += res
     # Pass net through a ReLU activation function
@@ -72,12 +79,14 @@ def resup(incoming):
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='resup_Conv2D_res')
+    res = normalisation(res)
     # First convolution using upsample as input
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=5, strides=1, padding='same',
         activation='relu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='resup_Conv2D_11')
+    net = normalisation(net)
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=3, strides=1, padding='same',
@@ -89,4 +98,18 @@ def resup(incoming):
     # Pass net through a ReLU activation function
     net = tflearn.activations.relu (net)
 
+    return net
+
+def normalisation(incoming):
+    net = tflearn.layers.normalization.batch_normalization (incoming,
+                                                            beta=0.0,
+                                                            gamma=1.0,
+                                                            epsilon=1e-05,
+                                                            decay=0.9,
+                                                            stddev=0.002,
+                                                            trainable=True,
+                                                            restore=True,
+                                                            reuse=True,
+                                                            scope=None,
+                                                            name='BatchNormalization')
     return net
