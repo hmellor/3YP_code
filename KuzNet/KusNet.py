@@ -73,7 +73,7 @@ def main():
     #expand depths_np to have a single colour channel
     depths_np = np.expand_dims(depths_np, 3)
     #resize depths to 240x320
-    so the resizing here, everything I have tried doesn't work
+    depths_np = tflearn.layers.conv.max_pool_2d (depths_np, 2, strides=2)
 
     print(images_np.shape)
     print(depths_np.shape)
