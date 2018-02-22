@@ -93,6 +93,7 @@ def resup(incoming):
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='resup_Conv2D_2')
+    net = normalisation(res)
     # Add the residual convolution and the second convolution outputs
     net += res
     # Pass net through a ReLU activation function
