@@ -4,17 +4,16 @@ import tensorflow as tf
 import tflearn
 
 def model_network():
-    # Real-time data augmentation
-    img_aug = tflearn.ImageAugmentation()
-    #add random left and right flips
-    img_aug.add_random_flip_leftright()
+    # # Real-time data augmentation
+    # img_aug = tflearn.ImageAugmentation()
+    # #add random left and right flips
+    # img_aug.add_random_flip_leftright()
 
 
     # Building Residual Network
 
     # Specify the input shape to be [number of images, height, width, number of channels]
-    net = tflearn.input_data(shape=[None, 480, 640, 3],
-                             data_augmentation=img_aug)
+    net = tflearn.input_data(shape=[None, 480, 640, 3])
     net = normalisation(net)
 
     #Main model section 1
@@ -24,32 +23,28 @@ def model_network():
     # second layer is a maxpool layer of size 3 and stride 2
     #unsure if we need padding and what exactly is batch normalisation
     net = tflearn.layers.conv.max_pool_2d (net, 3, strides=2, name='maxpool1')
-    net = normalisation(net)
+    #net = normalisation(net)
 
     #Main model section 2
     net = res2(net,1) #type 2, stride 1     resblock1
     net = res1(net) #type 1, stride 1
-    net = res1(net) #type 1, stride 1
-    resblock3 = net
-    net = res2(net,2) #type 2, stride 2     resblock 4
+    resblock3 = res1(net) #type 1, stride 1
+    net = res2(resblock3,2) #type 2, stride 2     resblock 4
 
     #Main model section 3
     net = res1(net) #type 1, stride 1
     net = res1(net) #type 1, stride 1
-    net = res1(net) #type 1, stride 1
-    resblock7 = net
-    net = res2(net,2) #type 2, stride 2       resblock 8
+    resblock7 = res1(net) #type 1, stride 1
+    net = res2(resblock7,2) #type 2, stride 2       resblock 8
 
 
     #Main model section 4
     net = res1(net) #type 1, stride 1       resblock 9
-
     net = res1(net) #type 1, stride 1
     net = res1(net) #type 1, stride 1
     net = res1(net) #type 1, stride 1
-    net = res1(net) #type 1, stride 1       resblock 13
-    resblock13 = net
-    net = res2(net,2) #type 2, stride 2       resblock 14
+    resblock13 = res1(net) #type 1, stride 1       resblock 13
+    net = res2(resblock13,2) #type 2, stride 2       resblock 14
 
 
     #Main model section 5
