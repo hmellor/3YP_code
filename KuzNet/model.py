@@ -1,4 +1,4 @@
-from custom_blocks import res1,res2,resup
+from custom_blocks import res1,res2,resup,normalisation
 import numpy as np
 import tensorflow as tf
 import tflearn
@@ -72,7 +72,7 @@ def model_network():
     #final conv layer is a 2d convolution of size 3, stride 1
     net = tflearn.layers.conv_2d(net, 1, 3, strides=1, name='conv3')
     # No normalisation
-    
+
     #Regression
     net = tflearn.layers.estimator.regression (net)
 
