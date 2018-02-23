@@ -34,7 +34,7 @@ def res1(block_number, incoming):
 
 # Define type 2 residual block
 def res2(block_number, incoming, stride_size):
-    block = 'res_block%d' % block_number
+    block = 'res_block%d_' % block_number
     # First convolution that uses res2 inputs
     net = tflearn.layers.conv.conv_2d (
         incoming, nb_filter=1, filter_size=1, strides=stride_size, padding='same',
@@ -72,7 +72,7 @@ def res2(block_number, incoming, stride_size):
 
 # Define up project residual block
 def resup(block_number, incoming):
-    block = 'upproject%d' % block_number
+    block = 'upproject%d_' % block_number
     # Upsample by a factor of 2
     net = tflearn.layers.conv.upsample_2d (
         incoming, kernel_size=2, name='%sUpSample2D' % block)
@@ -96,7 +96,7 @@ def resup(block_number, incoming):
         activation='linear', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer=None, weight_decay=0.001, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_2' % block)
-    net = normalisation(res)
+    net = normalisation(net)
     # Add the residual convolution and the second convolution outputs
     net += res
     # Pass net through a ReLU activation function
