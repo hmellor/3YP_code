@@ -30,7 +30,7 @@ def train(net,images,depths):
         snapshot_epoch=True,
         snapshot_step=500,
         show_metric=True,
-        batch_size=10,
+        batch_size=15,
         shuffle=True,
         run_id='KusNet')
 
@@ -73,14 +73,14 @@ def main():
     depths_np = np.transpose(depths_np, [2, 0, 1])
 
     #resize depths to 240x320
-    depths_resized = np.zeros([0, 240, 320], dtype=np.uint8)
+    depths_resized = np.zeros([0, 240, 320], dtype=np.float32)
     for depth in range(depths_np.shape[0]):
         temp = imresize(depths_np[depth], [240, 320], 'lanczos')
         temp = np.float32(temp)
         temp = (temp/np.max(temp))*255.0
         depths_resized = np.append(depths_resized, np.expand_dims(temp, axis=0), axis=0)
-        if depth+1 % 25 == 0:
-            print('%d depth images resized' % depth+1)
+        if (depth+1) % 25 == 0:
+            print('%d depth images resized' % (depth+1))
 
     #expand depths_np to have a single colour channel
     depths_resized = np.expand_dims(depths_resized, 3)

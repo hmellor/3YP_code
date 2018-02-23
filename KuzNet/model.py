@@ -3,6 +3,8 @@ import numpy as np
 import tensorflow as tf
 import tflearn
 
+wd = 0.00004
+
 def model_network():
     # # Real-time data augmentation
     # img_aug = tflearn.ImageAugmentation()
@@ -18,7 +20,8 @@ def model_network():
 
     #Main model section 1
     #first layer is a 2d convolution of size 7 and stride 2 and 3 channels
-    net = tflearn.layers.conv_2d(net, 1, 7, strides=2, name='conv1')
+    net = tflearn.layers.conv_2d(net, 1, 7, strides=2, regularizer='L2',
+    weight_decay=wd, name='conv1')
     net = normalisation(net)
     # second layer is a maxpool layer of size 3 and stride 2
     #unsure if we need padding and what exactly is batch normalisation
@@ -52,7 +55,8 @@ def model_network():
     net = res1(16,net) #type 1, stride 1       resblock 16
     #conv layer is a 2d convolution of size 1, stride 1
     # conv2d syntax tflearn.layers.conv.conv_2d (incoming, nb_filter, filter_size, strides=1)
-    net = tflearn.layers.conv_2d(net, 1, 1, strides=1, name='conv2')
+    net = tflearn.layers.conv_2d(net, 1, 1, strides=1, regularizer='L2',
+    weight_decay=wd, name='conv2')
     net = normalisation(net)
 
     #Main model section 6
@@ -62,14 +66,16 @@ def model_network():
     net = resup(2,net + resblock13)#        upproject2
     net = resup(3,net + resblock7) #        upproject3
     net = resup(4,net + resblock3) #        upproject4
+    net = tflearn.layers.core.dropout(net, 0.5, noise_shape=None, name='Dropout')
 
 
     #final conv layer is a 2d convolution of size 3, stride 1
-    net = tflearn.layers.conv_2d(net, 1, 3, strides=1, name='conv3')
+    net = tflearn.layers.conv_2d(net, 1, 3, strides=1, regularizer='L2',
+    weight_decay=wd, name='conv3')
     # No normalisation
 
     #Regression
-    adam = tflearn.optimizers.Adam(learning_rate=0.001, beta1=0.99)
-    net = tflearn.layers.estimator.regression (net, optimizer=adam)
+    mom = tflearn.optimizers.Momentum(learning_rate=0.01, momentum=0.9, name='Momentum')
+    net = tflearn.layers.estimator.regression (net, optimizer=mom)
 
     return net
