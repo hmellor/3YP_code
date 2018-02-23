@@ -75,7 +75,7 @@ def resup(block_number, incoming):
     block = 'upproject%d' % block_number
     # Upsample by a factor of 2
     net = tflearn.layers.conv.upsample_2d (
-        incoming, kernel_size=2, scope=None, name='%sUpSample2D' % block)
+        incoming, kernel_size=2, name='%sUpSample2D' % block)
     # Resudual convolution using upsample as input
     res = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=5, strides=1, padding='same',
