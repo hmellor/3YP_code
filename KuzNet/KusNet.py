@@ -75,13 +75,14 @@ def main():
     #depths_np = np.expand_dims(depths_np, 3)
     #resize depths to 240x320
     depths_resized = np.zeros([0, 240, 320], dtype=np.uint8)
-    print('\n')
     for depth in range(depths_np.shape[0]):
         temp = imresize(depths_np[depth], [240, 320], 'lanczos')
         depths_resized = np.append(depths_resized, np.expand_dims(temp, axis=0), axis=0)
-    print('\n')
     #expand depths_np to have a single colour channel
     depths_resized = np.expand_dims(depths_resized, 3)
+    #make sure we are using float32
+    depths_resized = np.float32(depths_resized)
+    images_np = np.float32(images_np)
 
     print(depths_resized.shape)
     print('\n ** %s images loaded successfully** \n' % (images_np.shape[0]))
