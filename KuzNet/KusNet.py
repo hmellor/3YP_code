@@ -26,7 +26,7 @@ def train(net,images,depths):
     input1 = tf.placeholder(tf.float32, shape=(None,480,640,3))
     target1 = tf.placeholder(tf.float32, shape=(None,240,320,1))
     model.fit(
-        feed_dict={input1: images, target1: depths},
+        input1: images, target1: depths
         n_epoch=20,
         snapshot_epoch=True,
         snapshot_step=500,
