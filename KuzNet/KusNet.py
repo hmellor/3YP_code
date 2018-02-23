@@ -24,7 +24,7 @@ def train(net,images,depths):
     print('\n ** Training ** \n')
     # Train Weights
     model.fit(
-        feed_dicts={input1: images, target1: depths}
+        feed_dicts={input1: images, target1: depths},
         n_epoch=20,
         snapshot_epoch=True,
         snapshot_step=500,
