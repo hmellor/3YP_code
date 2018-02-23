@@ -30,8 +30,8 @@ for depth in range(depths.shape[0]):
     if (depth+1) % 25 == 0:
         print('%d depth images resized' % (depth+1))
 
-#expand depths_np to have a single colour channel
-depths = np.expand_dims(depths, 3)
+#expand depths_resized to have a single colour channel
+depths_resized = np.expand_dims(depths_resized, 3)
 
 #save to .npz
 np.savez(file_name, depths=depths_resized, images=images)
