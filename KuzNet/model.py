@@ -26,42 +26,42 @@ def model_network():
     #net = normalisation(net)
 
     #Main model section 2
-    net = res2(net,1) #type 2, stride 1     resblock1
-    net = res1(net) #type 1, stride 1
-    resblock3 = res1(net) #type 1, stride 1
-    net = res2(resblock3,2) #type 2, stride 2     resblock 4
+    net = res2(1,net,1) #type 2, stride 1     resblock1
+    net = res1(2,net) #type 1, stride 1
+    resblock3 = res1(3,net) #type 1, stride 1
+    net = res2(4,resblock3,2) #type 2, stride 2     resblock 4
 
     #Main model section 3
-    net = res1(net) #type 1, stride 1
-    net = res1(net) #type 1, stride 1
-    resblock7 = res1(net) #type 1, stride 1
-    net = res2(resblock7,2) #type 2, stride 2       resblock 8
+    net = res1(5,net) #type 1, stride 1
+    net = res1(6,net) #type 1, stride 1
+    resblock7 = res1(7,net) #type 1, stride 1
+    net = res2(8,resblock7,2) #type 2, stride 2       resblock 8
 
 
     #Main model section 4
-    net = res1(net) #type 1, stride 1       resblock 9
-    net = res1(net) #type 1, stride 1
-    net = res1(net) #type 1, stride 1
-    net = res1(net) #type 1, stride 1
-    resblock13 = res1(net) #type 1, stride 1       resblock 13
-    net = res2(resblock13,2) #type 2, stride 2       resblock 14
+    net = res1(9,net) #type 1, stride 1       resblock 9
+    net = res1(10,net) #type 1, stride 1
+    net = res1(11,net) #type 1, stride 1
+    net = res1(12,net) #type 1, stride 1
+    resblock13 = res1(13,net) #type 1, stride 1       resblock 13
+    net = res2(14,resblock13,2) #type 2, stride 2       resblock 14
 
 
     #Main model section 5
-    net = res1(net) #type 1, stride 1       resblock 15
-    net = res1(net) #type 1, stride 1       resblock 16
+    net = res1(15,net) #type 1, stride 1       resblock 15
+    net = res1(16,net) #type 1, stride 1       resblock 16
     #conv layer is a 2d convolution of size 1, stride 1
     # conv2d syntax tflearn.layers.conv.conv_2d (incoming, nb_filter, filter_size, strides=1)
     net = tflearn.layers.conv_2d(net, 1, 1, strides=1, name='conv2')
     net = normalisation(net)
 
     #Main model section 6
-    net = resup(net) #                    upproject1
+    net = resup(1,net) #                    upproject1
 
     #Main model - remaining up projections
-    net = resup(net + resblock13)#        upproject2
-    net = resup(net + resblock7) #        upproject3
-    net = resup(net + resblock3) #        upproject4
+    net = resup(2,net + resblock13)#        upproject2
+    net = resup(3,net + resblock7) #        upproject3
+    net = resup(4,net + resblock3) #        upproject4
 
 
     #final conv layer is a 2d convolution of size 3, stride 1
