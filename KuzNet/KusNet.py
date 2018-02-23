@@ -23,6 +23,8 @@ def train(net,images,depths):
     model = develop_model(net)
     print('\n ** Training ** \n')
     # Train Weights
+    input1 = tf.placeholder(tf.float32, shape=(None,480,640,3))
+    target1 = tf placeholder(tf.float32, shape=(None,240,320,1))
     model.fit(
         feed_dicts={input1: images, target1: depths},
         n_epoch=20,
