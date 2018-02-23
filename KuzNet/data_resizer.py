@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.misc import imresize
+from oc import path
 import sys
 
 if len(sys.argv) == 1:
@@ -7,6 +8,8 @@ if len(sys.argv) == 1:
     exit()
 
 data_path = sys.argv[1]
+file_name, ext = os.path.splitext(data_path)
+file_name = '%s_resized' % file_name
 
 # load data
 data = np.load(data_path)
@@ -31,4 +34,4 @@ for depth in range(depths.shape[0]):
 depths = np.expand_dims(depths, 3)
 
 #save to .npz
-np.savez('%s_resized' % data_path, depths=depths_resized, images=images)
+np.savez(file_name, depths=depths_resized, images=images)
