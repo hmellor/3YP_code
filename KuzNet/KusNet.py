@@ -79,7 +79,6 @@ def main():
     for depth in range(depths_np.shape[0]):
         temp = imresize(depths_np[depth], [240, 320], 'lanczos')
         depths_resized = np.append(depths_resized, np.expand_dims(temp, axis=0), axis=0)
-        print("Depth Images resized: ",(depth+1), end='\r')
     print('\n')
     #expand depths_np to have a single colour channel
     depths_resized = np.expand_dims(depths_resized, 3)
