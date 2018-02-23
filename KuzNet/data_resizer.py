@@ -8,7 +8,7 @@ if len(sys.argv) == 1:
     exit()
 
 data_path = sys.argv[1]
-file_name, ext = os.path.splitext(data_path)
+file_name, ext = path.splitext(data_path)
 file_name = '%s_resized' % file_name
 
 # load data
