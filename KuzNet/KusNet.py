@@ -71,13 +71,15 @@ def main():
     #rearrange into proper columns
     images_np = np.transpose(images_np, [3,0,1,2])
     depths_np = np.transpose(depths_np, [2, 0, 1])
-    #expand depths_np to have a single colour channel
-    #depths_np = np.expand_dims(depths_np, 3)
+
     #resize depths to 240x320
     depths_resized = np.zeros([0, 240, 320], dtype=np.uint8)
     for depth in range(depths_np.shape[0]):
         temp = imresize(depths_np[depth], [240, 320], 'lanczos')
+        temp = np.float32(temp)
+        temp = (temp/np.max(temp))
         depths_resized = np.append(depths_resized, np.expand_dims(temp, axis=0), axis=0)
+
     #expand depths_np to have a single colour channel
     depths_resized = np.expand_dims(depths_resized, 3)
     #make sure we are using float32
