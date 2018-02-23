@@ -3,8 +3,6 @@ import tensorflow as tf
 import tflearn
 import numpy as np
 from model import model_network
-import PIL
-from scipy.misc import imresize
 
 def develop_model(net):
     model = tflearn.DNN(net,
@@ -72,23 +70,11 @@ def main():
     images_np = np.transpose(images_np, [3,0,1,2])
     depths_np = np.transpose(depths_np, [2, 0, 1])
 
-    #resize depths to 240x320
-    depths_resized = np.zeros([0, 240, 320], dtype=np.float32)
-    for depth in range(depths_np.shape[0]):
-        temp = imresize(depths_np[depth], [240, 320], 'lanczos')
-        temp = np.float32(temp)
-        temp = (temp/np.max(temp))*255.0
-        depths_resized = np.append(depths_resized, np.expand_dims(temp, axis=0), axis=0)
-        if (depth+1) % 25 == 0:
-            print('%d depth images resized' % (depth+1))
-
-    #expand depths_np to have a single colour channel
-    depths_resized = np.expand_dims(depths_resized, 3)
     #make sure we are using float32
-    depths_resized = np.float32(depths_resized)
+    depths_np = np.float32(depths_np)
     images_np = np.float32(images_np)
 
-    print(depths_resized.shape)
+    print(depths_np.shape)
     print('\n ** %s images loaded successfully** \n' % (images_np.shape[0]))
 
     # Build model
@@ -98,7 +84,7 @@ def main():
 
     # train or validate
     if mode == 'train':
-        model = train(net,images_np,depths_resized)        # load model values
+        model = train(net,images_np,depths_np)        # load model values
     if mode == 'val':
         model = validate(net,images_resized)
 
