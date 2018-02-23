@@ -79,6 +79,8 @@ def main():
         temp = np.float32(temp)
         temp = (temp/np.max(temp))*255.0
         depths_resized = np.append(depths_resized, np.expand_dims(temp, axis=0), axis=0)
+        if depth+1 % 25 == 0:
+            print('%d depth images resized' % depth+1)
 
     #expand depths_np to have a single colour channel
     depths_resized = np.expand_dims(depths_resized, 3)

@@ -69,7 +69,7 @@ def model_network():
     # No normalisation
 
     #Regression
-    adam = Adam(learning_rate=0.001, beta1=0.99)
+    adam = tflearn.optimizers.Adam(learning_rate=0.001, beta1=0.99)
     net = tflearn.layers.estimator.regression (net, optimizer=adam)
 
     return net
