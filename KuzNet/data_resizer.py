@@ -15,7 +15,7 @@ images = data['images']
 
 #resize depths to 240x320
 depths_resized = np.zeros([0, 240, 320], dtype=np.float32)
-for depth in range(depths_np.shape[0]):
+for depth in range(depths.shape[0]):
     temp = imresize(depths[depth], [240, 320], 'lanczos')
     temp = np.float32(temp)
     temp = (temp/np.max(temp))*255.0
