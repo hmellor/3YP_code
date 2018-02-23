@@ -14,8 +14,8 @@ depths = data['depths']
 images = data['images']
 
 #rearrange into proper columns
-images_np = np.transpose(images_np, [3,0,1,2])
-depths_np = np.transpose(depths_np, [2, 0, 1])
+images = np.transpose(images, [3,0,1,2])
+depths = np.transpose(depths, [2, 0, 1])
 
 #resize depths to 240x320
 depths_resized = np.zeros([0, 240, 320], dtype=np.float32)
