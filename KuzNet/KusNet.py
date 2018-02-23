@@ -74,6 +74,7 @@ def main():
     depths_np = np.expand_dims(depths_np, 3)
     #resize depths to 240x320 by halfing resolution using max pool
     depths_tf = tflearn.layers.conv.max_pool_2d (depths_np, 2, strides=2)
+    depths_tf = tflearn.layers.core.reshape(depths_tf,[None,240,320,1])
 
     print(images_np.shape)
     print('\n ** %s images loaded successfully** \n' % (images_np.shape[0]))
