@@ -113,11 +113,11 @@ def normalisation(incoming):
         gamma=1.0,
         epsilon=1e-05,
         decay=0.9,
-        stddev=0.2,
+        stddev=0.002,
         trainable=True,
         restore=True,
         reuse=False,
         scope=None,
         name='BatchNormalization')
-
+        
     return net
