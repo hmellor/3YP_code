@@ -3,7 +3,8 @@ import tensorflow as tf
 import tflearn
 import numpy as np
 from model import model_network
-from PIL import Image
+import PIL
+from scipy.misc import imresize
 
 def develop_model(net):
     model = tflearn.DNN(net,
@@ -73,11 +74,16 @@ def main():
     images_np = np.transpose(images_np, [3,0,1,2])
     depths_np = np.transpose(depths_np, [2, 0, 1])
     #expand depths_np to have a single colour channel
-    depths_np = np.expand_dims(depths_np, 3)
+    #depths_np = np.expand_dims(depths_np, 3)
     #resize depths to 240x320 by halfing resolution using max pool
-    depths_tf = tflearn.layers.conv.max_pool_2d (depths_np, 2, strides=2)
-
-    print(images_np.shape)
+    depths_resized = np.zeros([0, 240, 320], dtype=np.uint8)
+    for depth in range(depths_np.shape[0]):
+        temp = imresize(depth_np[depth], [240, 320], 'lanczos')
+        depths_resized = np.append(depths_resized, np.expand_dims(temp, axis=0), axis=0)
+    #expand depths_np to have a single colour channel
+    depths_np = np.expand_dims(depths_np, 3)
+    
+    print(depths_resized.shape)
     print('\n ** %s images loaded successfully** \n' % (images_np.shape[0]))
 
     # Build model
@@ -87,9 +93,9 @@ def main():
 
     # train or validate
     if mode == 'train':
-        model = train(net,images_np,depths_tf)        # load model values
+        model = train(net,images_np,depths_resized)        # load model values
     if mode == 'val':
-        model = validate(net,images_tf)
+        model = validate(net,images_resized)
 
     exit()
 
