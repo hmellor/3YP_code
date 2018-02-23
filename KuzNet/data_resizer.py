@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.misc import imresize
-from oc import path
+from os import path
 import sys
 
 if len(sys.argv) == 1:
