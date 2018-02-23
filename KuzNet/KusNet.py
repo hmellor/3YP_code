@@ -27,7 +27,7 @@ def train(net,images,depths):
     input1 = tf.placeholder(tf.float32, shape=(None,480,640,3))
     target1 = tf.placeholder(tf.float32, shape=(None,240,320,1))
     model.fit(
-        input1: images, target1: depths
+        {input1: images}, {target1: depths},
         n_epoch=20,
         snapshot_epoch=True,
         snapshot_step=500,
@@ -82,7 +82,7 @@ def main():
         depths_resized = np.append(depths_resized, np.expand_dims(temp, axis=0), axis=0)
     #expand depths_np to have a single colour channel
     depths_np = np.expand_dims(depths_np, 3)
-    
+
     print(depths_resized.shape)
     print('\n ** %s images loaded successfully** \n' % (images_np.shape[0]))
 
