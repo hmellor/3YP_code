@@ -75,7 +75,7 @@ def model_network():
     # No normalisation
 
     #Regression
-    mom = tflearn.optimizers.Momentum(learning_rate=0.0001, momentum=0.9, name='Momentum')
+    mom = tflearn.optimizers.Momentum(learning_rate=0.01, momentum=0.9, name='Momentum')
     net = tflearn.layers.estimator.regression (net, optimizer=mom)
 
     return net

@@ -107,15 +107,17 @@ def resup(block_number, incoming):
     return net
 
 def normalisation(incoming):
-    net = tflearn.layers.normalization.batch_normalization (incoming,
-                                                            beta=0.0,
-                                                            gamma=1.0,
-                                                            epsilon=1e-05,
-                                                            decay=0.9,
-                                                            stddev=0.002,
-                                                            trainable=True,
-                                                            restore=True,
-                                                            reuse=False,
-                                                            scope=None,
-                                                            name='BatchNormalization')
+    net = tflearn.layers.normalization.batch_normalization(
+        incoming,
+        beta=0.0,
+        gamma=1.0,
+        epsilon=1e-05,
+        decay=0.9,
+        stddev=1,
+        trainable=True,
+        restore=True,
+        reuse=False,
+        scope=None,
+        name='BatchNormalization')
+
     return net
