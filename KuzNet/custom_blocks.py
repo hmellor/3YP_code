@@ -113,7 +113,7 @@ def normalisation(incoming):
         gamma=1.0,
         epsilon=1e-05,
         decay=0.9,
-        stddev=1,
+        stddev=0.2,
         trainable=True,
         restore=True,
         reuse=False,
