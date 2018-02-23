@@ -76,6 +76,7 @@ def model_network():
 
     #Regression
     mom = tflearn.optimizers.Momentum(learning_rate=0.01, momentum=0.9, name='Momentum')
-    net = tflearn.layers.estimator.regression (net, optimizer=mom)
+    net = tflearn.layers.estimator.regression (
+        net, optimizer=mom, loss='categorical_crossentropy')
 
     return net
