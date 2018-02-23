@@ -13,6 +13,10 @@ data = np.load(data_path)
 depths = data['depths']
 images = data['images']
 
+#rearrange into proper columns
+images_np = np.transpose(images_np, [3,0,1,2])
+depths_np = np.transpose(depths_np, [2, 0, 1])
+
 #resize depths to 240x320
 depths_resized = np.zeros([0, 240, 320], dtype=np.float32)
 for depth in range(depths.shape[0]):
@@ -27,4 +31,4 @@ for depth in range(depths.shape[0]):
 depths = np.expand_dims(depths, 3)
 
 #save to .npz
-numpy.savez('%s_resized' % data_path, depths=depths_resized, images=images)
+np.savez('%s_resized' % data_path, depths=depths_resized, images=images)

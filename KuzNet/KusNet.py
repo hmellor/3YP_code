@@ -66,10 +66,6 @@ def main():
     images_np = data['images']
     depths_np = data['depths']
 
-    #rearrange into proper columns
-    images_np = np.transpose(images_np, [3,0,1,2])
-    depths_np = np.transpose(depths_np, [2, 0, 1])
-
     #make sure we are using float32
     depths_np = np.float32(depths_np)
     images_np = np.float32(images_np)
