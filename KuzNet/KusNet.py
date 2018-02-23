@@ -78,7 +78,7 @@ def main():
     #resize depths to 240x320 by halfing resolution using max pool
     depths_resized = np.zeros([0, 240, 320], dtype=np.uint8)
     for depth in range(depths_np.shape[0]):
-        temp = imresize(depth_np[depth], [240, 320], 'lanczos')
+        temp = imresize(depths_np[depth], [240, 320], 'lanczos')
         depths_resized = np.append(depths_resized, np.expand_dims(temp, axis=0), axis=0)
     #expand depths_np to have a single colour channel
     depths_np = np.expand_dims(depths_np, 3)
