@@ -79,7 +79,7 @@ def model_network():
 
     #Regression
     adam = tflearn.optimizers.Adam (learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8, use_locking=False, name='Adam')
-    r2 = R2()
+    r2 = tflearn.metrics.R2()
     net = tflearn.layers.estimator.regression (
         net, metric=r2, optimizer=adam, loss='mean_square')
 
