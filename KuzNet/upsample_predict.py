@@ -20,6 +20,7 @@ file_name = '%s_resized' % file_name
 # load data
 data = np.load(data_path)
 depths = data['depths']
+depths = np.squeeze(depths, axis=3)
 
 #initialise resized arrays
 depths_resized = np.zeros([0, height, width], dtype=np.float32)
