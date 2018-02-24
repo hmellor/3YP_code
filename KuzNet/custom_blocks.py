@@ -9,14 +9,14 @@ def res1(block_number, incoming):
     # First convolution that uses res1 inputs
     net = tflearn.layers.conv.conv_2d (
         incoming, nb_filter=1, filter_size=1, strides=1,padding='same',
-        activation='relu', bias=True, weights_init='truncated_normal',
+        activation='prelu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_1' % block)
     net = normalisation(net)
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=3, strides=1, padding='same',
-        activation='relu', bias=True, weights_init='truncated_normal',
+        activation='prelu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_2' % block)
     net = normalisation(net)
@@ -29,8 +29,8 @@ def res1(block_number, incoming):
     net = normalisation(net)
     # Add the raw input and the third convolution output
     net += incoming
-    # Pass net through a ReLU activation function
-    net = tflearn.activations.relu (net)
+    # Pass net through a prelu activation function
+    net = tflearn.activations.prelu (net)
 
     return net
 
@@ -40,14 +40,14 @@ def res2(block_number, incoming, stride_size):
     # First convolution that uses res2 inputs
     net = tflearn.layers.conv.conv_2d (
         incoming, nb_filter=1, filter_size=1, strides=stride_size, padding='same',
-        activation='relu', bias=True, weights_init='truncated_normal',
+        activation='prelu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_1' % block)
     net = normalisation(net)
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=3, strides=1, padding='same',
-        activation='relu', bias=True, weights_init='truncated_normal',
+        activation='prelu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_2' % block)
     net = normalisation(net)
@@ -67,8 +67,8 @@ def res2(block_number, incoming, stride_size):
     res = normalisation(res)
     # Add the residual convolution and the third convolution outputs
     net += res
-    # Pass net through a ReLU activation function
-    net = tflearn.activations.relu (net)
+    # Pass net through a prelu activation function
+    net = tflearn.activations.prelu (net)
 
     return net
 
@@ -88,7 +88,7 @@ def resup(block_number, incoming):
     # First convolution using upsample as input
     net = tflearn.layers.conv.conv_2d (
         net1, nb_filter=1, filter_size=5, strides=1, padding='same',
-        activation='relu', bias=True, weights_init='truncated_normal',
+        activation='prelu', bias=True, weights_init='truncated_normal',
         bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_1' % block)
     net = normalisation(net)
@@ -101,8 +101,8 @@ def resup(block_number, incoming):
     net = normalisation(net)
     # Add the residual convolution and the second convolution outputs
     net += res
-    # Pass net through a ReLU activation function
-    net = tflearn.activations.relu (net)
+    # Pass net through a prelu activation function
+    net = tflearn.activations.prelu (net)
 
     return net
 
@@ -119,5 +119,5 @@ def normalisation(incoming):
         reuse=False,
         scope=None,
         name='BatchNormalization')
-        
+
     return net
