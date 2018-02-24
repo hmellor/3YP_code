@@ -40,8 +40,10 @@ def train(net,images,depths):
     return model
 
 def validate(net,images):
+    # Build model
     model = develop_model(net)
     print('\n ** Predicting ** \n')
+    model.load('checkpoints/ckpt-') # write which ckeckpoint you want to use here
     outlist = model.predict(images)
     outarray = np.asarray(outlist)
     np.savez('predictions.npz', depths=outarray)
