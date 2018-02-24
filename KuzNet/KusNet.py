@@ -40,15 +40,16 @@ def train(net,images,depths,val_images,val_depths):
 
     return model
 
-def validate(net,images):
+def validate(net,val_images,variables_path):
     # Build model
     model = develop_model(net)
     print('\n ** Predicting ** \n')
-    model.load(val_path) # write which ckeckpoint you want to use here
-    outlist = model.predict(images)
+    model.load(variables_path) # write which ckeckpoint you want to use here
+    outlist = model.predict(val_images)
     outarray = np.asarray(outlist)
+    print(outarray.shape)
     np.savez('predictions.npz', depths=outarray)
-    print('\n ** Done, saved in this directory ** \n' % (filename))
+    print('\n ** Done, saved in this directory ** \n')
 
 def main():
 
@@ -106,7 +107,7 @@ def main():
     if mode == 'train':
         model = train(net,images,depths,val_images,val_depths)  # load model values
     if mode == 'val':
-        model = validate(net,val_images)
+        model = validate(net,val_images,variables_path)
 
     exit()
 
