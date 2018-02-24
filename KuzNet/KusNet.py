@@ -30,7 +30,7 @@ def train(net,images,depths,val_images,val_depths):
     model.fit(
         images, depths,
         n_epoch=100,
-        val_feed_dicts=(val_images, val_depths),
+        validation_set=(val_images, val_depths),
         snapshot_epoch=False,
         snapshot_step=500,
         show_metric=True,
