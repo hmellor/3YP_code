@@ -3,6 +3,7 @@ import tensorflow as tf
 import tflearn
 import numpy as np
 from model import model_network
+import datetime
 
 fine_tune = 1
 
@@ -26,6 +27,9 @@ def train(net,images,depths,val_images,val_depths):
     # Build model
     model = develop_model(net)
     print('\n ** Training ** \n')
+
+    time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+
     # Train Weights
     model.fit(
         images, depths,
@@ -36,7 +40,7 @@ def train(net,images,depths,val_images,val_depths):
         show_metric=True,
         batch_size=10,
         shuffle=True,
-        run_id='KusNet')
+        run_id='KusNet_'+ time_str)
 
     return model
 
