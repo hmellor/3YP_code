@@ -69,7 +69,7 @@ def model_network():
     net = resup(2,net + resblock13)#        upproject2
     net = resup(3,net + resblock7) #        upproject3
     net = resup(4,net + resblock3) #        upproject4
-    net = tflearn.layers.core.dropout(net, 0.5, noise_shape=None, name='Dropout')
+    #net = tflearn.layers.core.dropout(net, 0.5, noise_shape=None, name='Dropout')
 
 
     #final conv layer is a 2d convolution of size 3, stride 1
