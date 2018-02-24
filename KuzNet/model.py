@@ -9,16 +9,18 @@ def model_network():
     # real time data processing
     # img_prep = tflearn.ImagePreprocessing()
     # img_prep.add_featurewise_zero_center(per_channel=True)
-    #
-    # # Real-time data augmentation
-    # img_aug = tflearn.ImageAugmentation()
-    # #add random left and right flips
-    # img_aug.add_random_flip_leftright()
+
+    # Real-time data augmentation
+    img_aug = tflearn.ImageAugmentation()
+    #add random left and right flips
+    img_aug.add_random_flip_leftright()
+    img_aug.add_random_rotation(max_angle=30.0)
 
     # Building Residual Network
 
     # Specify the input shape to be [number of images, height, width, number of channels]
-    net = tflearn.input_data(shape=[None, 480, 640, 3])
+    net = tflearn.input_data(shape=[None, 480, 640, 3],
+        data_augmentation=img_aug)
     #    data_preprocessing=img_prep, data_augmentation=img_aug)
 
     #Main model section 1

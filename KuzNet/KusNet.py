@@ -77,6 +77,8 @@ def main():
         data = np.load(train_path)
         images = data['images']
         depths = data['depths']
+        depths = np.float32(depths)
+        images = np.float32(images)
 
     #load validate data from file
     val_data = np.load(val_path)
@@ -84,8 +86,7 @@ def main():
     val_depths = val_data['depths']
 
     #make sure we are using float32
-    depths = np.float32(depths)
-    images = np.float32(images)
+
     val_depths = np.float32(val_depths)
     val_images = np.float32(val_images)
 
