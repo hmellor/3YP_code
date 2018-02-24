@@ -11,11 +11,14 @@ def develop_model(net):
     # if fine_tune:
     #     checkpoint =
     #     model.load('checkpoints/%s' % )
+
+    time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+
     model = tflearn.DNN(net,
                         clip_gradients=5.0,
                         tensorboard_verbose=2,
                         tensorboard_dir='tflearn_logs',
-                        checkpoint_path='checkpoints/ckpt',
+                        checkpoint_path='checkpoints/%s/ckpt' % (time_str),
                         best_checkpoint_path='checkpoints/best',
                         max_checkpoints=None,
                         session=None,
