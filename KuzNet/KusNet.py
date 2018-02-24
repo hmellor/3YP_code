@@ -9,7 +9,7 @@ def develop_model(net):
                         clip_gradients=5.0,
                         tensorboard_verbose=2,
                         tensorboard_dir='tflearn_logs',
-                        checkpoint_path='checkpoints',
+                        checkpoint_path='checkpoints/ckpt',
                         best_checkpoint_path=None,
                         max_checkpoints=None,
                         session=None,
