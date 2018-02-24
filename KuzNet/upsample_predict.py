@@ -29,6 +29,8 @@ for i in range(depths.shape[0]):
     de_temp = imresize(depths[i], [height, width], 'bicubic')
     #convert to float32
     de_temp = np.float32(de_temp)
+    #normalise so that all images have the same maximum brightness
+    de_temp = (de_temp/np.max(de_temp))*255.0
     #append the processed image to the output array
     depths_resized = np.append(depths_resized, np.expand_dims(de_temp, axis=0), axis=0)
     #print every 25 sets of images so you can see it's working
