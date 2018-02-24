@@ -37,13 +37,13 @@ for i in range(depths.shape[0]):
     #convert to float32
     de_temp = np.float32(de_temp)
     #normalise so that all images have the same maximum brightness
-    de_temp = (de_temp/np.max(de_temp))*255.0
+    # de_temp = (de_temp/np.max(de_temp))*255.0
     #append the processed image to the output array
     depths_resized = np.append(depths_resized, np.expand_dims(de_temp, axis=0), axis=0)
     #do exactly the same for the images
     im_temp = imresize(images[i], [image_height, image_width], 'lanczos')
     im_temp = np.float32(im_temp)
-    im_temp = (im_temp/np.max(im_temp))*255.0
+    # im_temp = (im_temp/np.max(im_temp))*255.0
     images_resized = np.append(images_resized, np.expand_dims(im_temp, axis=0), axis=0)
     #print every 25 sets of images so you can see it's working
     if (i+1) % 25 == 0:
