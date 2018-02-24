@@ -7,19 +7,19 @@ wd = 0.00004
 
 def model_network():
     # real time data processing
-    img_prep = tflearn.ImagePreprocessing()
-    img_prep.add_featurewise_zero_center(per_channel=True)
-
-    # Real-time data augmentation
-    img_aug = tflearn.ImageAugmentation()
-    #add random left and right flips
-    img_aug.add_random_flip_leftright()
+    # img_prep = tflearn.ImagePreprocessing()
+    # img_prep.add_featurewise_zero_center(per_channel=True)
+    #
+    # # Real-time data augmentation
+    # img_aug = tflearn.ImageAugmentation()
+    # #add random left and right flips
+    # img_aug.add_random_flip_leftright()
 
     # Building Residual Network
 
     # Specify the input shape to be [number of images, height, width, number of channels]
-    net = tflearn.input_data(shape=[None, 480, 640, 3],
-        data_preprocessing=img_prep, data_augmentation=img_aug)
+    net = tflearn.input_data(shape=[None, 480, 640, 3])
+    #    data_preprocessing=img_prep, data_augmentation=img_aug)
 
     #Main model section 1
     #first layer is a 2d convolution of size 7 and stride 2 and 3 channels
@@ -78,7 +78,7 @@ def model_network():
     # No normalisation
 
     #Regression
-    adam = tflearn.optimizers.Adam (learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1, use_locking=False, name='Adam')
+    adam = tflearn.optimizers.Adam (learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8, use_locking=False, name='Adam')
     net = tflearn.layers.estimator.regression (
         net, optimizer=adam, loss='mean_square')
 

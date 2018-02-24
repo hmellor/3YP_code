@@ -24,8 +24,8 @@ def train(net,images,depths):
     # Train Weights
     model.fit(
         images, depths,
-        n_epoch=20,
-        snapshot_epoch=True,
+        n_epoch=100,
+        snapshot_epoch=False,
         snapshot_step=500,
         show_metric=True,
         batch_size=10,
@@ -69,6 +69,8 @@ def main():
     #make sure we are using float32
     depths_np = np.float32(depths_np)
     images_np = np.float32(images_np)
+    print(np.amax(depths_np))
+    print(np.amax(images_np))
 
     print(depths_np.shape)
     print('\n ** %s images loaded successfully** \n' % (images_np.shape[0]))
@@ -82,7 +84,7 @@ def main():
     if mode == 'train':
         model = train(net,images_np,depths_np)        # load model values
     if mode == 'val':
-        model = validate(net,images_resized)
+        model = validate(net,images_np)
 
     exit()
 
