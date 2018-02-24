@@ -78,8 +78,8 @@ def model_network():
     # No normalisation
 
     #Regression
-    mom = tflearn.optimizers.Momentum(learning_rate=0.01, momentum=0.9, name='Momentum')
+    adam = tflearn.optimizers.Adam (learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1, use_locking=False, name='Adam')
     net = tflearn.layers.estimator.regression (
-        net, optimizer=mom, loss='mean_square')
+        net, optimizer=adam, loss='mean_square')
 
     return net
