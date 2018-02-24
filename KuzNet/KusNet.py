@@ -22,7 +22,7 @@ def develop_model(net):
     print('\n ** Model Developed ** \n')
     return model
 
-def train(net,images,depths):
+def train(net,images,depths,val_images,val_depths):
     # Build model
     model = develop_model(net)
     print('\n ** Training ** \n')
@@ -30,6 +30,7 @@ def train(net,images,depths):
     model.fit(
         images, depths,
         n_epoch=100,
+        val_images, val_depths,
         snapshot_epoch=False,
         snapshot_step=500,
         show_metric=True,
@@ -55,32 +56,44 @@ def main():
     if len(sys.argv) == 1:
         print("\n ** No mode selected, please run:\n\tpython KuzNet.py <train/val> ** \n")
     	exit()
-    elif sys.argv[1] == 'train' and len(sys.argv) != 3:
-        print("\n ** No dataset selected, please run:\n\tpython KuzNet.py train <npz_input_directory> ** \n")
+    elif sys.argv[1] == 'train' and len(sys.argv) != 4:
+        print("\n ** No dataset selected, please run:\n\tpython KuzNet.py train <npz_train_path> <npv_val_path>** \n")
     	exit()
     elif sys.argv[1] == 'val' and len(sys.argv) != 4:
-    	print("\n ** No dataset or model checkpoint selected, please run:\n\tpython KuzNet.py val <npz_input_directory> <model_input_directory>** \n")
+    	print("\n ** No dataset or model checkpoint selected, please run:\n\tpython KuzNet.py val <npz_val_path> <variables_path>** \n")
         exit()
 
     mode = sys.argv[1]
-    input_directory= sys.argv[2]
+    train_path = sys.argv[2]
+    val_path = sys.argv[3]
     if sys.argv[1]=='val':
-        model_directory= sys.argv[3]
-    print('\n ** Loading Images from %s ** \n'% (input_directory))
+        val_path = sys.argv[2]
+        variables_path = sys.argv[3]
 
-    #load images from input npz file
-    data = np.load(input_directory)
-    images_np = data['images']
-    depths_np = data['depths']
+    print('\n ** Loading Images from %s ** \n'% (train_path))
+
+    if sys.argv[1]=='train':
+        #load images from input npz file
+        data = np.load(train_path)
+        images = data['images']
+        depths = data['depths']
+
+    #load validate data from file
+    val_data = np.load(val_path)
+    val_images = val_data['images']
+    val_depths = val_data['depths']
 
     #make sure we are using float32
-    depths_np = np.float32(depths_np)
-    images_np = np.float32(images_np)
-    print(np.amax(depths_np))
-    print(np.amax(images_np))
+    depths = np.float32(depths)
+    images = np.float32(images)
+    val_depths = np.float32(val_depths)
+    val_images = np.float32(val_images)
 
-    print(depths_np.shape)
-    print('\n ** %s images loaded successfully** \n' % (images_np.shape[0]))
+    print(np.amax(depths))
+    print(np.amax(images))
+
+    print(depths.shape)
+    print('\n ** %s images loaded successfully** \n' % (images.shape[0]))
 
     # Build model
     net = model_network()
@@ -89,9 +102,9 @@ def main():
 
     # train or validate
     if mode == 'train':
-        model = train(net,images_np,depths_np)        # load model values
+        model = train(net,images,depths,val_images,val_depths)  # load model values
     if mode == 'val':
-        model = validate(net,images_np)
+        model = validate(net,images)
 
     exit()
 
