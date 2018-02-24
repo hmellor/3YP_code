@@ -90,11 +90,12 @@ def main():
     val_depths = np.float32(val_depths)
     val_images = np.float32(val_images)
 
-    print(np.amax(depths))
-    print(np.amax(images))
-
-    print(depths.shape)
-    print('\n ** %s images loaded successfully** \n' % (images.shape[0]))
+    if sys.argv[1]=='train':
+        print(depths.shape)
+        print('\n ** %s images loaded successfully** \n' % (images.shape[0]))
+    else:
+        print(val_depths.shape)
+        print('\n ** %s images loaded successfully** \n' % (val_images.shape[0]))
 
     # Build model
     net = model_network()
@@ -105,7 +106,7 @@ def main():
     if mode == 'train':
         model = train(net,images,depths,val_images,val_depths)  # load model values
     if mode == 'val':
-        model = validate(net,images)
+        model = validate(net,val_images)
 
     exit()
 
