@@ -4,13 +4,18 @@ import tflearn
 import numpy as np
 from model import model_network
 
+fine_tune = 1
+
 def develop_model(net):
+    # if fine_tune:
+    #     checkpoint =
+    #     model.load('checkpoints/%s' % )
     model = tflearn.DNN(net,
                         clip_gradients=5.0,
                         tensorboard_verbose=2,
                         tensorboard_dir='tflearn_logs',
                         checkpoint_path='checkpoints/ckpt',
-                        best_checkpoint_path=None,
+                        best_checkpoint_path='checkpoints/best',
                         max_checkpoints=None,
                         session=None,
                         best_val_accuracy=0.0)
@@ -28,7 +33,7 @@ def train(net,images,depths):
         snapshot_epoch=False,
         snapshot_step=500,
         show_metric=True,
-        batch_size=10,
+        batch_size=20,
         shuffle=True,
         run_id='KusNet')
 
