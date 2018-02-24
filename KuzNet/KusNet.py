@@ -31,9 +31,9 @@ def train(net,images,depths):
         images, depths,
         n_epoch=100,
         snapshot_epoch=False,
-        snapshot_step=250,
+        snapshot_step=500,
         show_metric=True,
-        batch_size=25,
+        batch_size=10,
         shuffle=True,
         run_id='KusNet')
 
