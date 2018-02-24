@@ -25,7 +25,7 @@ def model_network():
 
     #Main model section 1
     #first layer is a 2d convolution of size 7 and stride 2 and 3 channels
-    net = tflearn.layers.conv_2d(net, 1, 7, strides=2, regularizer=None,
+    net = tflearn.layers.conv_2d(net, 1, 7, strides=2, regularizer='L2',
     weight_decay=wd, name='conv1')
     net = normalisation(net)
     # second layer is a maxpool layer of size 3 and stride 2
@@ -59,7 +59,7 @@ def model_network():
     net = res1(16,net) #type 1, stride 1       resblock 16
     #conv layer is a 2d convolution of size 1, stride 1
     # conv2d syntax tflearn.layers.conv.conv_2d (incoming, nb_filter, filter_size, strides=1)
-    net = tflearn.layers.conv_2d(net, 1, 1, strides=1, activation='prelu', regularizer=None,
+    net = tflearn.layers.conv_2d(net, 1, 1, strides=1, activation='prelu', regularizer='L2',
     weight_decay=wd, name='conv2')
     net = normalisation(net)
 
@@ -74,14 +74,14 @@ def model_network():
 
 
     #final conv layer is a 2d convolution of size 3, stride 1
-    net = tflearn.layers.conv_2d(net, 1, 3, strides=1, regularizer=None,
+    net = tflearn.layers.conv_2d(net, 1, 3, strides=1, regularizer='L2',
     weight_decay=wd, name='conv3')
     # No normalisation
 
     #Regression
-    adam = tflearn.optimizers.Adam (learning_rate=0.01, beta1=0.9, beta2=0.999, epsilon=1e-8, use_locking=False, name='Adam')
+    opt = tflearn.optimizers.Adam (learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8, use_locking=False, name='Adam')
     r2 = tflearn.metrics.R2()
     net = tflearn.layers.estimator.regression (
-        net, metric=r2, optimizer=adam, loss='mean_square')
+        net, metric=r2, optimizer=opt, loss='mean_square')
 
     return net
