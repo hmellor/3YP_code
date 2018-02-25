@@ -41,7 +41,7 @@ def train(net,images,depths,val_images,val_depths):
         snapshot_epoch=False,
         snapshot_step=500,
         show_metric=True,
-        batch_size=10,
+        batch_size=25,
         shuffle=True,
         run_id='KusNet_'+ time_str)
 
