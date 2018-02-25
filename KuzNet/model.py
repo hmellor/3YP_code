@@ -81,11 +81,15 @@ def model_network():
     bias_init='zeros', regularizer='L2',
     weight_decay=wd, name='conv3')
     # No normalisation
-
+    loss = loss
     #Regression
     opt = tflearn.optimizers.Adam (learning_rate=0.01, beta1=0.9, beta2=0.999, epsilon=1e-8, use_locking=False, name='Adam')
     r2 = tflearn.metrics.R2()
     net = tflearn.layers.estimator.regression (
-        net, metric=r2, optimizer=opt, loss='mean_square')
+        net, metric=r2, optimizer=opt, loss='supervised_loss')
 
     return net
+
+def supervised_loss(y_pred, y_true):
+    with tf.name_scope("MeanSquare"):
+        return tf.reduce_mean(tf.square(y_pred - y_true))
