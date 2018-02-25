@@ -25,13 +25,14 @@ def model_network():
 
     #Main model section 1
     #first layer is a 2d convolution of size 7 and stride 2 and 3 channels
-    net = tflearn.layers.conv_2d(net, 1, 7, strides=2,
-    bias_init='xavier', regularizer='L2',
+    net = tflearn.layers.conv_2d(net, 1, 7, strides=2, weights_init='xavier',
+    bias_init='zeros', regularizer='L2',
     weight_decay=wd, name='conv1')
     net = normalisation(net)
     # second layer is a maxpool layer of size 3 and stride 2
     #unsure if we need padding and what exactly is batch normalisation
     net = tflearn.layers.conv.max_pool_2d (net, 3, strides=2, name='maxpool1')
+    net = normalisation(net)
 
     #Main model section 2
     net = res2(1,net,1) #type 2, stride 1     resblock1
@@ -60,8 +61,8 @@ def model_network():
     net = res1(16,net) #type 1, stride 1       resblock 16
     #conv layer is a 2d convolution of size 1, stride 1
     # conv2d syntax tflearn.layers.conv.conv_2d (incoming, nb_filter, filter_size, strides=1)
-    net = tflearn.layers.conv_2d(net, 1, 1, strides=1,
-    activation='prelu', bias_init='xavier', regularizer='L2',
+    net = tflearn.layers.conv_2d(net, 1, 1, strides=1, weights_init='xavier',
+    activation='prelu', bias_init='zeros', regularizer='L2',
     weight_decay=wd, name='conv2')
     net = normalisation(net)
 
@@ -76,8 +77,8 @@ def model_network():
 
 
     #final conv layer is a 2d convolution of size 3, stride 1
-    net = tflearn.layers.conv_2d(net, 1, 3, strides=1,
-    bias_init='xavier', regularizer='L2',
+    net = tflearn.layers.conv_2d(net, 1, 3, strides=1, weights_init='xavier',
+    bias_init='zeros', regularizer='L2',
     weight_decay=wd, name='conv3')
     # No normalisation
 

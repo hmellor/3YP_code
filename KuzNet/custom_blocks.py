@@ -9,22 +9,22 @@ def res1(block_number, incoming):
     # First convolution that uses res1 inputs
     net = tflearn.layers.conv.conv_2d (
         incoming, nb_filter=1, filter_size=1, strides=1,padding='same',
-        activation='prelu', bias=True, weights_init='truncated_normal',
-        bias_init='xavier', regularizer='L2', weight_decay=wd, trainable=True,
+        activation='prelu', bias=True, weights_init='xavier',
+        bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_1' % block)
     net = normalisation(net)
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=3, strides=1, padding='same',
-        activation='prelu', bias=True, weights_init='truncated_normal',
-        bias_init='xavier', regularizer='L2', weight_decay=wd, trainable=True,
+        activation='prelu', bias=True, weights_init='xavier',
+        bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_2' % block)
     net = normalisation(net)
     # Third connvolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=1, strides=1, padding='same',
-        activation='linear', bias=True, weights_init='truncated_normal',
-        bias_init='xavier', regularizer='L2', weight_decay=wd, trainable=True,
+        activation='linear', bias=True, weights_init='xavier',
+        bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_3' % block)
     net = normalisation(net)
     # Add the raw input and the third convolution output
@@ -40,29 +40,29 @@ def res2(block_number, incoming, stride_size):
     # First convolution that uses res2 inputs
     net = tflearn.layers.conv.conv_2d (
         incoming, nb_filter=1, filter_size=1, strides=stride_size, padding='same',
-        activation='prelu', bias=True, weights_init='truncated_normal',
-        bias_init='xavier', regularizer='L2', weight_decay=wd, trainable=True,
+        activation='prelu', bias=True, weights_init='xavier',
+        bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_1' % block)
     net = normalisation(net)
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=3, strides=1, padding='same',
-        activation='prelu', bias=True, weights_init='truncated_normal',
-        bias_init='xavier', regularizer='L2', weight_decay=wd, trainable=True,
+        activation='prelu', bias=True, weights_init='xavier',
+        bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_2' % block)
     net = normalisation(net)
     # Third convolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=1, strides=1, padding='same',
-        activation='linear', bias=True, weights_init='truncated_normal',
-        bias_init='xavier', regularizer='L2', weight_decay=wd, trainable=True,
+        activation='linear', bias=True, weights_init='xavier',
+        bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_3' % block)
     net = normalisation(net)
     # Residual convolution that uses res2 unputs
     res = tflearn.layers.conv.conv_2d (
         incoming=incoming, nb_filter=1, filter_size=1, strides=stride_size, padding='same',
-        activation='linear', bias=True, weights_init='truncated_normal',
-        bias_init='xavier', regularizer='L2', weight_decay=wd, trainable=True,
+        activation='linear', bias=True, weights_init='xavier',
+        bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_Residual' % block)
     res = normalisation(res)
     # Add the residual convolution and the third convolution outputs
@@ -78,25 +78,26 @@ def resup(block_number, incoming):
     # Upsample by a factor of 2
     net1 = tflearn.layers.conv.upsample_2d (
         incoming, kernel_size=2, name='%sUpSample2D' % block)
+    net1 = normalisation(net1)
     # Resudual convolution using upsample as input
     res = tflearn.layers.conv.conv_2d (
         net1, nb_filter=1, filter_size=5, strides=1, padding='same',
-        activation='linear', bias=True, weights_init='truncated_normal',
-        bias_init='xavier', regularizer='L2', weight_decay=wd, trainable=True,
+        activation='linear', bias=True, weights_init='xavier',
+        bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_Residual' % block)
     res = normalisation(res)
     # First convolution using upsample as input
     net = tflearn.layers.conv.conv_2d (
         net1, nb_filter=1, filter_size=5, strides=1, padding='same',
-        activation='prelu', bias=True, weights_init='truncated_normal',
-        bias_init='xavier', regularizer='L2', weight_decay=wd, trainable=True,
+        activation='prelu', bias=True, weights_init='xavier',
+        bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_1' % block)
     net = normalisation(net)
     # Second convolution
     net = tflearn.layers.conv.conv_2d (
         net, nb_filter=1, filter_size=3, strides=1, padding='same',
-        activation='linear', bias=True, weights_init='truncated_normal',
-        bias_init='xavier', regularizer='L2', weight_decay=wd, trainable=True,
+        activation='linear', bias=True, weights_init='xavier',
+        bias_init='zeros', regularizer='L2', weight_decay=wd, trainable=True,
         restore=True, reuse=False, scope=None, name='%sConv2D_2' % block)
     net = normalisation(net)
     # Add the residual convolution and the second convolution outputs
