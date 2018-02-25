@@ -40,7 +40,7 @@ def train(net,images,depths,val_images,val_depths):
         validation_set=(val_images, val_depths),
         snapshot_epoch=True,
         show_metric=True,
-        batch_size=25,
+        batch_size=10,
         shuffle=True,
         run_id='KusNet_'+ time_str)
 
