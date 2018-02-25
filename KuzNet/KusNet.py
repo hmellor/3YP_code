@@ -19,7 +19,7 @@ def develop_model(net):
                         tensorboard_verbose=2,
                         tensorboard_dir='tflearn_logs',
                         checkpoint_path='checkpoints/%s/ckpt' % (time_str),
-                        best_checkpoint_path='checkpoints/best',
+                        best_checkpoint_path='checkpoints/%s/best' % (time_str),
                         max_checkpoints=None,
                         session=None,
                         best_val_accuracy=0.0)
