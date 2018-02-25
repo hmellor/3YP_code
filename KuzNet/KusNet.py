@@ -44,7 +44,7 @@ def train(net,images,depths,val_images,val_depths):
         show_metric=True,
         batch_size=10,
         shuffle=True,
-        run_id='KusNet_'+ time_str,monitors=hook)
+        run_id='KusNet_'+ time_str,)
 
     return model
 
