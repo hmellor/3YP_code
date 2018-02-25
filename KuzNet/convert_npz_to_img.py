@@ -10,7 +10,7 @@ def convert_train(path):
     depths = f['depths']
     depths = np.transpose(depths, [2, 1, 0])
 
-    for i, (image, depth) in enumerate(zip(images, depths)):
+    for i in enumerate(depths):
         ra_depth = depth.transpose(1, 0)
         re_depth = (ra_depth/np.max(ra_depth))*255.0
         depth_pil = Image.fromarray(np.uint8(re_depth))
