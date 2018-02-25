@@ -6,9 +6,13 @@ import tflearn
 wd = 0.00004
 
 def model_network():
-    # real time data processing
-    # img_prep = tflearn.ImagePreprocessing()
-    # img_prep.add_featurewise_zero_center(per_channel=True)
+
+    # Real-time image preprocessing
+    img_prep = tflearn.ImagePreprocessing()
+    # Zero Center (With mean computed over the whole dataset)
+    img_prep.add_featurewise_zero_center()
+    # STD Normalization (With std computed over the whole dataset)
+    img_prep.add_featurewise_stdnorm()
 
     # Real-time data augmentation
     img_aug = tflearn.ImageAugmentation()
@@ -86,6 +90,6 @@ def model_network():
     opt = tflearn.optimizers.Adam (learning_rate=0.01, beta1=0.9, beta2=0.999, epsilon=1e-8, use_locking=False, name='Adam')
     r2 = tflearn.metrics.R2()
     net = tflearn.layers.estimator.regression (
-        net, metric=r2, optimizer=opt, loss='absolute')
+        net, metric=r2, optimizer=opt, loss='mean_square')
 
     return net
