@@ -4,6 +4,7 @@ import tflearn
 import numpy as np
 from model import model_network
 import datetime
+from tensorflow.python import debug as tf_debug
 
 fine_tune = 1
 
@@ -16,7 +17,7 @@ def develop_model(net):
 
     model = tflearn.DNN(net,
                         clip_gradients=5.0,
-                        tensorboard_verbose=2,
+                        tensorboard_verbose=3,
                         tensorboard_dir='tflearn_logs',
                         checkpoint_path='checkpoints/%s/ckpt' % (time_str),
                         best_checkpoint_path='checkpoints/%s/best' % (time_str),
@@ -34,6 +35,7 @@ def train(net,images,depths,val_images,val_depths):
     time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
 
     # Train Weights
+    hook = tf_debug.TensorBoardDebugHook("anubis:6007")
     model.fit(
         images, depths,
         n_epoch=100,
@@ -42,7 +44,7 @@ def train(net,images,depths,val_images,val_depths):
         show_metric=True,
         batch_size=10,
         shuffle=True,
-        run_id='KusNet_'+ time_str)
+        run_id='KusNet_'+ time_str,monitors=hook)
 
     return model
 

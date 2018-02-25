@@ -12,5 +12,7 @@
 
 ssh -A -t -l vp3yp1 robots.ox.ac.uk \
 -L 6006:localhost:6006 \
+-L 6007:localhost:6007 \
 ssh -A -t -l vp3yp1 anubis.robots.ox.ac.uk -p 10007 \
 -L 6006:localhost:6006
+-L 6007:localhost:6007 \
