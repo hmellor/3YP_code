@@ -86,6 +86,6 @@ def model_network():
     opt = tflearn.optimizers.Adam (learning_rate=0.01, beta1=0.9, beta2=0.999, epsilon=1e-8, use_locking=False, name='Adam')
     r2 = tflearn.metrics.R2()
     net = tflearn.layers.estimator.regression (
-        net, metric=r2, optimizer=opt, loss='mean_square')
+        net, metric=r2, optimizer=opt, loss='berhu')
 
     return net

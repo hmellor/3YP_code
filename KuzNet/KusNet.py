@@ -22,7 +22,7 @@ def develop_model(net):
                         best_checkpoint_path='checkpoints/%s/best' % (time_str),
                         max_checkpoints=None,
                         session=None,
-                        best_val_accuracy=0.0)
+                        best_val_accuracy=0.9)
     print('\n ** Model Developed ** \n')
     return model
 
