@@ -92,7 +92,8 @@ def main():
     #load validate data from file
     val_data = np.load(val_path)
     val_images = val_data['images']
-    val_depths = val_data['depths']
+    if sys.argv[1]=='train':
+        val_depths = val_data['depths']
 
     #make sure we are using float32
 
