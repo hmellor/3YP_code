@@ -15,7 +15,7 @@ if len(sys.argv) == 1:
 #manipulate argument for file naming
 data_path = sys.argv[1]
 file_name, ext = path.splitext(data_path)
-file_name = '%s_resized' % file_name
+file_name = '%s_resized2' % file_name
 
 # load data
 data = np.load(data_path)
