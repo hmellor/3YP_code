@@ -35,6 +35,3 @@ for i in range(depths.shape[0]):
     #de_temp = (de_temp/np.max(de_temp))*255.0
     print('min and max')
     print(np.min(de_temp)
-
-
-
