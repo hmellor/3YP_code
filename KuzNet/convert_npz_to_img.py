@@ -7,7 +7,7 @@ def convert_train(data_path):
     print("load dataset: %s" % (data_path))
 
     #manipulate argument for file naming
-    file_name, ext = path.splitext(data_path)
+    file_name, ext = os.path.splitext(data_path)
     time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
 
     f = np.load(data_path)
