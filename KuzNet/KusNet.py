@@ -104,7 +104,7 @@ def main():
         print(depths.shape)
         print('\n ** %s images loaded successfully** \n' % (images.shape[0]))
     else:
-        print(val_depths.shape)
+        print(val_images.shape)
         print('\n ** %s images loaded successfully** \n' % (val_images.shape[0]))
 
     # Build model
