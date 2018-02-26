@@ -94,10 +94,10 @@ def main():
     val_images = val_data['images']
     if sys.argv[1]=='train':
         val_depths = val_data['depths']
-
+        val_depths = np.float32(val_depths)
     #make sure we are using float32
 
-    val_depths = np.float32(val_depths)
+
     val_images = np.float32(val_images)
 
     if sys.argv[1]=='train':
