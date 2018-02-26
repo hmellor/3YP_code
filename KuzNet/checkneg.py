@@ -35,7 +35,7 @@ for i in range(depths.shape[0]):
     #de_temp = (de_temp/np.max(de_temp))*255.0
     print('min and max')
     print(np.amin(de_temp)
-    print(np.amax(de_temp))
+    print(np.max(de_temp))
     #append the processed image to the output array
     depths_resized = np.append(depths_resized, np.expand_dims(de_temp, axis=0), axis=0)
     #print every 25 sets of images so you can see it's working
