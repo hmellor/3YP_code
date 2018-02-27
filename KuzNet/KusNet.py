@@ -17,7 +17,7 @@ def develop_model(net):
 
     model = tflearn.DNN(net,
                         clip_gradients=5.0,
-                        tensorboard_verbose=0,
+                        tensorboard_verbose=3,
                         tensorboard_dir='tflearn_logs',
                         checkpoint_path='checkpoints/%s/ckpt' % (time_str),
                         best_checkpoint_path='checkpoints/%s/best' % (time_str),
