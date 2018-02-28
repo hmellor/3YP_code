@@ -65,7 +65,7 @@ def model_network():
     net = res1(16,net,32) #type 1, stride 1       resblock 16
     #conv layer is a 2d convolution of size 1, stride 1
     # conv2d syntax tflearn.layers.conv.conv_2d (incoming, nb_filter, filter_size, strides=1)
-    net = tflearn.layers.conv_2d(net, 16*32, 1, strides=1, weights_init='xavier',
+    net = tflearn.layers.conv_2d(net, 32*32, 1, strides=1, weights_init='xavier',
     activation='prelu', bias_init='zeros', regularizer='L2',
     weight_decay=wd, name='conv2')
     net = normalisation(net)
